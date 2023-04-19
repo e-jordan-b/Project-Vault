@@ -6,7 +6,7 @@ exports.getUser = async (req, res) => {
   try {
     const user = await User.findOne({ email: email })
     const checkPassword = await bcrypt.compare(password, user.password)
-    if (!checkPassword || !email) throw new Error('Invalid email or password')
+    if (!checkPassword || user.email !== email) res.status(401).json({ message: 'Wrong email or password' })
     res.status(201).send(user)
   } catch (error) {
     res
@@ -30,10 +30,11 @@ exports.postUser = async (req, res) => {
         createdPosts: []
       })
       await newUser.save()
+      console.log('succes')
       res.status(201).send({ newUser })
     } catch (error) {
       res.status(400).send({ error, message: 'Could not create user' })
     }
   }
-  if (user) throw new Error('email already in use')
+  if (user) res.status(401).json({ message: 'email already in use' })
 }
