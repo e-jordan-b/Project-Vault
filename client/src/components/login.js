@@ -38,7 +38,7 @@ function Login () {
       }
       const currentUser = await response.json()
       setUser(currentUser)
-      navigate('/main')
+      navigate('/home')
     } catch (err) {
       console.log(err)
     }
@@ -57,7 +57,7 @@ function Login () {
 
         <label>Password:</label>
         <input
-          type='text'
+          type='password'
           value={state.password}
           name='password'
           onChange={handleChange}></input>
