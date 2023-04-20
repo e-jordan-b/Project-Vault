@@ -17,6 +17,8 @@ function Project () {
   }, [id])
 
   async function handleFollowClick () {
+    if (user.following.includes(project.id)) return
+
     const response = await fetch('http://localhost:3001/posts/follow', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -44,9 +46,16 @@ function Project () {
         <h3>{project.author}</h3>
         <p>{project.description}</p>
         <div className='buttons'>
-          <button className='followAndDonateButtons'
-          onClick={handleFollowClick}>Follow</button>
-          <button className='followAndDonateButtons'>Donate</button>
+          { user._id === project.createdBy
+            ? (
+                (null)
+              )
+            : <>
+            <button className='followAndDonateButtons'
+            onClick={handleFollowClick}>{user.following.includes(project.id) ? 'Following' : 'Follow'}</button>
+            <button className='followAndDonateButtons'>Donate</button>
+          </>
+          }
         </div>
       </div>
     </div>

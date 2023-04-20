@@ -7,6 +7,7 @@ import UserContext from './context/UserContext'
 import './App.css'
 import Layout from './components/layout'
 import Project from './components/projectInfo'
+import Donate from './components/donateButton'
 
 function App () {
   const [user, setUser] = useState(null)
@@ -20,6 +21,7 @@ function App () {
           <Route path="/home" element={<Home/>} />
           <Route path="/posts/:id" element={<Project/>} />
         </Route>
+        <Route path='/payment' element={<Donate/>}/>
       </Routes>
     </UserContext.Provider>
   )
