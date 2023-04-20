@@ -7,12 +7,12 @@ import '../styles/layout.css'
 function Layout () {
   return (
     <>
-      {/* <NavBar/> */}
       <div className='layoutDiv'>
         <Menu/>
         <div className='outletDiv'>
         <Outlet/>
         </div>
+        <div className='infoDiv'>aa</div>
       </div>
     </>
   )

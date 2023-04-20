@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import '../styles/createpost.css'
 import UserContext from '../context/UserContext'
 import Axios from 'axios'
-// import { Image } from 'cloudinary-react'
+import { v4 as uuidv4 } from 'uuid'
 
 const initialState = {
   title: '',
@@ -46,9 +46,10 @@ function CreatePost ({ open, onClose }) {
 
     const today = new Date()
     const date = today.toLocaleDateString()
-    const creator = `${user.firstName} ${user.secondName}`
+    const id = uuidv4()
+    const author = `${user.firstName} ${user.secondName}`
     const { title, description, tags } = state
-    const post = { title, description, image, creator, tags, date }
+    const post = { id, title, description, image, user, author, tags, date }
 
     fetch('http://localhost:3001/create', {
       method: 'POST',
@@ -58,7 +59,6 @@ function CreatePost ({ open, onClose }) {
       .then((res) => {
         if (res.ok) {
           console.log('succes')
-          // return res.json()
         } else if (res.status === 401) {
           alert('error')
         }
@@ -96,7 +96,6 @@ function CreatePost ({ open, onClose }) {
             type='file'
             name='image'
             required
-            // value={state.image}
             onChange={handleFileInputChange}>
           </input>
 

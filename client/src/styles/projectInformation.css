@@ -1,0 +1,13 @@
+.ProjectInformation {
+  display: flex;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.followAndDonateButtons {
+  padding: 20px 30px;
+  font-size: 30px;
+}

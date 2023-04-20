@@ -6,6 +6,7 @@ import Home from './components/home'
 import UserContext from './context/UserContext'
 import './App.css'
 import Layout from './components/layout'
+import Project from './components/projectInfo'
 
 function App () {
   const [user, setUser] = useState(null)
@@ -17,6 +18,7 @@ function App () {
         <Route path="/login" element={<Login/>}/>
         <Route element={<Layout/>}>
           <Route path="/home" element={<Home/>} />
+          <Route path="/posts/:id" element={<Project/>} />
         </Route>
       </Routes>
     </UserContext.Provider>

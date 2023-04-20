@@ -1,23 +1,32 @@
-import React, { useContext } from 'react'
-// import NavBar from './navBar'
-import UserContext from '../context/UserContext'
-// import Menu from './menu'
+import React, { useEffect, useState } from 'react'
+// import UserContext from '../context/UserContext'
 import '../styles/home.css'
+import HomeProject from './homeProject'
 
 function Home () {
-  const { user } = useContext(UserContext)
-  console.log(user)
+  const [projects, setProjects] = useState('')
+  console.log(projects)
+
+  const getProjects = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/posts')
+      const data = await response.json()
+      setProjects(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    getProjects()
+  }, [])
 
   return (
-    <>
-    {/* <NavBar/>
-    <div className='homeDiv'>
-      <Menu/> */}
       <div>
-        <h1>Home</h1>
+        {projects && projects.posts.map((project) => (
+            <HomeProject key={project._id} project={project} />
+        ))}
       </div>
-    {/* </div> */}
-    </>
   )
 }
 

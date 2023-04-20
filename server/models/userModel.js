@@ -21,7 +21,11 @@ const userSchema = new mongoose.Schema({
     type: String
   },
   following: [String],
-  createdPosts: [String]
+  createdPosts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Posts'
+    }]
 })
 
 module.exports = mongoose.model('Users', userSchema)

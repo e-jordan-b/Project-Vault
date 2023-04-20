@@ -1,0 +1,14 @@
+.image {
+  width: 500px;
+  height: auto;
+}
+
+.projectContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userAndDate {
+  display: flex;
+}

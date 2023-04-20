@@ -1,6 +1,10 @@
 const mongoose = require('../db.js')
 
 const postSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true
+  },
   title: {
     type: String,
     required: true
@@ -16,8 +20,13 @@ const postSchema = new mongoose.Schema({
   updates: {
     type: String
   },
-  createdBy: {
+  author: {
     type: String,
+    required: true
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   date: {

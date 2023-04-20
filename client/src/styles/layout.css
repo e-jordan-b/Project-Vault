@@ -1,8 +1,14 @@
 .layoutDiv {
   display: flex;
-  height: 93vh;
+  height: 97vh;
 }
 
 .outletDiv {
   flex: 1;
+}
+
+.infoDiv {
+  background-color: #eef0f6;
+  height: 100%;
+  width: 30vh;
 }
