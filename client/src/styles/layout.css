@@ -1,0 +1,8 @@
+.layoutDiv {
+  display: flex;
+  height: 93vh;
+}
+
+.outletDiv {
+  flex: 1;
+}
