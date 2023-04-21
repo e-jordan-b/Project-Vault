@@ -63,3 +63,27 @@ exports.followProject = async (req, res) => {
     res.status(400).send({ error, message: 'cannot follow' })
   }
 }
+
+exports.updateProject = async (req, res) => {
+  try {
+    const project = await Post.findOne({ id: req.params.id })
+
+    const newUpdate = {
+      id: req.body.id,
+      title: req.body.title,
+      description: req.body.description,
+      date: req.body.date,
+      image: req.body.image,
+      chat: []
+    }
+
+    project.updates.push(newUpdate)
+
+    await project.save()
+
+    res.status(201).send({ newUpdate })
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error, message: 'cannot update' })
+  }
+}

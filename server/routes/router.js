@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { getUser, postUser } = require('../controllers/controller')
-const { createPost, getPosts, getPostsById, followProject } = require('../controllers/postController')
+const { createPost, getPosts, getPostsById, followProject, updateProject } = require('../controllers/postController')
 const { checkout } = require('../controllers/payment')
 // Login Routes
 router.post('/login', getUser)
@@ -16,4 +16,6 @@ router.post('/posts/follow', followProject)
 // Payment Route
 router.post('/api/checkout', checkout)
 
+// Update Routes
+router.post('/update/:id', updateProject)
 module.exports = router

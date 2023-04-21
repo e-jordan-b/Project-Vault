@@ -17,9 +17,29 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  updates: {
-    type: String
-  },
+  updates: [{
+    id: {
+      type: String,
+      required: true
+    },
+    title: {
+      type: String,
+      required: true
+    },
+    description: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: String,
+      required: true
+    },
+    image: {
+      type: String,
+      required: true
+    },
+    chat: [String]
+  }],
   author: {
     type: String,
     required: true

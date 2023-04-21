@@ -3,11 +3,13 @@ import { useParams } from 'react-router-dom'
 import { Image } from 'cloudinary-react'
 import '../styles/projectInformation.css'
 import UserContext from '../context/UserContext'
+import Update from './updateProject'
 
 function Project () {
   const { id } = useParams()
   const [project, setProject] = useState({})
   const { user, setUser } = useContext(UserContext)
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     fetch(`http://localhost:3001/posts/${id}`)
@@ -45,10 +47,11 @@ function Project () {
         <h1>{project.title}</h1>
         <h3>{project.author}</h3>
         <p>{project.description}</p>
-        <div className='buttons'>
           { user._id === project.createdBy
             ? (
-                (null)
+              <>
+                <button onClick={() => setIsOpen(true)}>UPDATE</button>
+              </>
               )
             : <>
             <button className='followAndDonateButtons'
@@ -56,8 +59,8 @@ function Project () {
             <button className='followAndDonateButtons'>Donate</button>
           </>
           }
-        </div>
       </div>
+      <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project}></Update>
     </div>
   )
 }
