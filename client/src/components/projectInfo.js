@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { Image } from 'cloudinary-react'
+// import { Image } from 'cloudinary-react'
 import '../styles/projectInformation.css'
 import UserContext from '../context/UserContext'
 import Update from './updateProject'
+import ProjectNav from './projectNav'
 
 function Project () {
   const { id } = useParams()
@@ -35,10 +36,10 @@ function Project () {
   }
 
   return (
-    <div className='ProjectInformation'>
+    <>
+    {/* <div className='ProjectInformation'>
       <div>
         <Image
-          style={{ width: 500, height: 500 }}
           cloudName='dn1tvs94e'
           publicId={`https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg`}
         />
@@ -62,6 +63,47 @@ function Project () {
       </div>
       <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project}></Update>
     </div>
+    <div>
+      <ProjectNav/>
+    </div> */}
+  <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project}></Update>
+  <div>
+    <div className='containerFullInfo'>
+      <div className="imgDiv"
+        style={{ backgroundImage: `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg)` }}>
+      </div>
+      <div className='UserInfo'>
+          <h1>{project.title}</h1>
+          <div className='smallInfo'>
+            <h3>{project.author}</h3>
+            <h3>{project.date}</h3>
+          </div>
+      </div>
+    </div>
+      <div className='descriptionContainer'>
+        <h1>Project description</h1>
+        <p>{project.description}</p>
+
+      </div>
+      <nav className='navigation'>
+      <ProjectNav/>
+      <div className='buttonContainer'>
+          { user._id === project.createdBy
+            ? (
+                <>
+                  <button onClick={() => setIsOpen(true)}>UPDATE</button>
+                </>
+              )
+            : <>
+              <button className='followAndDonateButtons'
+              onClick={handleFollowClick}>{user.following.includes(project.id) ? 'Following' : 'Follow'}</button>
+              <button className='followAndDonateButtons'>Donate</button>
+            </>
+            }
+        </div>
+      </nav>
+    </div>
+    </>
   )
 }
 

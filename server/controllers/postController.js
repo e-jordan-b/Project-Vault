@@ -87,3 +87,29 @@ exports.updateProject = async (req, res) => {
     res.status(400).send({ error, message: 'cannot update' })
   }
 }
+
+exports.followingProjects = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const following = user.following
+    const projects = await Post.find({ id: { $in: following } })
+
+    res.status(201).send({ projects })
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error, message: 'cannot get following' })
+  }
+}
+
+exports.personalProjects = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id)
+    const created = user.createdPosts
+    const projects = await Post.find({ _id: { $in: created } })
+
+    res.status(201).send({ projects })
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error, message: 'cannot get your projects' })
+  }
+}

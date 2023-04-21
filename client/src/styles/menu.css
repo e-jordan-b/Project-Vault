@@ -1,7 +1,115 @@
-.menu {
+.menuComponent {
   height: 100%;
   width: 30vh;
   background-color: #eef0f6;
   display: flex;
   flex-direction: column;
+}
+
+.text {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.image {
+  min-width: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 275px;
+  /* padding: 10px 14px; */
+  background-color: #eef0f6;;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.sidebar li {
+  height: 50px;
+  margin-top: 10px;
+  list-style: none;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar li .icon {
+  font-size: 30px;
+}
+
+.sidebar .text {
+  font-size: 17px;
+  margin-left: 10px;
+}
+
+.userContainer {
+  height: 100%;
+  top: 0;
+  display: flex;
+  margin-top: 165%;
+  font-size: 40px;
+  align-items: center;
+}
+
+.userInformation {
+  font-size: 20px;
+  margin-left: 10px;
+}
+
+.userName {
+  font-weight: bold;
+}
+
+.userIcon{
+  height: 30px;
+}
+
+.menu-bar {
+  margin-top: 100px;
+  margin-left: 10px;
+}
+
+header {
+  position: relative;
+}
+
+.image-text {
+  display: flex;
+  align-items: center;
+}
+
+.header-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.profession {
+  margin-top: -2px;
+}
+
+.createButtonContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.createButton {
+  padding: 10px 50px;
+  font-size: 20px;
+  color: white;
+  background-color: rgb(101, 101, 101);
+  border-style: none;
+  border-radius: 30px;
+  margin-top: 20px;
 }

@@ -1,14 +1,68 @@
-.image {
+/* .image {
   width: 500px;
   height: auto;
-}
+} */
 
 .projectContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 100px;
 }
 
-.userAndDate {
+.imageDiv {
+  width: 900px;
+  height: 240px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 20px;
+}
+
+.projectInformation {
+  width: 900px;
+  height: 240px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 15px 15px;
   display: flex;
+  flex-direction: column;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  width: 100%;
+  margin: 10px 0px;
+}
+
+.userName {
+  font-size: 15px;
+}
+
+.date {
+  font-size: 15px;
+}
+
+.extraInfo {
+  display: flex;
+  height: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.readMoreButton {
+  background-color: #eceff7;
+  padding: 20px 20px;
+  border-style: none;
+  color: black;
+  font-size: 14px ;
+  border-radius: 10px;
+}
+
+.userSomething {
+  display: flex;
+  align-items: center;
 }
