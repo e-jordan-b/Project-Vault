@@ -30,3 +30,85 @@
 .updateTitleDescription h3 {
   margin-left: 80%;
 }
+
+.navButton {
+  padding: 20px 20px;
+  background-color: #f4f5fc;
+  border-style: none;
+  cursor: pointer;
+}
+
+.CommentInputContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 30px;
+}
+
+.commentInput {
+  width: 50%;
+  border: 0;
+  border-bottom: 2px solid gray;
+  outline: 0;
+  font-size: 1.3rem;
+  padding: 7px 0;
+  background: transparent;
+}
+
+.postCommentForm {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.postButton {
+  background: transparent;
+  border: 0;
+  padding: 10px 15px;
+  border-radius: 15px;
+}
+
+.postButton:hover {
+  background-color:rgb(215, 215, 215) ;
+  border: 0;
+}
+
+.commentsSection {
+  width: 56%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+.commentsSection span {
+  font-size: 19px;
+  font-weight: bold;
+  margin: 5px 5px;
+}
+
+.commentsSection p {
+  font-size: 25px;
+  margin: 15px 10px;
+}
+
+.userComment {
+  display: flex;
+  align-self: center;
+}
+
+.wholeComment {
+  background-color: white;
+  margin-top: 20px;
+  padding: 15px 15px;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.messageDate {
+  font-size: 15px;
+  font-weight: 200;
+  margin-left: 35px;
+}

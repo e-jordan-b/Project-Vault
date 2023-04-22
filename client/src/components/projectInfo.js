@@ -12,12 +12,20 @@ function Project () {
   const { user, setUser } = useContext(UserContext)
   const [isOpen, setIsOpen] = useState(false)
 
-  useEffect(() => {
+  function getProject () {
     fetch(`http://localhost:3001/posts/${id}`)
       .then(response => response.json())
       .then(data => setProject(data.post))
       .catch(error => console.log(error))
-  }, [id])
+  }
+
+  useEffect(() => {
+    getProject()
+  }, [])
+
+  function handleCommentSubmit () {
+    getProject()
+  }
 
   async function handleFollowClick () {
     if (user.following.includes(project.id)) return
@@ -31,7 +39,6 @@ function Project () {
       })
     })
     const data = await response.json()
-    console.log(data.user)
     setUser(data.user)
   }
 
@@ -87,13 +94,13 @@ function Project () {
       </div>
       <nav className='navigation'>
         <div className='projectNavContainer'>
-          <ProjectNav update={project.updates}/>
+          <ProjectNav update={project.updates} project={project} handleCommentSubmit={handleCommentSubmit}/>
         </div>
       <div className='buttonContainer'>
           { user._id === project.createdBy
             ? (
                 <>
-                  <button onClick={() => setIsOpen(true)}>UPDATE</button>
+                  <button onClick={() => setIsOpen(true)} className='updateButton'>UPDATE</button>
                 </>
               )
             : <>

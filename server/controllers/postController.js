@@ -114,3 +114,22 @@ exports.personalProjects = async (req, res) => {
     res.status(400).send({ error, message: 'cannot get your projects' })
   }
 }
+
+exports.postComment = async (req, res) => {
+  try {
+    const project = await Post.findOne({ id: req.body.ProjectId })
+    const newComment = {
+      createdBy: req.body.createdBy,
+      comment: req.body.comment,
+      date: req.body.date
+    }
+
+    project.chat.push(newComment)
+    project.save()
+
+    res.status(201).send({ project })
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({ error, message: 'cannot post comment' })
+  }
+}

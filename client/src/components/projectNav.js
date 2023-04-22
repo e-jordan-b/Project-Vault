@@ -1,15 +1,54 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import ReactPlayer from 'react-player'
 import PropTypes from 'prop-types'
+import UserContext from '../context/UserContext'
 import '../styles/updateProjects.css'
-function ProjectNav ({ update }) {
+import { BiUser } from 'react-icons/bi'
+
+function ProjectNav ({ update, project, handleCommentSubmit }) {
   const [selectedOption, setSelectedOption] = useState('updates')
-  console.log(update)
+  const [comment, setComment] = useState('')
+  const { user } = useContext(UserContext)
+  const sortedArr = project.chat ? [...project.chat].reverse() : []
+
+  function handleChange (e) {
+    setComment(e.target.value)
+  }
+
+  function handleSubmit (e) {
+    e.preventDefault()
+
+    const today = new Date()
+    const date = today.toLocaleDateString()
+    const ProjectId = project.id
+    const createdBy = user.firstName + ' ' + user.secondName
+    const postComment = { createdBy, comment, date, ProjectId }
+
+    setComment('')
+
+    fetch('http://localhost:3001/posts/comments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(postComment)
+    })
+      .then((res) => {
+        if (res.ok) {
+          console.log('succes')
+        } else if (res.status === 401) {
+          alert('error')
+        }
+      })
+      .then(() => handleCommentSubmit())
+      .catch((err) => console.log(err))
+  }
+
   return (
     <div>
-      <button onClick={() => setSelectedOption('coments')}>Coments</button>
-      <button onClick={() => setSelectedOption('updates')}>Updates</button>
+      <hr></hr>
+      <button onClick={() => setSelectedOption('coments')} className='navButton'>Coments</button>
+      <button onClick={() => setSelectedOption('updates')} className='navButton'>Updates</button>
       <div>
+      <hr></hr>
       {selectedOption === 'updates'
         ? (
           <div className='updateContainer'>
@@ -35,7 +74,37 @@ function ProjectNav ({ update }) {
             ))}
           </div>
           )
-        : <h1>Coments</h1>
+        : <div className="CommentInputContainer">
+          <form
+            className='postCommentForm'
+            onSubmit={ handleSubmit }>
+            <input
+            type="input"
+            className="commentInput"
+            placeholder="Add a comment"
+            name="name"
+            value={comment}
+            onChange={handleChange}
+            />
+            <button type='submit' className='postButton'>
+              Post
+            </button>
+          </form>
+          <div className='commentsSection'>
+            {sortedArr.map((msg) => (
+              <>
+              <div className='wholeComment'>
+                <div className='userComment'>
+                  <span><BiUser/></span>
+                  <span>{msg.createdBy}</span>
+                </div>
+                <h4 className='messageDate'>{msg.date}</h4>
+                <p key={msg.comment}>{msg.comment}</p>
+              </div>
+              </>
+            ))}
+          </div>
+          </div>
 
       }
       </div>
@@ -44,7 +113,9 @@ function ProjectNav ({ update }) {
 }
 
 ProjectNav.propTypes = {
-  update: PropTypes.array
+  update: PropTypes.array,
+  project: PropTypes.object,
+  handleCommentSubmit: PropTypes.func
 }
 
 export default ProjectNav

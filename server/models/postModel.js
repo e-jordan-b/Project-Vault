@@ -55,7 +55,20 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  chat: [String],
+  chat: [{
+    createdBy: {
+      type: String,
+      required: true
+    },
+    comment: {
+      type: String,
+      required: true
+    },
+    date: {
+      type: String,
+      required: true
+    }
+  }],
   tags: [String],
   followers: [String]
 })
