@@ -5,7 +5,6 @@ import HomeProject from './homeProject'
 
 function Home () {
   const [projects, setProjects] = useState('')
-  console.log(projects)
 
   const getProjects = async () => {
     try {

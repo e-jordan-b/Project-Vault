@@ -86,7 +86,9 @@ function Project () {
 
       </div>
       <nav className='navigation'>
-      <ProjectNav/>
+        <div className='projectNavContainer'>
+          <ProjectNav update={project.updates}/>
+        </div>
       <div className='buttonContainer'>
           { user._id === project.createdBy
             ? (

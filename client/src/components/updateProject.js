@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from 'uuid'
 
 const initialState = {
   title: '',
-  description: ''
+  description: '',
+  video: ''
 }
 
 function Update ({ open, onClose, currentProject }) {
@@ -44,8 +45,8 @@ function Update ({ open, onClose, currentProject }) {
     const today = new Date()
     const date = today.toLocaleDateString()
     const id = uuidv4()
-    const { title, description } = state
-    const update = { id, title, description, image, date }
+    const { title, description, video } = state
+    const update = { id, title, description, image, video, date }
     console.log(update)
 
     fetch(`http://localhost:3001/update/${currentProject.id}`, {
@@ -88,8 +89,14 @@ function Update ({ open, onClose, currentProject }) {
               <input
               type='file'
               name='image'
-              required
               onChange={handleFileInputChange}
+            ></input>
+
+            <label>Video URL</label>
+              <input
+              type='text'
+              name='video'
+              onChange={handleChange}
             ></input>
 
           <button type='submit'>Update your project</button>

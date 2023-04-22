@@ -67,17 +67,18 @@ exports.followProject = async (req, res) => {
 exports.updateProject = async (req, res) => {
   try {
     const project = await Post.findOne({ id: req.params.id })
-
     const newUpdate = {
       id: req.body.id,
       title: req.body.title,
       description: req.body.description,
       date: req.body.date,
       image: req.body.image,
+      video: req.body.video,
       chat: []
     }
 
     project.updates.push(newUpdate)
+    console.log(project.updates)
 
     await project.save()
 

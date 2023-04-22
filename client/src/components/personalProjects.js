@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../context/UserContext'
+import ProjectDesign from './designProjects'
 
 function PersonalProjects () {
   const { user } = useContext(UserContext)
@@ -21,9 +22,9 @@ function PersonalProjects () {
   }, [])
 
   return (
-    <div>
+    <div className='followingProjectsContainer'>
     {personalProjects && personalProjects.projects.map((project) => (
-      <h1 key={project.id}>{project.title}</h1>
+      <ProjectDesign key={project.id} project={project}/>
     ))}
     </div>
   )

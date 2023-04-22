@@ -6,7 +6,7 @@ import { BiUser } from 'react-icons/bi'
 
 function HomeProject ({ project }) {
   const navigate = useNavigate()
-  const truncatedText = project.description.length > 400 ? project.description.substring(0, 400) + '...' : project.description
+  const truncatedText = project.description.length > 400 ? project.description.substring(0, 400) + ' ...' : project.description
   console.log(project)
   return (
     <div className='projectContainer'>
