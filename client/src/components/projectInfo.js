@@ -12,6 +12,7 @@ function Project () {
   const { user, setUser } = useContext(UserContext)
   const [isOpen, setIsOpen] = useState(false)
   const navigate = useNavigate()
+
   function getProject () {
     fetch(`http://localhost:3001/posts/${id}`)
       .then(response => response.json())
@@ -73,7 +74,7 @@ function Project () {
     <div>
       <ProjectNav/>
     </div> */}
-  <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project}></Update>
+  <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project} getProject={getProject}></Update>
   <div>
     <div className='containerFullInfo'>
       <div className="imgDiv"

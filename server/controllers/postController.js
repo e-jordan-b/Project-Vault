@@ -53,11 +53,17 @@ exports.getPostsById = async (req, res) => {
 
 exports.followProject = async (req, res) => {
   const project = req.body.project.id
+  console.log(project)
   try {
     const user = await User.findOne({ _id: req.body.user._id })
     user.following.push(project)
+
+    const post = await Post.findOne({ id: project })
+    post.followers.push(user._id)
+
     await user.save()
     res.status(201).send({ user })
+    console.log(post, 'post', user, 'user')
   } catch (error) {
     console.log(error)
     res.status(400).send({ error, message: 'cannot follow' })
@@ -95,6 +101,13 @@ exports.followingProjects = async (req, res) => {
     const following = user.following
     const projects = await Post.find({ id: { $in: following } })
 
+    // for (const project of projects) {
+    //   if (!project.followers.includes(user._id)) {
+    //     project.followers.push(user._id)
+    //     await project.save()
+    //   }
+    // }
+    // console.log(first)
     res.status(201).send({ projects })
   } catch (error) {
     console.log(error)

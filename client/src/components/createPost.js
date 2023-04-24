@@ -4,6 +4,7 @@ import '../styles/createpost.css'
 import UserContext from '../context/UserContext'
 import Axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import { useNavigate } from 'react-router-dom'
 
 const initialState = {
   title: '',
@@ -13,6 +14,7 @@ const initialState = {
 
 function CreatePost ({ open, onClose }) {
   if (!open) return null
+  const navigate = useNavigate()
 
   const [selectedFile, setSelectedFile] = useState(initialState)
   const { user } = useContext(UserContext)
@@ -63,6 +65,8 @@ function CreatePost ({ open, onClose }) {
           alert('error')
         }
       })
+      .then(navigate(`/posts/${id}`))
+      .then(onClose())
       .catch((err) => console.log(err))
   }
 

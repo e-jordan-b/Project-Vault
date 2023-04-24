@@ -10,7 +10,7 @@ const initialState = {
   video: ''
 }
 
-function Update ({ open, onClose, currentProject }) {
+function Update ({ open, onClose, currentProject, getProject }) {
   if (!open) return null
   console.log(currentProject)
   const [selectedFile, setSelectedFile] = useState(initialState)
@@ -61,6 +61,8 @@ function Update ({ open, onClose, currentProject }) {
           alert('error')
         }
       })
+      .then(() => getProject())
+      .then(onClose())
       .catch((err) => console.log(err))
   }
 
@@ -109,7 +111,8 @@ function Update ({ open, onClose, currentProject }) {
 Update.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
-  currentProject: PropTypes.object
+  currentProject: PropTypes.object,
+  getProject: PropTypes.func
 }
 
 export default Update

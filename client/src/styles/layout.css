@@ -8,7 +8,8 @@
 }
 
 .infoDiv {
-  background-color: #eef0f6;
+  /* background-color: #eef0f6; */
+  background-color: #f4f5fc;
   height: 100%;
   width: 30vh;
 }

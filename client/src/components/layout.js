@@ -12,7 +12,7 @@ function Layout () {
         <div className='outletDiv'>
         <Outlet/>
         </div>
-        <div className='infoDiv'>aa</div>
+        <div className='infoDiv'></div>
       </div>
     </>
   )
