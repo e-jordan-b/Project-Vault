@@ -16,7 +16,7 @@ router.get('/posts/following/:id', followingProjects)
 router.get('/posts/personal/:id', personalProjects)
 router.post('/posts/comments', postComment)
 // Payment Route
-router.post('/api/checkout', checkout)
+router.post('/create-payment-intent', checkout)
 
 // Update Routes
 router.post('/update/:id', updateProject)

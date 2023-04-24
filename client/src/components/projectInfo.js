@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 // import { Image } from 'cloudinary-react'
 import '../styles/projectInformation.css'
 import UserContext from '../context/UserContext'
@@ -11,7 +11,7 @@ function Project () {
   const [project, setProject] = useState({})
   const { user, setUser } = useContext(UserContext)
   const [isOpen, setIsOpen] = useState(false)
-
+  const navigate = useNavigate()
   function getProject () {
     fetch(`http://localhost:3001/posts/${id}`)
       .then(response => response.json())
@@ -106,7 +106,7 @@ function Project () {
             : <>
               <button className='followAndDonateButtons'
               onClick={handleFollowClick}>{user.following.includes(project.id) ? 'Following' : 'Follow'}</button>
-              <button className='followAndDonateButtons'>Donate</button>
+              <button className='followAndDonateButtons' onClick={() => navigate('/donation')}>Donate</button>
             </>
             }
         </div>
