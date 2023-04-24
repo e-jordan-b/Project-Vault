@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Pay2 () {
   const [succes, setSucces] = useState(false)
   const [amount, setAmount] = useState('')
+  const [isProcessing, setIsProcessing] = useState(false)
   const stripe = useStripe()
   const elements = useElements()
+  const navigate = useNavigate()
 
   function handleChange (e) {
     setAmount(e.target.value)
-    console.log(Number(amount))
   }
 
   async function handleSubmit (e) {
@@ -20,6 +22,8 @@ function Pay2 () {
       card: elements.getElement(CardElement)
     })
 
+    setIsProcessing(true)
+
     if (!error) {
       try {
         const { id } = paymentMethod
@@ -27,10 +31,10 @@ function Pay2 () {
           amount,
           id
         })
-
         if (response.data.succes) {
           console.log('Succesfull payment')
           setSucces(true)
+          navigate('/home')
         }
       } catch (error) {
         console.log(error)
@@ -52,7 +56,7 @@ function Pay2 () {
         <div>
           <CardElement/>
         </div>
-        <button>Pay</button>
+        <button>{isProcessing ? 'Processing...' : 'Donate'}</button>
       </form>
           )
         : <h1>Thanks for the donation</h1>

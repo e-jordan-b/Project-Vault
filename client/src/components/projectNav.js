@@ -93,7 +93,7 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
           <div className='commentsSection'>
             {sortedArr.map((msg) => (
               <>
-              <div className='wholeComment'>
+              <div className='wholeComment' key={msg}>
                 <div className='userComment'>
                   <span><BiUser/></span>
                   <span>{msg.createdBy}</span>

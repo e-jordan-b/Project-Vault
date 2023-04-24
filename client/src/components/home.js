@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 // import UserContext from '../context/UserContext'
 import '../styles/home.css'
 import HomeProject from './homeProject'
+import SearchBar from './searchBar'
 
 function Home () {
   const [projects, setProjects] = useState('')
-
+  // const sortedProjects = projects ? [...projects.posts].reverse() : []
+  const [searchResults, setSearchResult] = useState([])
+  // console.log(searchResults)
   const getProjects = async () => {
     try {
       const response = await fetch('http://localhost:3001/posts')
@@ -20,12 +23,19 @@ function Home () {
     getProjects()
   }, [])
 
+  useEffect(() => {
+    setSearchResult(projects ? [...projects.posts].reverse() : [])
+  }, [projects])
+
   return (
+    <>
+    <div><SearchBar projects={projects.posts} setSearchResult={setSearchResult}/></div>
       <div>
-        {projects && projects.posts.map((project) => (
+        {searchResults && searchResults.map((project) => (
             <HomeProject key={project._id} project={project} />
         ))}
       </div>
+    </>
   )
 }
 

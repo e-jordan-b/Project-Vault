@@ -1,0 +1,20 @@
+.searchBar{
+  display: flex;
+  justify-content: center;
+}
+
+.searchInput {
+  width: 67%;
+  height: 30px;
+  margin: 4% 0;
+  padding: 10px 10px;
+  border-radius: 30px;
+  border-color: rgb(163, 163, 163);
+}
+
+.searchButton {
+  border-style: none;
+  background-color: #f4f5fc;
+  font-size: 25px;
+  position: relative;
+}

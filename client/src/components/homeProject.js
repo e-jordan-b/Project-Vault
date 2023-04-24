@@ -7,7 +7,7 @@ import { BiUser } from 'react-icons/bi'
 function HomeProject ({ project }) {
   const navigate = useNavigate()
   const truncatedText = project.description.length > 400 ? project.description.substring(0, 400) + ' ...' : project.description
-  console.log(project)
+
   return (
     <div className='projectContainer'>
       {/* <div className='imageDiv'>
@@ -33,7 +33,7 @@ function HomeProject ({ project }) {
         </div>
         <p>{truncatedText}</p>
         <div className='extraInfo'>
-          <p>{project.tags.join('# ')}</p>
+          <p>{project.tags.join('# ') + '#'}</p>
           <button className='readMoreButton' onClick={() => navigate(`/posts/${project.id}`)}>
             Read More
           </button>
