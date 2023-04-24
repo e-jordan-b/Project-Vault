@@ -1,11 +1,44 @@
-.donationForm {
+.donationDiv {
   height: 100vh;
   flex-direction: column;
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 }
 
-#payment-form{
-  width: 40%;
+.donationForm {
+  width: 30%;
+  height: 13%;
+  background-color: white;
+  padding: 20px 20px;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;;
+}
+
+.donationAmount {
+  text-decoration: none;
+  height: 20px;
+  font-size: 15px;
+  border-radius: 5px;
+  border-color: rgb(5, 5, 4);
+  border-width: 1px;
+  margin-left: 10px;
+  padding: 5px 5px;
+}
+
+.donateButton {
+  position: absolute;
+  right: 35%;
+  margin-top: 20px;
+  padding: 8px 8px;
+  border-radius: 15px;
+  background-color: #000000;
+  color: white;
+  cursor: pointer;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

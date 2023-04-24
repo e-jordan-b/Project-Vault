@@ -23,9 +23,10 @@ function PersonalProjects () {
 
   return (
     <div className='followingProjectsContainer'>
-    {personalProjects && personalProjects.projects.map((project) => (
-      <ProjectDesign key={project.id} project={project}/>
-    ))}
+      <h1>Your projects: </h1>
+      {personalProjects && personalProjects.projects.map((project) => (
+        <ProjectDesign key={project.id} project={project}/>
+      ))}
     </div>
   )
 }

@@ -24,6 +24,7 @@ function Following () {
 
   return (
     <div className='followingProjectsContainer'>
+      <h1>Following:</h1>
       {followingProjects && followingProjects.projects.map((project) => (
         <ProjectDesign key={project.id} project={project}/>
       ))}

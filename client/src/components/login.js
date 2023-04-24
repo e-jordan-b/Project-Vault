@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import UserContext from '../context/UserContext'
+import '../styles/login.css'
 
 const initialState = {
   email: '',
@@ -45,26 +46,30 @@ function Login () {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <label>Email:</label>
-        <input
-          type='text'
-          value={state.email}
-          name='email'
-          onChange={handleChange}></input>
+    <div className='loginContainer'>
+      <div className='anotherContainer'>
+        <h1>Login</h1>
+        <form onSubmit={handleSubmit} className='loginForm'>
+          <label>Email:</label>
+          <input
+            type='text'
+            value={state.email}
+            name='email'
+            onChange={handleChange}></input>
 
-        <label>Password:</label>
-        <input
-          type='password'
-          value={state.password}
-          name='password'
-          onChange={handleChange}></input>
+          <label>Password:</label>
+          <input
+            type='password'
+            value={state.password}
+            name='password'
+            onChange={handleChange}></input>
 
-        <button
-          type='submit'>Log In</button>
-      </form>
+          <button
+            type='submit' className='loginButton'>Log In</button>
+        </form>
+        <span>Dont have an account?</span>
+        <Link to={'/register'}> Sign Up</Link>
+      </div>
     </div>
   )
 }

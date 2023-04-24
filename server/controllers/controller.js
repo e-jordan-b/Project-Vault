@@ -7,7 +7,9 @@ exports.getUser = async (req, res) => {
     const user = await User.findOne({ email: email })
     const checkPassword = await bcrypt.compare(password, user.password)
     if (!checkPassword || user.email !== email) res.status(401).json({ message: 'Wrong email or password' })
-    res.status(201).send(user)
+    else {
+      res.status(201).send(user)
+    }
   } catch (error) {
     res
       .status(401)

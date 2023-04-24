@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import '../styles/register.css'
 
 const initialState = {
   firstName: '',
@@ -46,45 +47,47 @@ function Register () {
   }
 
   return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
+    <div className='loginContainer'>
+      <div className='anotherContainerRegister'>
+        <h1>Register</h1>
+        <form onSubmit={handleSubmit} className='registerForm'>
 
-        <label>First Name:</label>
-        <input
-          type="text"
-          name="firstName"
-          required
-          value={state.firstName}
-          onChange={handleChange}
-        ></input>
+          <label>First Name:</label>
+          <input
+            type="text"
+            name="firstName"
+            required
+            value={state.firstName}
+            onChange={handleChange}
+          ></input>
 
-        <label>Second Name:</label>
-        <input type="text"
-          name="secondName"
-          required
-          value={state.secondName}
-          onChange={handleChange}
-        ></input>
+          <label>Second Name:</label>
+          <input type="text"
+            name="secondName"
+            required
+            value={state.secondName}
+            onChange={handleChange}
+          ></input>
 
-        <label>Email: </label>
-        <input type="text"
-          name="email"
-          required
-          value={state.email}
-          onChange={handleChange}
-        ></input>
+          <label>Email: </label>
+          <input type="text"
+            name="email"
+            required
+            value={state.email}
+            onChange={handleChange}
+          ></input>
 
-        <label>Password: </label>
-        <input type="password"
-          name="password"
-          required
-          value={state.password}
-          onChange={handleChange}
-        ></input>
+          <label>Password: </label>
+          <input type="password"
+            name="password"
+            required
+            value={state.password}
+            onChange={handleChange}
+          ></input>
 
-        <button type='submit'>Register</button>
-      </form>
+          <button type='submit' className='loginButton'>Register</button>
+        </form>
+      </div>
     </div>
   )
 }

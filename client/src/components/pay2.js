@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import '../styles/donationForm.css'
 
 function Pay2 () {
-  const [succes, setSucces] = useState(false)
   const [amount, setAmount] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
   const stripe = useStripe()
@@ -27,13 +27,14 @@ function Pay2 () {
     if (!error) {
       try {
         const { id } = paymentMethod
+        const wholeAmount = amount * 100
+        console.log(wholeAmount)
         const response = await axios.post('http://localhost:3001/create-payment-intent', {
-          amount,
+          wholeAmount,
           id
         })
         if (response.data.succes) {
           console.log('Succesfull payment')
-          setSucces(true)
           navigate('/home')
         }
       } catch (error) {
@@ -44,24 +45,21 @@ function Pay2 () {
     }
   }
   return (
-    <>
-      {!succes
-        ? (
-      <form onSubmit={handleSubmit}>
+    <div className='donationDiv'>
+      <form onSubmit={handleSubmit} className='donationForm'>
+        <label>Amount:</label>
         <input
         type='number'
         name='amount'
         value={amount}
+        className='donationAmount'
         onChange={handleChange}></input>
         <div>
           <CardElement/>
         </div>
-        <button>{isProcessing ? 'Processing...' : 'Donate'}</button>
+        <button className='donateButton'>{isProcessing ? 'Processing...' : 'Donate'}</button>
       </form>
-          )
-        : <h1>Thanks for the donation</h1>
-    }
-    </>
+    </div>
   )
 }
 

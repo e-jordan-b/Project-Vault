@@ -22,7 +22,8 @@ const stripe = new Stripe('sk_test_51Mz0l1G3oO9e6ctoG62b2a0E5jmy3Hlw2AQyEDMz6xxU
 //   }
 // }
 exports.checkout = async (req, res) => {
-  const { amount, id } = req.body
+  const { wholeAmount, id } = req.body
+  const amount = wholeAmount
   try {
     const payment = await stripe.paymentIntents.create({
       amount,
