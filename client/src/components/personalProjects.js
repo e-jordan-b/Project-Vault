@@ -2,13 +2,15 @@ import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../context/UserContext'
 import ProjectDesign from './designProjects'
 
+const serverURL = process.env.REACT_APP_SERVER
+
 function PersonalProjects () {
   const { user } = useContext(UserContext)
   const [personalProjects, setPersonalProjects] = useState('')
   console.log(personalProjects)
   const getProjects = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/posts/personal/${user._id}`)
+      const response = await fetch(`${serverURL}/posts/personal/${user._id}`) // (`http://localhost:3001/posts/personal/${user._id}`)
       const data = await response.json()
       console.log(data)
       setPersonalProjects(data)

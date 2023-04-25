@@ -9,6 +9,8 @@ const initialState = {
   password: ''
 }
 
+const serverURL = process.env.REACT_APP_SERVER
+
 function Register () {
   const [state, setState] = useState(initialState)
   const navigate = useNavigate()
@@ -27,7 +29,7 @@ function Register () {
     const { firstName, secondName, email, password } = state
     const user = { firstName, secondName, email, password }
 
-    fetch('http://localhost:3001/register', {
+    fetch(`${serverURL}/register`, { // ('http://localhost:3001/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user)
@@ -52,33 +54,37 @@ function Register () {
         <h1>Register</h1>
         <form onSubmit={handleSubmit} className='registerForm'>
 
-          <label>First Name:</label>
+          <label htmlFor='firstName'>First Name:</label>
           <input
             type="text"
+            id='firstName'
             name="firstName"
             required
             value={state.firstName}
             onChange={handleChange}
           ></input>
 
-          <label>Second Name:</label>
+          <label htmlFor='secondName'>Second Name:</label>
           <input type="text"
+            id='secondName'
             name="secondName"
             required
             value={state.secondName}
             onChange={handleChange}
           ></input>
 
-          <label>Email: </label>
+          <label htmlFor='email'>Email: </label>
           <input type="text"
+            id='email'
             name="email"
             required
             value={state.email}
             onChange={handleChange}
           ></input>
 
-          <label>Password: </label>
+          <label htmlFor='password'>Password: </label>
           <input type="password"
+            id='password'
             name="password"
             required
             value={state.password}

@@ -1,6 +1,7 @@
+require('dotenv').config()
 const Stripe = require('stripe')
 
-const stripe = new Stripe('sk_test_51Mz0l1G3oO9e6ctoG62b2a0E5jmy3Hlw2AQyEDMz6xxUlNd2NouOENwYpS1VkJ6UlO2vor2AAwER8jNfUzmIA0JJ00F7KVcftp')
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY) // ('sk_test_51Mz0l1G3oO9e6ctoG62b2a0E5jmy3Hlw2AQyEDMz6xxUlNd2NouOENwYpS1VkJ6UlO2vor2AAwER8jNfUzmIA0JJ00F7KVcftp')
 
 // exports.checkout = async (req, res) => {
 //   console.log(req.body)

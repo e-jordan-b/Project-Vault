@@ -8,6 +8,8 @@ const initialState = {
   password: ''
 }
 
+const serverURL = process.env.REACT_APP_SERVER
+
 function Login () {
   const { setUser } = useContext(UserContext)
   const [state, setState] = useState(initialState)
@@ -27,7 +29,7 @@ function Login () {
     const user = { email, password }
 
     try {
-      const response = await fetch('http://localhost:3001/login', {
+      const response = await fetch(`${serverURL}/login`, { // ('http://localhost:3001/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)
@@ -50,16 +52,18 @@ function Login () {
       <div className='anotherContainer'>
         <h1>Login</h1>
         <form onSubmit={handleSubmit} className='loginForm'>
-          <label>Email:</label>
+          <label htmlFor='name'>Email:</label>
           <input
             type='text'
+            id='name'
             value={state.email}
             name='email'
             onChange={handleChange}></input>
 
-          <label>Password:</label>
+          <label htmlFor='password'>Password:</label>
           <input
             type='password'
+            id='password'
             value={state.password}
             name='password'
             onChange={handleChange}></input>

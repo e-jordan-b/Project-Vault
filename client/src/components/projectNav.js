@@ -5,6 +5,8 @@ import UserContext from '../context/UserContext'
 import '../styles/updateProjects.css'
 import { BiUser } from 'react-icons/bi'
 
+const serverURL = process.env.REACT_APP_SERVER
+
 function ProjectNav ({ update, project, handleCommentSubmit }) {
   const [selectedOption, setSelectedOption] = useState('updates')
   const [comment, setComment] = useState('')
@@ -26,7 +28,7 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
 
     setComment('')
 
-    fetch('http://localhost:3001/posts/comments', {
+    fetch(`${serverURL}/posts/comments`, { // ('http://localhost:3001/posts/comments', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postComment)
@@ -59,7 +61,7 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
                     ? (<ReactPlayer url={el.video} className='video'/>)
                     : (
                       <div className="imageDivUpdate"
-                      style={{ backgroundImage: `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${el.image}.jpg)` }}
+                      style={{ backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${el.image}.jpg)` }} // `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${el.image}.jpg)` }}
                       ></div>
                       )}
                 </div>
@@ -79,12 +81,12 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
             className='postCommentForm'
             onSubmit={ handleSubmit }>
             <input
-            type="input"
-            className="commentInput"
-            placeholder="Add a comment"
-            name="name"
-            value={comment}
-            onChange={handleChange}
+              type="input"
+              className="commentInput"
+              placeholder="Add a comment"
+              name="name"
+              value={comment}
+              onChange={handleChange}
             />
             <button type='submit' className='postButton'>
               Post

@@ -18,7 +18,7 @@ function HomeProject ({ project }) {
       />
       </div> */}
       <div className="imageDiv"
-        style={{ backgroundImage: `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg)` }}
+        style={{ backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${project.image}.jpg` }}
       ></div>
       <div className='projectInformation'>
         <h1>{project.title}</h1>

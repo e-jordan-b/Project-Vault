@@ -6,15 +6,13 @@ import '../styles/layout.css'
 
 function Layout () {
   return (
-    <>
-      <div className='layoutDiv'>
-        <Menu/>
-        <div className='outletDiv'>
-        <Outlet/>
-        </div>
-        <div className='infoDiv'></div>
+    <div className='layoutDiv'>
+      <Menu/>
+      <div className='outletDiv'>
+      <Outlet/>
       </div>
-    </>
+      <div className='infoDiv'></div>
+    </div>
   )
 }
 

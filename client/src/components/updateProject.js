@@ -10,6 +10,8 @@ const initialState = {
   video: ''
 }
 
+const serverURL = process.env.REACT_APP_SERVER
+
 function Update ({ open, onClose, currentProject, getProject }) {
   if (!open) return null
   console.log(currentProject)
@@ -33,10 +35,10 @@ function Update ({ open, onClose, currentProject, getProject }) {
     let image = ''
     const formData = new FormData()
     formData.append('file', selectedFile)
-    formData.append('upload_preset', 'jhbdwgkt')
+    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD) // 'jhbdwgkt')
 
     try {
-      const response = await Axios.post('https://api.cloudinary.com/v1_1/dn1tvs94e/image/upload', formData)
+      const response = await Axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`, formData) // ('https://api.cloudinary.com/v1_1/dn1tvs94e/image/upload', formData)
       image = response.data.public_id
     } catch (error) {
       console.log(error)
@@ -49,7 +51,7 @@ function Update ({ open, onClose, currentProject, getProject }) {
     const update = { id, title, description, image, video, date }
     console.log(update)
 
-    fetch(`http://localhost:3001/update/${currentProject.id}`, {
+    fetch(`${serverURL}/update/${currentProject.id}`, { // (`http://localhost:3001/update/${currentProject.id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(update)
@@ -72,30 +74,34 @@ function Update ({ open, onClose, currentProject, getProject }) {
         <button onClick={ onClose }>Close</button>
         <h1>Update your project</h1>
           <form onSubmit={handleSubmit} className='updateForm'>
-            <label>Update Title</label>
+            <label htmlFor='title'>Update Title</label>
             <input
               type='text'
+              id='title'
               name='title'
               required
               onChange={handleChange}
               ></input>
 
-            <label>Update information</label>
+            <label htmlFor='description'>Update information</label>
               <input
               type='text'
+              id='description'
               name='description'
               onChange={handleChange}
             ></input>
 
-            <label>Image</label>
+            <label htmlFor='image'>Image</label>
               <input
               type='file'
+              id='image'
               name='image'
               onChange={handleFileInputChange}
             ></input>
 
-            <label>Video URL</label>
+            <label htmlFor='video'>Video URL</label>
               <input
+              id='video'
               type='text'
               name='video'
               onChange={handleChange}

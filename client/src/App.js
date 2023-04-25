@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Navigate } from 'react-router-dom'
 import Register from './components/register'
 import Login from './components/login'
 import Home from './components/home'
@@ -18,6 +18,7 @@ function App () {
   return (
     <UserContext.Provider value={{ user, setUser }}>
       <Routes>
+      <Route path="/" element={<Navigate to="/login" />} />
         <Route path='/register' element={<Register/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route element={<Layout/>}>

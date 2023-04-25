@@ -4,6 +4,8 @@ import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import '../styles/donationForm.css'
 
+const serverURL = process.env.REACT_APP_SERVER
+
 function Pay2 () {
   const [amount, setAmount] = useState('')
   const [isProcessing, setIsProcessing] = useState(false)
@@ -29,7 +31,7 @@ function Pay2 () {
         const { id } = paymentMethod
         const wholeAmount = amount * 100
         console.log(wholeAmount)
-        const response = await axios.post('http://localhost:3001/create-payment-intent', {
+        const response = await axios.post(`${serverURL}/create-payment-intent`, { // ('http://localhost:3001/create-payment-intent', {
           wholeAmount,
           id
         })
@@ -47,9 +49,10 @@ function Pay2 () {
   return (
     <div className='donationDiv'>
       <form onSubmit={handleSubmit} className='donationForm'>
-        <label>Amount:</label>
+        <label htmlFor='amount'>Amount:</label>
         <input
         type='number'
+        id='amount'
         name='amount'
         value={amount}
         className='donationAmount'

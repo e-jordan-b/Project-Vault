@@ -4,6 +4,8 @@ import '../styles/home.css'
 import HomeProject from './homeProject'
 import SearchBar from './searchBar'
 
+const serverURL = process.env.REACT_APP_SERVER
+
 function Home () {
   const [projects, setProjects] = useState('')
   // const sortedProjects = projects ? [...projects.posts].reverse() : []
@@ -11,7 +13,7 @@ function Home () {
   // console.log(searchResults)
   const getProjects = async () => {
     try {
-      const response = await fetch('http://localhost:3001/posts')
+      const response = await fetch(`${serverURL}/posts`) // ('http://localhost:3001/posts')
       const data = await response.json()
       setProjects(data)
     } catch (error) {
