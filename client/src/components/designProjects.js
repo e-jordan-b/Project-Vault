@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 
 function ProjectDesign ({ project }) {
   const truncatedText = project.description.length > 100 ? project.description.substring(0, 100) + ' ...' : project.description
+
   return (
     <Link to = {`/posts/${project.id}`} className='link'>
       <div className='projectDesignContainer'>
@@ -14,7 +15,7 @@ function ProjectDesign ({ project }) {
         </div>
         <div className='ShortInformation'>
           <h2>{project.title}</h2>
-          <p>{truncatedText}</p>
+          <p dangerouslySetInnerHTML={{ __html: truncatedText }} className='truncatedTextDiv'></p>
           <div className='authorOfProject'>
             <div className='userIconName'>
               <BiUser className='userIcon'/>

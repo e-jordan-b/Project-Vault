@@ -8,16 +8,20 @@
 }
 
 .followAndDonateButtons {
-  padding: 10px 30px;
+  padding: 12px 30px;
   font-size: 20px;
-  margin: 10px 10px;
+  margin: 20px 10px;
   border-style: none;
-  background-color: rgb(101, 101, 101);
+  background-color: #3154be;
   color: white;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ;
 }
 
 .containerFullInfo {
   display: flex;
+  width: 100%;
   padding: 30px 30px;
 }
 
@@ -31,11 +35,24 @@
 }
 
 .UserInfo {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   margin: 20px 20px;
+}
+
+.ProjectInfoH1 {
+  font-size: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.UserDivStyle{
+  width: 100%;
+  border-radius: 30px;
 }
 
 .smallInfo {
@@ -46,7 +63,10 @@
 }
 
 .descriptionContainer {
-  padding: 0px 30px;
+  background-color: white;
+  padding: 15px 30px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  border-radius: 20px;
 }
 
 .descriptionContainer p {
@@ -67,4 +87,21 @@
   margin-top: 7%;
   position: absolute;
   width: 100%;
+}
+
+.updateButton {
+  color: white;
+  background-color: #3154be;
+  border: none;
+  border-radius: 5px;
+  margin-top: 20px;
+  transition: all 0.5s;
+}
+
+.updateButton:hover {
+  background-color: #6f83bf;
+}
+
+.followAndDonateButtons:hover {
+  background-color: #6f83bf;
 }

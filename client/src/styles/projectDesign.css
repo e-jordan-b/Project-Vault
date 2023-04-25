@@ -26,7 +26,7 @@
 
 .authorOfProject {
   display: flex;
-  height: 45%;
+  margin-top: 15%;
   align-items: flex-end;
   justify-content: space-between;
 }
@@ -43,4 +43,10 @@
 
  .followingProjectsContainer{
   margin: 0 11%;
+}
+
+.truncatedTextDiv {
+  margin: 10px;
+  height: 38%;
+  overflow: hidden;
 }

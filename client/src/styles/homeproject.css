@@ -1,7 +1,3 @@
-/* .image {
-  width: 500px;
-  height: auto;
-} */
 
 .projectContainer {
   display: flex;
@@ -48,7 +44,6 @@
 
 .extraInfo {
   display: flex;
-  height: 100%;
   justify-content: space-between;
   align-items: flex-end;
 }
@@ -60,9 +55,21 @@
   color: black;
   font-size: 14px ;
   border-radius: 10px;
+  transition: all 0.5s;
+  cursor: pointer;
 }
 
 .userSomething {
   display: flex;
   align-items: center;
+}
+
+.homeProjectTruncatedText {
+  overflow: hidden;
+  height: 100%;
+}
+
+.readMoreButton:hover {
+  background-color: black;
+  color: white;
 }

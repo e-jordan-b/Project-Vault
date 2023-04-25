@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-// import { Image } from 'cloudinary-react'
 import '../styles/projectInformation.css'
 import UserContext from '../context/UserContext'
 import Update from './updateProject'
@@ -16,7 +15,7 @@ function Project () {
   const navigate = useNavigate()
 
   function getProject () {
-    fetch(`${serverURL}/posts/${id}`) // (`http://localhost:3001/posts/${id}`)
+    fetch(`${serverURL}/posts/${id}`)
       .then(response => response.json())
       .then(data => setProject(data.post))
       .catch(error => console.log(error))
@@ -33,7 +32,7 @@ function Project () {
   async function handleFollowClick () {
     if (user.following.includes(project.id)) return
 
-    const response = await fetch(`${serverURL}/posts/follow`, { // ('http://localhost:3001/posts/follow', {
+    const response = await fetch(`${serverURL}/posts/follow`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,53 +46,24 @@ function Project () {
 
   return (
     <>
-    {/* <div className='ProjectInformation'>
-      <div>
-        <Image
-          cloudName='dn1tvs94e'
-          publicId={`https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg`}
-        />
-      </div>
-      <div>
-        <h1>{project.title}</h1>
-        <h3>{project.author}</h3>
-        <p>{project.description}</p>
-          { user._id === project.createdBy
-            ? (
-              <>
-                <button onClick={() => setIsOpen(true)}>UPDATE</button>
-              </>
-              )
-            : <>
-            <button className='followAndDonateButtons'
-            onClick={handleFollowClick}>{user.following.includes(project.id) ? 'Following' : 'Follow'}</button>
-            <button className='followAndDonateButtons'>Donate</button>
-          </>
-          }
-      </div>
-      <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project}></Update>
-    </div>
-    <div>
-      <ProjectNav/>
-    </div> */}
-  <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project} getProject={getProject}></Update>
   <div>
+    <Update open={isOpen} onClose={() => setIsOpen(false)} currentProject = {project} getProject={getProject}></Update>
     <div className='containerFullInfo'>
       <div className="imgDiv"
         style={{ backgroundImage: `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg)` }}>
       </div>
       <div className='UserInfo'>
-          <h2>{project.title}</h2>
+        <div className='UserDivStyle'>
+          <h1 className='ProjectInfoH1'>{project.title}</h1>
           <div className='smallInfo'>
             <h3>{project.author}</h3>
             <h3>{project.date}</h3>
           </div>
+        </div>
       </div>
     </div>
       <div className='descriptionContainer'>
-        <h2>Project description</h2>
-        <p>{project.description}</p>
-
+        <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
       </div>
       <nav className='navigation'>
         <div className='projectNavContainer'>

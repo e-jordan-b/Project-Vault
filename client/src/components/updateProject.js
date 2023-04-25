@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import '../styles/update.css'
 import Axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 const initialState = {
   title: '',
@@ -14,9 +16,10 @@ const serverURL = process.env.REACT_APP_SERVER
 
 function Update ({ open, onClose, currentProject, getProject }) {
   if (!open) return null
-  console.log(currentProject)
+
   const [selectedFile, setSelectedFile] = useState(initialState)
   const [state, setState] = useState(initialState)
+  const [quillValue, setQuillValue] = useState('')
 
   function handleChange (e) {
     const { name, value } = e.target
@@ -35,10 +38,10 @@ function Update ({ open, onClose, currentProject, getProject }) {
     let image = ''
     const formData = new FormData()
     formData.append('file', selectedFile)
-    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD) // 'jhbdwgkt')
+    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD)
 
     try {
-      const response = await Axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`, formData) // ('https://api.cloudinary.com/v1_1/dn1tvs94e/image/upload', formData)
+      const response = await Axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`, formData)
       image = response.data.public_id
     } catch (error) {
       console.log(error)
@@ -47,11 +50,10 @@ function Update ({ open, onClose, currentProject, getProject }) {
     const today = new Date()
     const date = today.toLocaleDateString()
     const id = uuidv4()
-    const { title, description, video } = state
-    const update = { id, title, description, image, video, date }
-    console.log(update)
+    const { title, video } = state
+    const update = { id, title, quillValue, image, video, date }
 
-    fetch(`${serverURL}/update/${currentProject.id}`, { // (`http://localhost:3001/update/${currentProject.id}`, {
+    fetch(`${serverURL}/update/${currentProject.id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(update)
@@ -84,12 +86,7 @@ function Update ({ open, onClose, currentProject, getProject }) {
               ></input>
 
             <label htmlFor='description'>Update information</label>
-              <input
-              type='text'
-              id='description'
-              name='description'
-              onChange={handleChange}
-            ></input>
+            <ReactQuill theme='snow' value={quillValue} onChange={setQuillValue}/>
 
             <label htmlFor='image'>Image</label>
               <input

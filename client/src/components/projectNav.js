@@ -28,7 +28,7 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
 
     setComment('')
 
-    fetch(`${serverURL}/posts/comments`, { // ('http://localhost:3001/posts/comments', {
+    fetch(`${serverURL}/posts/comments`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(postComment)
@@ -61,7 +61,7 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
                     ? (<ReactPlayer url={el.video} className='video'/>)
                     : (
                       <div className="imageDivUpdate"
-                      style={{ backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${el.image}.jpg)` }} // `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${el.image}.jpg)` }}
+                      style={{ backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${el.image}.jpg)` }}
                       ></div>
                       )}
                 </div>
@@ -69,7 +69,7 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
                     <h1>Update {update.indexOf(el) + 1}: {el.title}</h1>
                   </div>
                 <div className='updateTitleDescription'>
-                  <p>{el.description}</p>
+                  <p dangerouslySetInnerHTML={{ __html: el.description }}></p>
                   <h3>{el.date}</h3>
                 </div>
               </div>
@@ -107,7 +107,6 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
             ))}
           </div>
           </div>
-
       }
       </div>
     </div>

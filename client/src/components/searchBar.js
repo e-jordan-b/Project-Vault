@@ -4,7 +4,6 @@ import { BiSearch } from 'react-icons/bi'
 import '../styles/searchBar.css'
 
 function SearchBar ({ projects, setSearchResult }) {
-  // setSearchResult(projects)
   function handleSubmit (e) {
     e.preventDefault()
   }
@@ -27,7 +26,7 @@ function SearchBar ({ projects, setSearchResult }) {
           id='search'
           placeholder='Search...'
           onChange={handleSearchChange}></input>
-          <button className='searchButton' type='submit'><BiSearch/></button>
+          <span className='searchButton' type='submit'><BiSearch/></span>
       </form>
     </header>
   )

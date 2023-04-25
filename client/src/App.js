@@ -9,9 +9,7 @@ import Layout from './components/layout'
 import Project from './components/projectInfo'
 import Following from './components/followingProjects'
 import PersonalProjects from './components/personalProjects'
-// import Payment from './components/payment'
 import Form2 from './components/form2'
-// import Pay2 from './components/pay2'
 
 function App () {
   const [user, setUser] = useState(null)

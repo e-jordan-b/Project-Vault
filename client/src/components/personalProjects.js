@@ -7,12 +7,11 @@ const serverURL = process.env.REACT_APP_SERVER
 function PersonalProjects () {
   const { user } = useContext(UserContext)
   const [personalProjects, setPersonalProjects] = useState('')
-  console.log(personalProjects)
+
   const getProjects = async () => {
     try {
-      const response = await fetch(`${serverURL}/posts/personal/${user._id}`) // (`http://localhost:3001/posts/personal/${user._id}`)
+      const response = await fetch(`${serverURL}/posts/personal/${user._id}`)
       const data = await response.json()
-      console.log(data)
       setPersonalProjects(data)
     } catch (error) {
       console.log(error)
@@ -25,7 +24,6 @@ function PersonalProjects () {
 
   return (
     <div className='followingProjectsContainer'>
-      <h1>Your projects: </h1>
       {personalProjects && personalProjects.projects.map((project) => (
         <ProjectDesign key={project.id} project={project}/>
       ))}

@@ -8,16 +8,14 @@ import { BiHomeAlt2, BiBookHeart, BiBookOpen, BiUser } from 'react-icons/bi'
 function Menu () {
   const { user } = useContext(UserContext)
   const [isOpen, setIsOpen] = useState(false)
-  console.log(user)
+
   return (
     <>
       <div className='menuComponent'>
       <nav className='sidebar'>
         <header>
           <div className='image-text'>
-            <span className='image'>
-                <h1>Project </h1>
-            </span>
+            <div className='logoImag'style={{ backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/project-vault-low-resolution-color-logo_jtpd37.png` }}></div>
           </div>
         </header>
 
@@ -26,19 +24,19 @@ function Menu () {
             <ul className='menu-links'>
               <li className='nav-link'>
                 <BiHomeAlt2 className='icon'/>
-                <Link to='home' className='link' activeClassName="">
+                <Link to='home' className='react-link' activeClassName="">
                   <span className='text'>Home</span>
                 </Link>
               </li>
               <li className='nav-link'>
                 <BiBookOpen className='icon'/>
-                <Link to='posts/personal' className='link' activeClassName="">
+                <Link to='posts/personal' className='react-link' activeClassName="">
                   <span className='text'>My Projects</span>
                 </Link>
               </li>
               <li className='nav-link'>
                 <BiBookHeart className='icon'/>
-                <Link to='posts/following' className='link' activeClassName="">
+                <Link to='posts/following' className='react-link' activeClassName="">
                   <span className='text'>Following</span>
                 </Link>
               </li>

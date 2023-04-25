@@ -5,6 +5,8 @@ import UserContext from '../context/UserContext'
 import Axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 import { useNavigate } from 'react-router-dom'
+import ReactQuill from 'react-quill'
+import 'react-quill/dist/quill.snow.css'
 
 const initialState = {
   title: '',
@@ -20,6 +22,7 @@ function CreatePost ({ open, onClose }) {
   const [selectedFile, setSelectedFile] = useState(initialState)
   const { user } = useContext(UserContext)
   const [postInfo, setPostInfo] = useState(initialState)
+  const [quillValue, setQuillValue] = useState('')
 
   function handleChange (e) {
     const { name, value } = e.target
@@ -41,7 +44,7 @@ function CreatePost ({ open, onClose }) {
     formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD)// 'jhbdwgkt')
 
     try {
-      const response = await Axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`, formData)// (`https://api.cloudinary.com/v1_1/dn1tvs94e/image/upload`, formData)
+      const response = await Axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`, formData)
       image = response.data.public_id
     } catch (error) {
       console.log(error)
@@ -51,10 +54,10 @@ function CreatePost ({ open, onClose }) {
     const date = today.toLocaleDateString()
     const id = uuidv4()
     const author = `${user.firstName} ${user.secondName}`
-    const { title, description, tags } = postInfo
-    const post = { id, title, description, image, user, author, tags, date }
+    const { title, tags } = postInfo
+    const post = { id, title, quillValue, image, user, author, tags, date }
 
-    fetch(`${serverURL}/create`, { // ('http://localhost:3001/create', {
+    fetch(`${serverURL}/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(post)
@@ -75,10 +78,10 @@ function CreatePost ({ open, onClose }) {
     <>
     <div className='overlay'>
       <div className='createPostDiv'>
-        <button onClick={ onClose }>Close</button>
+        <button onClick={ onClose } className='closeButton'>X</button>
         <h1>Your new project</h1>
         <form onSubmit={handleSubmit} className='postForm'>
-          <label htmlFor='title'>Title</label>
+          <label htmlFor='title'>Title:</label>
           <input
             type='text'
             id='title'
@@ -88,26 +91,24 @@ function CreatePost ({ open, onClose }) {
             onChange={handleChange}>
           </input>
 
-          <label htmlFor='description'>Description</label>
-          <input
-            type='text'
-            id='description'
-            name='description'
-            required
-            value={postInfo.description}
-            onChange={handleChange}>
-          </input>
+          <label htmlFor='description'>Description:</label>
+          <ReactQuill
+            theme='snow'
+            value={quillValue}
+            className='inputQuill'
+            onChange={setQuillValue}/>
 
-          <label htmlFor='image'>Image</label>
+          <label htmlFor='image' className='imageInputCreateLabel'>Image:</label>
           <input
             type='file'
             id='image'
             name='image'
             required
+            className='imageInputCreate'
             onChange={handleFileInputChange}>
           </input>
 
-          <label htmlFor='tags'>Tags</label>
+          <label htmlFor='tags'>Tags:</label>
           <input
             type='text'
             id='tags'
@@ -117,7 +118,7 @@ function CreatePost ({ open, onClose }) {
             onChange={handleChange}>
           </input>
 
-          <button type='submit'>Create new project</button>
+          <button type='submit' className='createNewProjectButton'>Create new project</button>
         </form>
       </div>
     </div>

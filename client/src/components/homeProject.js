@@ -10,13 +10,6 @@ function HomeProject ({ project }) {
 
   return (
     <div className='projectContainer'>
-      {/* <div className='imageDiv'>
-      <Image
-        className="image"
-        cloudName='dn1tvs94e'
-        publicId={`https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg`}
-      />
-      </div> */}
       <div className="imageDiv"
         style={{ backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${project.image}.jpg` }}
       ></div>
@@ -31,7 +24,7 @@ function HomeProject ({ project }) {
             <span className='date'>{project.date}</span>
           </div>
         </div>
-        <p>{truncatedText}</p>
+        <p dangerouslySetInnerHTML={{ __html: truncatedText }} className='homeProjectTruncatedText'></p>
         <div className='extraInfo'>
           <p>{project.tags.join('# ') + '#'}</p>
           <button className='readMoreButton' onClick={() => navigate(`/posts/${project.id}`)}>

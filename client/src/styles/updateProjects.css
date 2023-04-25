@@ -36,6 +36,7 @@
   background-color: #f4f5fc;
   border-style: none;
   cursor: pointer;
+  transition: all 0.3s;
 }
 
 .CommentInputContainer {
@@ -111,4 +112,9 @@
   font-size: 15px;
   font-weight: 200;
   margin-left: 35px;
+}
+
+.navButton:hover {
+  background-color: rgb(133, 140, 161);
+  color: white;
 }

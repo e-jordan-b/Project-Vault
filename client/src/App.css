@@ -6,3 +6,16 @@
 body {
   background-color: #f4f5fc;
 }
+
+body::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: f4f5fc;
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(171, 171, 171);
+  border-radius: 10px;
+}

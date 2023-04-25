@@ -30,8 +30,7 @@ function Pay2 () {
       try {
         const { id } = paymentMethod
         const wholeAmount = amount * 100
-        console.log(wholeAmount)
-        const response = await axios.post(`${serverURL}/create-payment-intent`, { // ('http://localhost:3001/create-payment-intent', {
+        const response = await axios.post(`${serverURL}/create-payment-intent`, {
           wholeAmount,
           id
         })

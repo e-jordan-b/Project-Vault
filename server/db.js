@@ -1,6 +1,7 @@
+require('dotenv').config()
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb://127.0.0.1/SoloProject_test1')
+mongoose.connect(`${process.env.DB_URL}${process.env.DB_NAME}`)
 
 const db = mongoose.connection
 

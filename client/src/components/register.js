@@ -29,7 +29,7 @@ function Register () {
     const { firstName, secondName, email, password } = state
     const user = { firstName, secondName, email, password }
 
-    fetch(`${serverURL}/register`, { // ('http://localhost:3001/register', {
+    fetch(`${serverURL}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user)

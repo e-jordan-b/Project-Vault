@@ -29,7 +29,7 @@ function Login () {
     const user = { email, password }
 
     try {
-      const response = await fetch(`${serverURL}/login`, { // ('http://localhost:3001/login', {
+      const response = await fetch(`${serverURL}/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(user)

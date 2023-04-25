@@ -7,7 +7,7 @@ exports.createPost = async (req, res) => {
     const newPost = new Post({
       id: req.body.id,
       title: req.body.title,
-      description: req.body.description,
+      description: req.body.quillValue,
       image: req.body.image,
       updates: req.body.updates,
       author: req.body.author,
@@ -53,7 +53,6 @@ exports.getPostsById = async (req, res) => {
 
 exports.followProject = async (req, res) => {
   const project = req.body.project.id
-  console.log(project)
   try {
     const user = await User.findOne({ _id: req.body.user._id })
     user.following.push(project)
@@ -63,7 +62,6 @@ exports.followProject = async (req, res) => {
 
     await user.save()
     res.status(201).send({ user })
-    console.log(post, 'post', user, 'user')
   } catch (error) {
     console.log(error)
     res.status(400).send({ error, message: 'cannot follow' })
@@ -76,7 +74,7 @@ exports.updateProject = async (req, res) => {
     const newUpdate = {
       id: req.body.id,
       title: req.body.title,
-      description: req.body.description,
+      description: req.body.quillValue,
       date: req.body.date,
       image: req.body.image,
       video: req.body.video,
@@ -84,7 +82,6 @@ exports.updateProject = async (req, res) => {
     }
 
     project.updates.push(newUpdate)
-    console.log(project.updates)
 
     await project.save()
 
@@ -101,13 +98,6 @@ exports.followingProjects = async (req, res) => {
     const following = user.following
     const projects = await Post.find({ id: { $in: following } })
 
-    // for (const project of projects) {
-    //   if (!project.followers.includes(user._id)) {
-    //     project.followers.push(user._id)
-    //     await project.save()
-    //   }
-    // }
-    // console.log(first)
     res.status(201).send({ projects })
   } catch (error) {
     console.log(error)
