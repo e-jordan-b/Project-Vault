@@ -24,3 +24,4 @@ Also:
    - Cloudinary to upload the images to the cloud.
    
    - Stripe for the donations.
+   
