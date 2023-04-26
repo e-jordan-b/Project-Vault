@@ -24,19 +24,19 @@ function Menu () {
             <ul className='menu-links'>
               <li className='nav-link'>
                 <BiHomeAlt2 className='icon'/>
-                <Link to='home' className='react-link' activeClassName="">
+                <Link to='home' className='react-link'>
                   <span className='text'>Home</span>
                 </Link>
               </li>
               <li className='nav-link'>
                 <BiBookOpen className='icon'/>
-                <Link to='posts/personal' className='react-link' activeClassName="">
+                <Link to='posts/personal' className='react-link'>
                   <span className='text'>My Projects</span>
                 </Link>
               </li>
               <li className='nav-link'>
                 <BiBookHeart className='icon'/>
-                <Link to='posts/following' className='react-link' activeClassName="">
+                <Link to='posts/following' className='react-link'>
                   <span className='text'>Following</span>
                 </Link>
               </li>

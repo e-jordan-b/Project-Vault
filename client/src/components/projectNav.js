@@ -89,7 +89,7 @@ function ProjectNav ({ update, project, handleCommentSubmit }) {
               onChange={handleChange}
             />
             <button type='submit' className='postButton'>
-              Post
+              Send
             </button>
           </form>
           <div className='commentsSection'>

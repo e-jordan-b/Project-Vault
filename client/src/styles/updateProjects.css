@@ -67,13 +67,15 @@
 .postButton {
   background: transparent;
   border: 0;
-  padding: 10px 15px;
-  border-radius: 15px;
+  padding: 5px 25px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .postButton:hover {
-  background-color:rgb(215, 215, 215) ;
-  border: 0;
+  background-color:rgb(173, 173, 173) ;
+  color: white;
 }
 
 .commentsSection {

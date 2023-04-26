@@ -1,6 +1,6 @@
 .menuComponent {
   height: 100vh;
-  width: 30vh;
+  width: 275px;
   background-color: #eef0f6;
   display: flex;
   flex-direction: column;
@@ -35,6 +35,7 @@
   left: 0;
   width: 275px;
   background-color: #eef0f6;;
+  height: 100vh;
 }
 
 .react-link {

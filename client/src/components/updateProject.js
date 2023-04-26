@@ -73,10 +73,10 @@ function Update ({ open, onClose, currentProject, getProject }) {
   return (
     <div className='updateOverlay'>
       <div className='updateProjectContainter'>
-        <button onClick={ onClose }>Close</button>
-        <h1>Update your project</h1>
+        <button onClick={ onClose } className='closeButton'>X</button>
+        <h1 className='updateYourProject'>Update your project</h1>
           <form onSubmit={handleSubmit} className='updateForm'>
-            <label htmlFor='title'>Update Title</label>
+            <label htmlFor='title'>Update Title:</label>
             <input
               type='text'
               id='title'
@@ -85,8 +85,8 @@ function Update ({ open, onClose, currentProject, getProject }) {
               onChange={handleChange}
               ></input>
 
-            <label htmlFor='description'>Update information</label>
-            <ReactQuill theme='snow' value={quillValue} onChange={setQuillValue}/>
+            <label htmlFor='description'>Update information:</label>
+            <ReactQuill theme='snow' value={quillValue} onChange={setQuillValue} className='inputQuill'/>
 
             <label htmlFor='image'>Image</label>
               <input
@@ -96,7 +96,7 @@ function Update ({ open, onClose, currentProject, getProject }) {
               onChange={handleFileInputChange}
             ></input>
 
-            <label htmlFor='video'>Video URL</label>
+            <label htmlFor='video'>Video URL:</label>
               <input
               id='video'
               type='text'
@@ -104,7 +104,7 @@ function Update ({ open, onClose, currentProject, getProject }) {
               onChange={handleChange}
             ></input>
 
-          <button type='submit'>Update your project</button>
+          <button type='submit' className='createNewProjectButton'>Update your project</button>
           </form>
       </div>
     </div>
