@@ -1,4 +1,4 @@
-export interface Project {
+export default interface Project {
   id?: string | number;
   title: string;
   description: string;
@@ -11,14 +11,4 @@ export interface Project {
   chat: string[];
   tags: string[];
   followers: string[];
-}
-
-export interface User {
-  firstName: string;
-  secondName: string;
-  email: string;
-  password: string;
-  picturepath: string;
-  following: string[];
-  createdProjects: string[];
 }
