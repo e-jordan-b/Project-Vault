@@ -2,10 +2,11 @@ import express, { Express, Request, Response } from 'express';
 import Project from '../models/projectModel';
 import User from '../models/userModel';
 
-exports.createProject = async (
+export const createProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
+  console.log(req.body);
   const tagsArr = req.body.tags.split(' ');
   try {
     const newProject = new Project({
@@ -38,20 +39,20 @@ exports.createProject = async (
   }
 };
 
-exports.getProjects = async (
+export const getProjects = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
   try {
     const project = await Project.find({});
-    res.status(201).send({ projects });
+    res.status(201).send({ project });
   } catch (error) {
     console.log(error);
     res.status(400).send({ error, message: 'cannot find projects' });
   }
 };
 
-exports.getProjectsById = async (
+export const getProjectsById = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
@@ -64,7 +65,7 @@ exports.getProjectsById = async (
   }
 };
 
-exports.followProject = async (
+export const followProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
@@ -91,7 +92,7 @@ exports.followProject = async (
   }
 };
 
-exports.updateProject = async (
+export const updateProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
@@ -121,7 +122,7 @@ exports.updateProject = async (
   }
 };
 
-exports.followingProjects = async (
+export const followingProjects = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
@@ -137,13 +138,13 @@ exports.followingProjects = async (
   }
 };
 
-exports.personalProjects = async (
+export const personalProjects = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
   try {
     const user = await User.findById(req.params._id);
-    const created = user?.createdPosts;
+    const created = user?.createdProjects;
     const projects = await Project.find({ _id: { $in: created } });
 
     res.status(201).send({ projects });
@@ -153,7 +154,7 @@ exports.personalProjects = async (
   }
 };
 
-exports.postComment = async (
+export const postComment = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
@@ -168,7 +169,7 @@ exports.postComment = async (
     // project.chat.push(newComment);
     // project.save();
 
-    const comment = await Project.findByIdAndUpdate(_id, {
+    const comment = await Project.findByIdAndUpdate(req.body._id, {
       $push: { chat: newComment },
     });
 

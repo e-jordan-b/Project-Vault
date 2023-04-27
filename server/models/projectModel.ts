@@ -41,7 +41,7 @@ const ChatMessageSchema = new mongoose.Schema({
   },
 });
 
-const projectSchema = new mongoose.Schema({
+export const projectSchema = new mongoose.Schema({
   // id: {
   //   type: String,
   //   required: true
