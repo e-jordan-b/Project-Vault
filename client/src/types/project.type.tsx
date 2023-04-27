@@ -1,3 +1,5 @@
+import User from './user.type';
+
 export default interface Project {
   id?: string | number;
   title: string;
@@ -10,5 +12,5 @@ export default interface Project {
   date: string;
   chat: string[];
   tags: string[];
-  followers: string[];
+  followers: User[] | string[] | [];
 }
