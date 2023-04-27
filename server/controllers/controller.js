@@ -18,6 +18,7 @@ exports.getUser = async (req, res) => {
   }
 }
 
+// naming and validation 
 exports.postUser = async (req, res) => {
   const hashPassword = await bcrypt.hash(req.body.password, 10)
   const user = await User.findOne({ email: req.body.email })
