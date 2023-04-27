@@ -1,8 +1,18 @@
-const express = require('express')
-const router = express.Router()
-const { getUser, postUser } = require('../controllers/controller')
-const { createPost, getPosts, getPostsById, followProject, updateProject, followingProjects, personalProjects, postComment } = require('../controllers/postController')
-const { checkout } = require('../controllers/payment')
+import * as express from 'express';
+import { getUser, postUser } from '../controllers/controller';
+import checkout from '../controllers/payment';
+import {
+  createPost,
+  getPosts,
+  getPostsById,
+  followProject,
+  updateProject,
+  followingProjects,
+  personalProjects,
+  postComment
+} from '../controllers/postController';
+
+const router = express.Router();
 
 // Login Routes
 router.post('/login', getUser)
@@ -22,4 +32,5 @@ router.post('/create-payment-intent', checkout)
 
 // Update Routes
 router.post('/update/:id', updateProject)
-module.exports = router
+
+export = router;
