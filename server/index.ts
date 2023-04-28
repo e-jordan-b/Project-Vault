@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import router from './routes/router';
 
-const app: Express = express();
+const app = express();
 const port = 3001;
 
 app.use(cors());
@@ -27,3 +27,5 @@ console.log(
 app.listen(port, () => {
   console.log('listening on http://localhost:3001');
 });
+
+export default app;
