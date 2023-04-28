@@ -1,4 +1,4 @@
-import mongoose from '../db';
+import mongoose from 'mongoose';
 
 const UpdateSchema = new mongoose.Schema({
   id: {

@@ -9,10 +9,13 @@ const login = async (
 ): Promise<Response | void> => {
   try {
     const user = await User.findOne({ email: req.body.email });
-    const checkPassword = user
-      ? await bcrypt.compare(req.body.password, user.password)
-      : false;
-    if (!checkPassword || !user) {
+    let checkPassword: boolean = false;
+    console.log('xxxxx', user?._id !== undefined);
+    if (user?._id !== undefined) {
+      checkPassword = await bcrypt.compare(req.body.password, user.password);
+      console.log('checkPassword: ', checkPassword);
+    }
+    if (!checkPassword) {
       throw new Error('Username or password is incorrect');
     } else {
       return res.status(200).send(user);
@@ -46,7 +49,7 @@ const register = async (
         createdPosts: [],
       });
       await newUser.save();
-      console.log('succes');
+      console.log('succes', newUser);
       res.status(201).send({ newUser });
     } catch (error) {
       console.log(error);
