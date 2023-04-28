@@ -19,13 +19,13 @@ router.post('/login', login);
 router.post('/register', register);
 
 // Post Routes
-router.post('/create', createProject);
 router.get('/projects', getProjects);
 router.get('/projects/:id', getProjectById);
+router.post('/create', createProject);
 router.post('/projects/follow', followProject);
+router.post('/projects/comments', postComment);
 router.get('/projects/following/:id', followingProjects);
 router.get('/projects/personal/:id', personalProjects);
-router.post('/projects/comments', postComment);
 
 // Payment Route
 router.post('/create-payment-intent', checkout);
