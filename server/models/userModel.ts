@@ -1,6 +1,7 @@
 import mongoose from '../db';
+import projectSchema from './projectModel';
 
-const userSchema = new mongoose.Schema({
+export const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema({
   createdProjects: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Projects',
+      ref: 'projectSchema',
     },
   ],
 });

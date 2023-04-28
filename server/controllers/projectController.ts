@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import Project from '../models/projectModel';
 import User from '../models/userModel';
 
@@ -52,7 +52,7 @@ export const getProjects = async (
   }
 };
 
-export const getProjectsById = async (
+export const getProjectById = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {

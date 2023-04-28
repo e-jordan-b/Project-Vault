@@ -1,10 +1,10 @@
 import * as express from 'express';
-// import { getUser, postUser } from '../controllers/controller';
+import { getUser, postUser } from '../controllers/UsersController';
 import checkout from '../controllers/payment';
 import {
   createProject,
   getProjects,
-  getProjectsById,
+  getProjectById,
   followProject,
   updateProject,
   followingProjects,
@@ -15,17 +15,17 @@ import {
 const router = express.Router();
 
 // Login Routes
-// router.post('/login', getUser);
-// router.post('/register', postUser);
+router.post('/login', getUser);
+router.post('/register', postUser);
 
 // Post Routes
 router.post('/create', createProject);
-router.get('/posts', getProjects);
-router.get('/posts/:id', getProjectsById);
-router.post('/posts/follow', followProject);
-router.get('/posts/following/:id', followingProjects);
-router.get('/posts/personal/:id', personalProjects);
-router.post('/posts/comments', postComment);
+router.get('/projects', getProjects);
+router.get('/projects/:id', getProjectById);
+router.post('/projects/follow', followProject);
+router.get('/projects/following/:id', followingProjects);
+router.get('/projects/personal/:id', personalProjects);
+router.post('/projects/comments', postComment);
 
 // Payment Route
 router.post('/create-payment-intent', checkout);
