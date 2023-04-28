@@ -9,19 +9,4 @@ app.use(cors());
 app.use(express.json());
 app.use(router);
 
-console.log(
-  JSON.stringify({
-    title: 'string',
-    description: 'string',
-    image: 'string',
-    updates: 'string',
-    author: 'string',
-    createdBy: 'string',
-    date: 'string',
-    chat: [],
-    tags: 'string string',
-    followers: [],
-  })
-);
-
 export default app;

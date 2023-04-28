@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { login, register } from '../controllers/UsersController';
+import { login, register } from '../controllers/usersController';
 import checkout from '../controllers/payment';
 import {
   createProject,

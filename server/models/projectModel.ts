@@ -1,5 +1,4 @@
 import mongoose from '../db';
-import userSchema from './userModel';
 
 const UpdateSchema = new mongoose.Schema({
   id: {
