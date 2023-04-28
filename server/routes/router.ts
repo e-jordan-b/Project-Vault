@@ -1,5 +1,5 @@
 import * as express from 'express';
-import { getUser, postUser } from '../controllers/UsersController';
+import { login, register } from '../controllers/UsersController';
 import checkout from '../controllers/payment';
 import {
   createProject,
@@ -15,8 +15,8 @@ import {
 const router = express.Router();
 
 // Login Routes
-router.post('/login', getUser);
-router.post('/register', postUser);
+router.post('/login', login);
+router.post('/register', register);
 
 // Post Routes
 router.post('/create', createProject);
