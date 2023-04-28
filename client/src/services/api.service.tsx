@@ -88,7 +88,7 @@ class ApiService {
     email: string;
     password: string;
     firstName: string;
-    secondName: string;
+    lastName: string;
   }) {
     try {
       return http.post<User>('/register', data);

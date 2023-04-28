@@ -1,6 +1,6 @@
 export default interface User {
   firstName: string;
-  secondName: string;
+  lastName: string;
   email: string;
   password: string;
   picturepath: string;
