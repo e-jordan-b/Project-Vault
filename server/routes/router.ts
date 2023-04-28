@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { getUser, postUser } from '../controllers/UsersController';
-import checkout from '../controllers/payment';
+import checkout from '../controllers/paymentController';
 import {
   createProject,
   getProjects,
