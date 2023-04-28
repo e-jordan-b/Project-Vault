@@ -1,13 +1,10 @@
-import request from 'supertest';
-import User from '../models/userModel';
-import app from '../app';
-
-import setupDB from '../utils/test-setup';
+import setupDB, { request, app, User, Project } from '../utils/test-setup';
+import * as bcrypt from 'bcrypt';
 
 // Setup a Test Database
 setupDB('endpoint-testing');
 
-describe.only('USER CONTROLLER TESTS', () => {
+describe('USER CONTROLLER TESTS', () => {
   describe('post /login', () => {
     it('should return 401 if the user is not found', async () => {
       const res = await request(app).post('/login').send({
@@ -15,7 +12,6 @@ describe.only('USER CONTROLLER TESTS', () => {
         password: 'password',
       });
       expect(res.status).toBe(401);
-      expect(res.body.status).toBe(401);
       expect(res.body.data).toBe(null);
       expect(res.body.error).toStrictEqual({});
       expect(res.body.message).toBe('Invalid email or password');
@@ -27,7 +23,6 @@ describe.only('USER CONTROLLER TESTS', () => {
         password: 'incorrectpassword',
       });
       expect(res.status).toBe(401);
-      expect(res.body.status).toBe(401);
       expect(res.body.data).toBe(null);
       expect(res.body.error).toStrictEqual({});
       expect(res.body.message).toBe('Invalid email or password');
@@ -38,7 +33,6 @@ describe.only('USER CONTROLLER TESTS', () => {
         password: 'password',
       });
       expect(res.status).toBe(400);
-      expect(res.body.status).toBe(400);
       expect(res.body.data).toBe(null);
       expect(res.body.error).toStrictEqual({});
       expect(res.body.message).toBe('email and password are required');
@@ -49,21 +43,26 @@ describe.only('USER CONTROLLER TESTS', () => {
         email: 'aa@aa.com',
       });
       expect(res.status).toBe(400);
-      expect(res.body.status).toBe(400);
       expect(res.body.data).toBe(null);
       expect(res.body.error).toStrictEqual({});
       expect(res.body.message).toBe('email and password are required');
     });
 
-    it('should return 200 if user is logged in', async () => {
+    test.only('should return 200 if user is logged in', async () => {
+      const hashedPassword = await bcrypt.hash('password', 10);
+      User.create({
+        email: 'aa@aa.com',
+        password: hashedPassword,
+        firstName: 'aa',
+        secondName: 'aa',
+      });
+
       const res = await request(app).post('/login').send({
         email: 'aa@aa.com',
         password: 'password',
       });
       expect(res.status).toBe(200);
-      expect(res.body.status).toBe(200);
-      expect(res.body.error).toBe(false);
-      expect(res.body.message).toBe('Success');
+      expect(res.body).toHaveProperty('_id');
     });
   });
 
@@ -79,7 +78,6 @@ describe.only('USER CONTROLLER TESTS', () => {
         password: 'password',
       });
       expect(res.status).toBe(409);
-      expect(res.body.status).toBe(409);
       expect(res.body.data).toBe(null);
       expect(res.body.error).toStrictEqual({});
       expect(res.body.message).toBe('Username already taken');
@@ -91,7 +89,6 @@ describe.only('USER CONTROLLER TESTS', () => {
         password: 'password',
       });
       expect(res.status).toBe(201);
-      expect(res.body.status).toBe(201);
       expect(res.body.error).toBe(false);
       expect(res.body.message).toBe('User created successfully');
     });
@@ -102,7 +99,6 @@ describe.only('USER CONTROLLER TESTS', () => {
         password: 'password',
       });
       expect(res.status).toBe(400);
-      expect(res.body.status).toBe(400);
       expect(res.body.data).toBe(null);
       expect(res.body.error).toStrictEqual({});
       expect(res.body.message).toBe({

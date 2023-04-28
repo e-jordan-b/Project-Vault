@@ -1,5 +1,9 @@
 import app from './app';
+import { connectToDB } from './db';
 
-app.listen(3001, () => {
-  console.log('listening on http://localhost:3001');
-});
+(async () => {
+  await connectToDB();
+  app.listen(3001, () => {
+    console.log('listening on http://localhost:3001');
+  });
+})();

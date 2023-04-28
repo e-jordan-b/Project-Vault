@@ -1,11 +1,9 @@
-import mongooseDb from '../db'; // this is the connection to the production database
-
-(async () => {
-  await mongooseDb.disconnect();
-  await mongooseDb.connection.close();
-})();
-
 import mongoose from 'mongoose'; // this is for the test database
+import express from 'express';
+import router from '../routes/router';
+import request from 'supertest';
+import User from '../models/userModel';
+import Project from '../models/projectModel';
 
 async function removeAllCollections() {
   const collections = Object.keys(mongoose.connection.collections);
@@ -33,11 +31,17 @@ async function dropAllCollections() {
     }
   }
 }
+const app = express();
+
+export { request, app, User, Project };
 
 export default function setupDB(databaseName: string) {
+  app.use(express.json());
+  app.use(router);
+
   // Connect to Mongoose
   beforeAll(async () => {
-    const url = `mongodb://127.0.0.1/${databaseName}`;
+    const url = `mongodb://127.0.0.1:27017/${databaseName}`;
     await mongoose.connect(url);
   });
 
@@ -48,7 +52,7 @@ export default function setupDB(databaseName: string) {
 
   // Disconnect Mongoose
   afterAll(async () => {
-    await dropAllCollections();
+    // await dropAllCollections();
     await mongoose.connection.close();
   });
 }
@@ -56,10 +60,10 @@ export default function setupDB(databaseName: string) {
 /*
 ADD THIS TO THE TEST FILE
 
-import * as setupDB from '../test-setup'
+import setupDB, { request, app, User, Project } from '../utils/test-setup';
 
 // Setup a Test Database
-setupDB('endpoint-testing')
+setupDB('endpoint-testing');
 
 
 
