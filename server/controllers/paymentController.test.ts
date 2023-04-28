@@ -12,8 +12,7 @@ describe('Stripe Payment Intents:', () => {
   let paymentIntentId: string;
 
   beforeAll(async () => {
-    // Create a new Payment Intent
-    var paymentIntent = await stripe.paymentIntents.create({
+    let paymentIntent = await stripe.paymentIntents.create({
       amount: 1000,
       currency: 'eur',
       payment_method_types: ['card'],
@@ -22,12 +21,10 @@ describe('Stripe Payment Intents:', () => {
   });
 
   afterAll(async () => {
-    // Cancel the Payment Intent after the tests are done
     await stripe.paymentIntents.cancel(paymentIntentId);
   });
 
   it('creates a new Payment Intent', async () => {
-    // Retrieve the Payment Intent from the Stripe API
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     expect(paymentIntent.amount).toBe(1000);
     expect(paymentIntent.currency).toBe('eur');
