@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import Project from '../models/projectModel';
 import User from '../models/userModel';
 
@@ -10,7 +10,7 @@ export const createProject = async (
   const tagsArr = req.body.tags.split(' ');
   try {
     const newProject = new Project({
-      id: req.body.id,
+      // id: req.body.id,
       title: req.body.title,
       description: req.body.quillValue,
       image: req.body.image,
@@ -25,11 +25,9 @@ export const createProject = async (
     const newCreatedProject = await newProject.save();
     console.log('Project posted!');
 
-    const user = await User.findByIdAndUpdate(req.body.user, {
+    const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { createdProjects: newCreatedProject },
     });
-    console.log('User updated!');
-
     // const user = await User.findById(req.body.user._id, { raw: true });
     // user?.createdPosts.push(newCreatedPost);
     // await user?.save();
@@ -54,12 +52,12 @@ export const getProjects = async (
   }
 };
 
-export const getProjectsById = async (
+export const getProjectById = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
   try {
-    const project = await Project.findOne({ id: req.params.id });
+    const project = await Project.findOne({ _id: req.params._id });
     res.status(201).send({ project });
   } catch (error) {
     console.log(error);
@@ -71,11 +69,11 @@ export const followProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
-  const projectId = req.body.project.id;
+  const projectId = req.body.project._id;
   try {
     // const user = await User.findOne({ _id: req.body.user._id });
     // user.following.push(project);
-    const user = await User.findByIdAndUpdate(req.body.user.id, {
+    const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { following: projectId },
     });
 
@@ -84,7 +82,7 @@ export const followProject = async (
     // await user.save();
 
     const post = await Project.findByIdAndUpdate(projectId, {
-      $push: { followers: user?.id },
+      $push: { followers: user?._id },
     });
 
     res.status(201).send({ user });
@@ -100,7 +98,7 @@ export const updateProject = async (
 ): Promise<Response | void> => {
   try {
     const newUpdate = {
-      id: req.body.id,
+      // id: req.body._id,
       title: req.body.title,
       description: req.body.quillValue,
       date: req.body.date,
@@ -109,7 +107,7 @@ export const updateProject = async (
       chat: [],
     };
 
-    const updatedProject = await Project.findByIdAndUpdate(req.params.id, {
+    const updatedProject = await Project.findByIdAndUpdate(req.params._id, {
       $push: { updates: newUpdate },
     });
 
@@ -129,9 +127,9 @@ export const followingProjects = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params._id);
     const following = user?.following;
-    const projects = await Project.find({ id: { $in: following } });
+    const projects = await Project.find({ _id: { $in: following } });
 
     res.status(201).send({ projects });
   } catch (error) {
@@ -147,7 +145,7 @@ export const personalProjects = async (
   try {
     const user = await User.findById(req.params._id);
     const created = user?.createdProjects;
-    const projects = await Project.find({ id: { $in: created } });
+    const projects = await Project.find({ _id: { $in: created } });
 
     res.status(201).send({ projects });
   } catch (error) {
@@ -171,7 +169,7 @@ export const postComment = async (
     // project.chat.push(newComment);
     // project.save();
 
-    const comment = await Project.findByIdAndUpdate(req.body.id, {
+    const comment = await Project.findByIdAndUpdate(req.body._id, {
       $push: { chat: newComment },
     });
 

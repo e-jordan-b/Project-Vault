@@ -1,4 +1,4 @@
-import mongoose from '../db.js';
+import mongoose from '../db';
 import projectSchema from './projectModel';
 
 export const userSchema = new mongoose.Schema({
