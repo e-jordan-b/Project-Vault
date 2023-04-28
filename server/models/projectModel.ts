@@ -58,7 +58,12 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  updates: [UpdateSchema],
+  updates: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'UpdateSchema',
+    },
+  ],
   author: {
     type: String,
     required: true,
@@ -72,7 +77,12 @@ const projectSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  chat: [ChatMessageSchema],
+  chat: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'ChatMessageSchema',
+    },
+  ],
   tags: [String],
   followers: [String],
 });
