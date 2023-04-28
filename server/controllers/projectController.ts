@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import Project from '../models/projectModel';
 import User from '../models/userModel';
 
