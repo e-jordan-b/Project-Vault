@@ -2,35 +2,36 @@ import User from '../models/userModel';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 
-export const getUser = async (
+export const login = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: any
 ): Promise<Response | void> => {
-  const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email });
-    const checkPassword = await bcrypt.compare(password, user!.password);
-    if (!checkPassword || user!.email !== email) {
-      new Error('Username or password is incorrect');
+    const user = await User.findOne({ email: req.body.email });
+    const checkPassword = user
+      ? await bcrypt.compare(req.body.password, user.password)
+      : false;
+    if (!checkPassword || !user) {
+      throw new Error('Username or password is incorrect');
     } else {
-      return res.status(201).send(user);
+      return res.status(200).send(user);
     }
   } catch (error) {
-    res
-      .status(401)
-      .send({ error: '401', message: 'Username or password is incorrect' });
+    res.status(401).json(error);
   }
 };
 
-export const postUser = async (
+export const createUser = async (
   req: Request,
-  res: Response
+  res: Response,
+  next: any
 ): Promise<Response | void> => {
   let user;
   try {
     user = await User.findOne({ email: req.body.email });
   } catch (error) {
-    res.status(500).send({ error, message: 'Could not find user' });
+    res.status(500).json({ error, message: 'Could not find user' });
   }
   if (!user) {
     const hashPassword = await bcrypt.hash(req.body.password, 10);
@@ -49,7 +50,7 @@ export const postUser = async (
       res.status(201).send({ newUser });
     } catch (error) {
       console.log(error);
-      res.status(400).send({ error, message: 'Could not create user' });
+      res.status(400).json({ error, message: 'Could not create user' });
     }
   }
   if (user) res.status(401).json({ message: 'email already in use' });
