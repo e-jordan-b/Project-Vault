@@ -2,7 +2,7 @@ import User from '../models/userModel';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 
-export const login = async (
+const login = async (
   req: Request,
   res: Response,
   next: any
@@ -22,7 +22,7 @@ export const login = async (
   }
 };
 
-export const register = async (
+const register = async (
   req: Request,
   res: Response,
   next: any
@@ -34,13 +34,13 @@ export const register = async (
     res.status(500).json({ error, message: 'Could not find user' });
   }
   if (!user) {
-    const hashPassword = await bcrypt.hash(req.body.password, 10);
+    const hashedPassword = await bcrypt.hash(req.body.password, 10);
     try {
       const newUser = new User({
         firstName: req.body.firstName,
         secondName: req.body.secondName,
         email: req.body.email,
-        password: hashPassword,
+        password: hashedPassword,
         picturePath: '',
         following: [],
         createdPosts: [],
@@ -55,3 +55,5 @@ export const register = async (
   }
   if (user) res.status(401).json({ message: 'email already in use' });
 };
+
+export { register, login };

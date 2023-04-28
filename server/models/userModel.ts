@@ -1,5 +1,4 @@
 import mongoose from '../db';
-import projectSchema from './projectModel';
 
 export const userSchema = new mongoose.Schema({
   firstName: {
@@ -20,14 +19,21 @@ export const userSchema = new mongoose.Schema({
   },
   picturePath: {
     type: String,
+    default: '',
   },
-  following: [String],
-  createdProjects: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'projectSchema',
-    },
-  ],
+  following: {
+    type: [String],
+    default: [],
+  },
+  createdProjects: {
+    type: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'projectSchema',
+      },
+    ],
+    default: [],
+  },
 });
 
 export default mongoose.model('Users', userSchema);
