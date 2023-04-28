@@ -21,7 +21,6 @@ const checkout = async (req: Request, res: Response): Promise<Response | void> =
       payment_method: id,
       confirm: true
     })
-    console.log('Payment', payment)
     res.json({
       message: 'Donation successfull',
       succes: true
