@@ -2,5 +2,8 @@
   "devDependencies": {
     "eslint": "^8.38.0",
     "eslint-plugin-react": "^7.32.2"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "^1.52.1"
   }
 }

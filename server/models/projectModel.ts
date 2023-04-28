@@ -1,21 +1,22 @@
 import mongoose from '../db.js';
+import userSchema from './userModel';
 
 const UpdateSchema = new mongoose.Schema({
-  // _id: {
-  //   type: String,
-  //   required: true,
-  // },
-  title: {
+  id: {
     type: String,
     required: true,
+  },
+  title: {
+    type: String,
+    // required: true,
   },
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
   date: {
     type: String,
-    required: true,
+    // required: true,
   },
   image: {
     type: String,
@@ -29,60 +30,47 @@ const UpdateSchema = new mongoose.Schema({
 const ChatMessageSchema = new mongoose.Schema({
   createdBy: {
     type: String,
-    required: true,
+    // required: true,
   },
   comment: {
     type: String,
-    required: true,
+    // required: true,
   },
   date: {
     type: String,
-    required: true,
+    // required: true,
   },
 });
 
-const projectSchema = new mongoose.Schema({
-  // id: {
-  //   type: String,
-  //   required: true
-  // },
+export const projectSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   title: {
     type: String,
     required: true,
   },
   description: {
     type: String,
-    required: true,
+    // required: true,
   },
   image: {
     type: String,
-    required: true,
+    // required: true,
   },
-  updates: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'UpdateSchema',
-    },
-  ],
+  updates: [UpdateSchema],
   author: {
     type: String,
-    required: true,
+    // required: true,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
+    ref: 'userSchema',
+    // required: true,
   },
-  date: {
-    type: String,
-    required: true,
-  },
-  chat: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'ChatMessageSchema',
-    },
-  ],
+  date: [String],
+  chat: [ChatMessageSchema],
   tags: [String],
   followers: [String],
 });
