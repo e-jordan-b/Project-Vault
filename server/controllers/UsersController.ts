@@ -22,7 +22,7 @@ export const login = async (
   }
 };
 
-export const createUser = async (
+export const register = async (
   req: Request,
   res: Response,
   next: any
