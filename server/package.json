@@ -1,11 +1,14 @@
 {
   "dependencies": {
+    "@types/jest": "^29.5.1",
+    "@types/supertest": "^2.0.12",
     "bcrypt": "^5.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "mongoose": "^7.0.4",
-    "stripe": "^12.1.1"
+    "stripe": "^12.1.1",
+    "ts-jest": "^29.1.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
