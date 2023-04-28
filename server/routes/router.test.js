@@ -8,15 +8,9 @@ describe('Routes test', () => {
   app.use(express.json());
   app.use(router);
 
-  test('The response returns a 200 status and content-type json ', () => {
-    request(app)
-      .get('/posts')
-      .expect('Content-Type', /json/)
-      .expect(200)
-      .end(function (err, res) {
-        // if (err) throw err;
-        console.log(err)
-      });
+  test('The /posts endpoint should return a 200', async () => {
+    await request(app).get('/posts').expect(200)
+    
   })
 })
 
