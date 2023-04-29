@@ -1,4 +1,4 @@
-import User from './user.type';
+import {User} from './user.type';
 
 export default interface Project {
   id?: string | number;

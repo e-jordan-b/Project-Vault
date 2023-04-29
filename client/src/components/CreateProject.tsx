@@ -2,41 +2,57 @@ import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/createpost.css';
 import UserContext from '../context/UserContext';
+import { UserContextType } from '../types/user.type';
 import Axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import Project from '../types/project.type';
 
-const initialState = {
-  title: '',
-  description: '',
-  tags: '',
+const initialState: Project = {
+  id?: string | number;
+  title: string;
+  description: string;
+  image: string;
+  updates: string[];
+  author: string;
+  createdBy?: string;
+  createdById?: string;
+  date: string;
+  chat: string[];
+  tags: string[];
+  followers: User[] | string[] | [];
 };
 
-const serverURL = process.env.REACT_APP_SERVER;
+const serverURL: string = process.env.REACT_APP_SERVER!;
 
-function CreatePost({ open, onClose }) {
+interface CreateProjectProps {
+  open: boolean,
+  onClose?: () => void
+}
+
+const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   if (!open) return null;
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(initialState);
-  const { user } = useContext(UserContext);
+  const { user } = useContext<UserContextType>(UserContext);
   const [postInfo, setPostInfo] = useState(initialState);
   const [quillValue, setQuillValue] = useState('');
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-    setPostInfo((prev) => ({
+    setPostInfo(prev=> ({
       ...prev,
       [name]: value,
     }));
   }
 
-  function handleFileInputChange(e) {
-    setSelectedFile(e.target.files[0]);
+  function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) setSelectedFile(e.target.files[0]);
   }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
     let image = '';
     const formData = new FormData();
@@ -80,7 +96,7 @@ function CreatePost({ open, onClose }) {
   return (
     <>
       <div className='overlay'>
-        <div className='createPostDiv'>
+        <div className='CreateProjectDiv'>
           <button
             onClick={onClose}
             className='closeButton'
@@ -148,9 +164,9 @@ function CreatePost({ open, onClose }) {
   );
 }
 
-CreatePost.propTypes = {
+CreateProject.propTypes = {
   open: PropTypes.bool,
   onClose: PropTypes.func,
 };
 
-export default CreatePost;
+export default CreateProject;

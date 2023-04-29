@@ -75,17 +75,11 @@ function Menu() {
               </div>
             </div>
           </div>
-<<<<<<< HEAD
-        </div>
-      </nav>
-      <CreateProject open={isOpen} onClose={() => setIsOpen(false)}></CreateProject>
-=======
         </nav>
         <CreatePost
           open={isOpen}
           onClose={() => setIsOpen(false)}
         ></CreatePost>
->>>>>>> development
       </div>
     </>
   );

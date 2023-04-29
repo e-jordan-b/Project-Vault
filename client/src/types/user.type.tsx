@@ -1,4 +1,4 @@
-export default interface User {
+export interface User {
   firstName: string;
   lastName: string;
   email: string;
@@ -7,3 +7,8 @@ export default interface User {
   following: string[];
   createdProjects: string[];
 }
+
+export type UserContextType = {
+  user: User | null;
+  setUser: (user: User | null) => void;
+};
