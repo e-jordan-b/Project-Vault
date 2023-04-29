@@ -7,23 +7,22 @@ export const createProject = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    console.log(req.body);
-    const tagsArr = req.body.tags.split(' ');
-    const newCreatedProject = Project.create({
-      // id: req.body.id,
+    // console.log(req.body);
+    const newProject = new Project({
+      id: req.body.id,
       title: req.body.title,
-      description: req.body.quillValue,
-      image: req.body.image,
-      updates: req.body.updates,
-      author: req.body.author,
+      // description: req.body.quillValue,
+      // image: req.body.image,
+      // updates: req.body.updates,
+      // author: req.body.author,
       createdBy: req.body.user,
-      date: req.body.date,
-      chat: [],
-      tags: tagsArr,
-      followers: [],
+      // date: req.body.date,
+      // chat: [],
+      // tags: req.body.tags.split(' ');
+      // followers: [],
     });
-    // const newCreatedProject = await newProject.save();
-    console.log('Project posted!');
+    const newCreatedProject = await newProject.save();
+    // console.log('Project posted!');
 
     const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { createdProjects: newCreatedProject },
@@ -34,7 +33,7 @@ export const createProject = async (
 
     res.status(201).send({ newCreatedProject });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'Could not create project' });
   }
 };
@@ -47,7 +46,7 @@ export const getProjects = async (
     const project = await Project.find({});
     res.status(201).send({ project });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot find projects' });
   }
 };
@@ -57,10 +56,13 @@ export const getProjectById = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    const project = await Project.findOne({ _id: req.params._id });
-    res.status(201).send({ project });
+    const project = await Project.findOne({ id: req.params.id });
+    if (project != null) {
+      res.status(201).send({ project });
+    } else {
+      throw new Error();
+    }
   } catch (error) {
-    console.log(error);
     res.status(400).send({ error, message: 'cannot find project' });
   }
 };
@@ -69,25 +71,33 @@ export const followProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
-  const projectId = req.body.project._id;
   try {
+    console.log('🔪', req.body);
+    const projectId = req.body.id;
     // const user = await User.findOne({ _id: req.body.user._id });
-    // user.following.push(project);
+    // user?.following.push(project);
     const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { following: projectId },
     });
+    console.log(
+      'TESTING HERE 🙋🏻🙋🏻',
+      await User.findOne({ email: 'jane.doe@example.com' })
+    );
 
     // const post = await Post.findOne({ id: project });
     // post.followers.push(user._id);
     // await user.save();
 
-    const post = await Project.findByIdAndUpdate(projectId, {
-      $push: { followers: user?._id },
-    });
+    const post = await Project.findOneAndUpdate(
+      { id: projectId },
+      {
+        $push: { followers: user?._id },
+      }
+    );
 
     res.status(201).send({ user });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot follow' });
   }
 };
@@ -97,8 +107,10 @@ export const updateProject = async (
   res: Response
 ): Promise<Response | void> => {
   try {
+    const projectId = req.body.id;
+
     const newUpdate = {
-      // id: req.body._id,
+      // id: req.body.id,
       title: req.body.title,
       description: req.body.quillValue,
       date: req.body.date,
@@ -107,17 +119,27 @@ export const updateProject = async (
       chat: [],
     };
 
-    const updatedProject = await Project.findByIdAndUpdate(req.params._id, {
-      $push: { updates: newUpdate },
-    });
+    // console.log('💸 💸 ', newUpdate);
+
+    const updatedProject = await Project.findOneAndUpdate(
+      { id: projectId },
+      {
+        $push: { updates: newUpdate },
+      }
+    );
+
+    const afterUpdate = await Project.findOne({ id: projectId });
 
     // const project = await Project.findOne(req.params.id, ;
     // project.updates.push(newUpdate);
     // await project.save();
 
-    res.status(201).send({ newUpdate });
+    if (afterUpdate != null) {
+      res.status(201).send({ newUpdate });
+    } else {
+      throw new Error();
+    }
   } catch (error) {
-    console.log(error);
     res.status(400).send({ error, message: 'cannot update' });
   }
 };
@@ -130,10 +152,10 @@ export const followingProjects = async (
     const user = await User.findById(req.params._id);
     const following = user?.following;
     const projects = await Project.find({ _id: { $in: following } });
-
+    console.log('🙋🏻🙋🏻', projects);
     res.status(201).send({ projects });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot get following' });
   }
 };
@@ -149,7 +171,7 @@ export const personalProjects = async (
 
     res.status(201).send({ projects });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot get your projects' });
   }
 };
@@ -175,7 +197,7 @@ export const postComment = async (
 
     res.status(201).send({ comment });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot post comment' });
   }
 };
