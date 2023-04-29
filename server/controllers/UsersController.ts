@@ -1,62 +1,172 @@
+// import User from '../models/userModel';
+// import { Request, Response } from 'express';
+// import * as bcrypt from 'bcrypt';
+// import * as EmailValidator from 'email-validator';
+
+// const validateRequestBody = (
+//   req: Request,
+//   requiredFields: string[]
+// ): string[] => {
+//   const missingFields = requiredFields.filter(
+//     (field) => req.body[field] === undefined
+//   );
+//   return missingFields;
+// };
+
+// const login = async (req: Request, res: Response): Promise<Response | void> => {
+//   try {
+//     const requiredFields = ['email', 'password'];
+//     const missingFields = validateRequestBody(req, requiredFields);
+//     if (missingFields.length > 0) {
+//       return res
+//         .status(400)
+//         .json({ message: `Missing fields: ${missingFields.join(', ')}` });
+//     }
+
+//     const user = await User.findOne({ email: req.body.email });
+//     if (!user) {
+//       throw new Error('Invalid email or password');
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(
+//       req.body.password,
+//       user.password
+//     );
+//     if (!isPasswordValid) {
+//       throw new Error('Invalid email or password');
+//     }
+//     res.status(200).json({
+//       id: user._id,
+//       firstName: user.firstName,
+//       lastName: user.lastName,
+//       email: user.email,
+//     });
+//   } catch (e) {
+//     const error = e as Error;
+//     res.status(401).json({ message: error.message });
+//   }
+// };
+
+// const register = async (
+//   req: Request,
+//   res: Response
+// ): Promise<Response | void> => {
+//   try {
+//     const requiredFields = ['email', 'password', 'firstName', 'lastName'];
+//     const missingFields = validateRequestBody(req, requiredFields);
+//     if (missingFields.length > 0) {
+//       throw new Error(`Missing fields: ${missingFields.join(', ')}`);
+//     }
+
+//     if (!EmailValidator.validate(req.body.email)) {
+//       throw new Error('Invalid email format');
+//     }
+
+//     const existingUser = await User.findOne({ email: req.body.email });
+//     if (existingUser) {
+//       throw new Error('Email already in use');
+//     }
+
+//     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+//     const newUser = await User.create({
+//       firstName: req.body.firstName,
+//       lastName: req.body.lastName,
+//       email: req.body.email,
+//       password: hashedPassword,
+//     });
+
+//     res.status(201).json({
+//       id: newUser._id,
+//       firstName: newUser.firstName,
+//       lastName: newUser.lastName,
+//       email: newUser.email,
+//     });
+//   } catch (e) {
+//     const error = e as Error;
+//     const status = error.message === 'Email already in use' ? 409 : 400;
+//     res.status(status).json({ message: error.message });
+//   }
+// };
+
+// export { register, login };
+
 import User from '../models/userModel';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
+import { body, validationResult } from 'express-validator';
 
-const login = async (
-  req: Request,
-  res: Response,
-  next: any
-): Promise<Response | void> => {
-  try {
-    const user = await User.findOne({ email: req.body.email });
-    let checkPassword: boolean = false;
-    console.log('xxxxx', user?._id !== undefined);
-    if (user?._id !== undefined) {
-      checkPassword = await bcrypt.compare(req.body.password, user.password);
-      console.log('checkPassword: ', checkPassword);
-    }
-    if (!checkPassword) {
-      throw new Error('Username or password is incorrect');
-    } else {
-      return res.status(200).send(user);
-    }
-  } catch (error) {
-    res.status(401).json(error);
-  }
-};
-
-const register = async (
-  req: Request,
-  res: Response,
-  next: any
-): Promise<Response | void> => {
-  let user;
-  try {
-    user = await User.findOne({ email: req.body.email });
-  } catch (error) {
-    res.status(500).json({ error, message: 'Could not find user' });
-  }
-  if (!user) {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
+const login = [
+  body('email').trim().isEmail().withMessage('Invalid email format'),
+  body('password').trim().notEmpty().withMessage('Password is required'),
+  async (req: Request, res: Response): Promise<Response | void> => {
     try {
-      const newUser = new User({
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const user = await User.findOne({ email: req.body.email });
+      if (!user) {
+        throw new Error('Invalid email or password');
+      }
+
+      const isPasswordValid = await bcrypt.compare(
+        req.body.password,
+        user.password
+      );
+      if (!isPasswordValid) {
+        throw new Error('Invalid email or password');
+      }
+      res.status(200).json({
+        id: user._id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+      });
+    } catch (e) {
+      const error = e as Error;
+      res.status(401).json({ message: error.message });
+    }
+  },
+];
+
+const register = [
+  body('email').trim().isEmail().withMessage('Invalid email format'),
+  body('password').trim().notEmpty().withMessage('Password is required'),
+  body('firstName').trim().notEmpty().withMessage('First name is required'),
+  body('lastName').trim().notEmpty().withMessage('Last name is required'),
+  async (req: Request, res: Response): Promise<Response | void> => {
+    try {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      const existingUser = await User.findOne({ email: req.body.email });
+      if (existingUser) {
+        throw new Error('Email already in use');
+      }
+
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const newUser = await User.create({
         firstName: req.body.firstName,
-        secondName: req.body.secondName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: hashedPassword,
-        picturePath: '',
-        following: [],
-        createdPosts: [],
       });
-      await newUser.save();
-      console.log('succes', newUser);
-      res.status(201).send({ newUser });
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ error, message: 'Could not create user' });
+
+      res.status(201).json({
+        id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        email: newUser.email,
+      });
+    } catch (e) {
+      const error = e as Error;
+      const status = error.message === 'Email already in use' ? 409 : 400;
+      res.status(status).json({ message: error.message });
     }
-  }
-  if (user) res.status(401).json({ message: 'email already in use' });
-};
+  },
+];
 
 export { register, login };
