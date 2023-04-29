@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import Register from './components/register';
-import Login from './components/login';
+import Login from './components/Login';
 import Home from './components/home';
 import UserContext from './context/UserContext';
 import './App.css';
