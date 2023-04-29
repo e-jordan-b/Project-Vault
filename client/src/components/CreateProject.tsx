@@ -1,48 +1,62 @@
-import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
-import '../styles/createpost.css';
+import React, { useState, useContext, Requireable } from 'react';
+import '../styles/createProject.css';
 import UserContext from '../context/UserContext';
+import { UserContextType } from '../types/user.type';
 import Axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import Project from '../types/project.type';
+import http from '../services/api.service';
 
-const initialState = {
+const initialState: Project = {
   title: '',
   description: '',
-  tags: '',
+  image: '',
+  updates: [],
+  author: '',
+  date: '',
+  chat: [],
+  createdBy: null,
+  tags: [],
+  followers: [],
+  quillValue: '',
 };
 
-const serverURL = process.env.REACT_APP_SERVER;
 
-function CreatePost({ open, onClose }) {
+interface CreateProjectProps {
+  open: boolean | Requireable<boolean>,
+  onClose?: () => void
+}
+
+const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   if (!open) return null;
   const navigate = useNavigate();
-  const [selectedFile, setSelectedFile] = useState(initialState);
-  const { user } = useContext(UserContext);
-  const [postInfo, setPostInfo] = useState(initialState);
-  const [quillValue, setQuillValue] = useState('');
+  const [selectedFile, setSelectedFile] = useState<File>(); // I don't see why we should add initial state here
+  const { user } = useContext<UserContextType>(UserContext);
+  const [projectInfo, setProjectInfo] = useState<Project>(initialState);
+  const [quillValue, setQuillValue] = useState<string>('');
 
-  function handleChange(e) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-    setPostInfo((prev) => ({
+    setProjectInfo(prev => ({
       ...prev,
       [name]: value,
     }));
   }
 
-  function handleFileInputChange(e) {
-    setSelectedFile(e.target.files[0]);
+  function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) setSelectedFile(e.target.files[0]);
   }
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    let image = '';
+    let image: string = '';
     const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD); // 'jhbdwgkt')
-
+    if (selectedFile) {
+      formData.append('file', selectedFile);
+      formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD!); // 'jhbdwgkt')
+    }
     try {
       const response = await Axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`,
@@ -53,17 +67,26 @@ function CreatePost({ open, onClose }) {
       console.log(error);
     }
 
-    const today = new Date();
-    const date = today.toLocaleDateString();
-    const id = uuidv4();
-    const author = `${user.firstName} ${user.lastName}`;
-    const { title, tags } = postInfo;
-    const post = { id, title, quillValue, image, user, author, tags, date };
+    const project: Project = initialState;
+    project.date = new Date().toLocaleDateString();
+    project.author = `${user?.firstName} ${user?.lastName}`;
+    project.title = projectInfo.title;
+    project.tags = projectInfo.tags;
+    project.quillValue = quillValue;
+    project.image = image;
+    project.createdBy = user;
 
+
+    const fetcher = async () => {
+      const response = await http.createProject(project)
+
+    }
+    
+    
     fetch(`${serverURL}/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(post),
+      body: JSON.stringify(project),
     })
       .then((res) => {
         if (res.ok) {
@@ -72,15 +95,15 @@ function CreatePost({ open, onClose }) {
           alert('error');
         }
       })
-      .then(navigate(`/posts/${id}`))
-      .then(onClose())
+      .then(() => navigate(`/posts/${project.id}`))
+      .then(onClose) // or onClose() - Test
       .catch((err) => console.log(err));
   }
 
   return (
     <>
       <div className='overlay'>
-        <div className='createPostDiv'>
+        <div className='CreateProjectDiv'>
           <button
             onClick={onClose}
             className='closeButton'
@@ -98,7 +121,7 @@ function CreatePost({ open, onClose }) {
               id='title'
               name='title'
               required
-              value={postInfo.title}
+              value={projectInfo.title}
               onChange={handleChange}
             ></input>
 
@@ -131,7 +154,7 @@ function CreatePost({ open, onClose }) {
               id='tags'
               name='tags'
               required
-              value={postInfo.tags}
+              value={projectInfo.tags}
               onChange={handleChange}
             ></input>
 
@@ -148,9 +171,4 @@ function CreatePost({ open, onClose }) {
   );
 }
 
-CreatePost.propTypes = {
-  open: PropTypes.bool,
-  onClose: PropTypes.func,
-};
-
-export default CreatePost;
+export default CreateProject;

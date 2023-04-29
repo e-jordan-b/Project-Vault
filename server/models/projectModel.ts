@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const UpdateSchema = new mongoose.Schema({
   id: {
     type: String,
-    required: true,
+    // required: true,
   },
   title: {
     type: String,
@@ -48,7 +48,7 @@ export const projectSchema = new mongoose.Schema({
   },
   title: {
     type: String,
-    required: true,
+    // required: true,
   },
   description: {
     type: String,
