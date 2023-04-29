@@ -79,6 +79,10 @@ export const followProject = async (
     const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { following: projectId },
     });
+    console.log(
+      'TESTING HERE 🙋🏻🙋🏻',
+      await User.findOne({ email: 'jane.doe@example.com' })
+    );
 
     // const post = await Post.findOne({ id: project });
     // post.followers.push(user._id);
@@ -103,8 +107,10 @@ export const updateProject = async (
   res: Response
 ): Promise<Response | void> => {
   try {
+    const projectId = req.body.id;
+
     const newUpdate = {
-      // id: req.body._id,
+      // id: req.body.id,
       title: req.body.title,
       description: req.body.quillValue,
       date: req.body.date,
@@ -113,17 +119,27 @@ export const updateProject = async (
       chat: [],
     };
 
-    const updatedProject = await Project.findByIdAndUpdate(req.params._id, {
-      $push: { updates: newUpdate },
-    });
+    // console.log('💸 💸 ', newUpdate);
+
+    const updatedProject = await Project.findOneAndUpdate(
+      { id: projectId },
+      {
+        $push: { updates: newUpdate },
+      }
+    );
+
+    const afterUpdate = await Project.findOne({ id: projectId });
 
     // const project = await Project.findOne(req.params.id, ;
     // project.updates.push(newUpdate);
     // await project.save();
 
-    res.status(201).send({ newUpdate });
+    if (afterUpdate != null) {
+      res.status(201).send({ newUpdate });
+    } else {
+      throw new Error();
+    }
   } catch (error) {
-    // console.log(error);
     res.status(400).send({ error, message: 'cannot update' });
   }
 };
@@ -136,7 +152,7 @@ export const followingProjects = async (
     const user = await User.findById(req.params._id);
     const following = user?.following;
     const projects = await Project.find({ _id: { $in: following } });
-
+    console.log('🙋🏻🙋🏻', projects);
     res.status(201).send({ projects });
   } catch (error) {
     // console.log(error);

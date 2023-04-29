@@ -88,7 +88,7 @@ describe('Follow projects', () => {
     expect(response.body).toHaveProperty('message', 'cannot follow');
   });
   it('should allow any user to follow projects', async () => {
-    const user = await request(app).post('/register').send({
+    await request(app).post('/register').send({
       _id: '544b9b68716fa4fc043f54db',
       email: 'jane.doe@example.com',
       password: 'password123',
@@ -102,6 +102,110 @@ describe('Follow projects', () => {
     };
     await request(app).post('/create').send(project);
     const response = await request(app).post('/projects/follow').send(project);
+    expect(response.status).toBe(201);
+  });
+});
+
+describe('Add updates to project', () => {
+  it('should throw error if cannot update', async () => {
+    const update = {
+      id: 're9r04549083543',
+      title: 'New update',
+      description: 'Description',
+      date: Date.now(),
+      image: 'Image string',
+      video: 'Video string',
+      chat: ['one', 'two'],
+    };
+    const response = await request(app)
+      .post(`/update/587493875943875439875349875`)
+      .send(update);
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message', 'cannot update');
+  });
+  it('should allow any user to follow projects', async () => {
+    const project = {
+      id: '444',
+      title: 'Test project 444',
+      user: { _id: '444b9b68716fa4fc043f54db' },
+    };
+    await request(app).post('/create').send(project);
+    const update = {
+      id: project.id,
+      title: 'New update',
+      description: 'Description',
+      date: Date.now(),
+      image: 'Image string',
+      video: 'Video string',
+      chat: ['one', 'two'],
+    };
+    const response = await request(app)
+      .post(`/update/${project.id}`)
+      .send(update);
+    expect(response.status).toBe(201);
+  });
+});
+
+describe('Following projects', () => {
+  it('should allow user to follow', async () => {
+    const user = {
+      _id: '999b9b68716fa4fc043f54db',
+      email: '9ane.doe@example.com',
+      password: 'password123',
+      firstName: '9Jane',
+      lastName: '9Doe',
+    };
+    await request(app).post('/register').send(user);
+    const project = {
+      id: '999',
+      title: 'Test project 9',
+      user: { _id: '999b9b68716fa4fc043f54db' },
+    };
+    await request(app).post('/create').send(project);
+    await request(app).post('/projects/follow').send(project);
+    const response = await request(app)
+      .get(`/projects/following/${user._id}`)
+      .send(user);
+    console.log('🙋🏻', response.body);
+    expect(response.status).toBe(201);
+  });
+});
+
+describe('Personal projects', () => {
+  it(`should shows user's own projects`, async () => {
+    const user = {
+      _id: '999b9b68716fa4fc043f54db',
+      email: '9ane.doe@example.com',
+      password: 'password123',
+      firstName: '9Jane',
+      lastName: '9Doe',
+    };
+    await request(app).post('/register').send(user);
+    const project = {
+      id: '999',
+      title: 'Test project 9',
+      user: { _id: '999b9b68716fa4fc043f54db' },
+    };
+    await request(app).post('/create').send(project);
+    await request(app).post('/projects/follow').send(project);
+    const response = await request(app)
+      .get(`/projects/personal/${user._id}`)
+      .send(user);
+    console.log('🙋🏻', response.body);
+    expect(response.status).toBe(201);
+  });
+});
+
+describe('Chat', () => {
+  it('should add new comment to the chat', async () => {
+    const comment = {
+      createdBy: '999b9b68716fa4fc043f54db',
+      comment: 'New chat comment',
+      date: Date.now(),
+    };
+    const response = await request(app)
+      .post(`/projects/comments`)
+      .send(comment);
     expect(response.status).toBe(201);
   });
 });
