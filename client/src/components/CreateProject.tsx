@@ -3,6 +3,7 @@ import '../styles/createProject.css';
 import UserContext from '../context/UserContext';
 import { UserContextType } from '../types/user.type';
 import Axios from 'axios';
+import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -26,13 +27,13 @@ const initialState: Project = {
 
 interface CreateProjectProps {
   open: boolean | Requireable<boolean>,
-  onClose?: () => void
+  onClose: () => void
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   if (!open) return null;
   const navigate = useNavigate();
-  const [selectedFile, setSelectedFile] = useState<File>(); // I don't see why we should add initial state here
+  const [selectedFile, setSelectedFile] = useState<File>(); // We might not need an initial state here
   const { user } = useContext<UserContextType>(UserContext);
   const [projectInfo, setProjectInfo] = useState<Project>(initialState);
   const [quillValue, setQuillValue] = useState<string>('');
@@ -76,28 +77,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     project.image = image;
     project.createdBy = user;
 
-
-    const fetcher = async () => {
-      const response = await http.createProject(project)
-
+    const response: AxiosResponse<Project> | undefined = await http.createProject(project); //project should be stringified, review api.service
+    if (response!.status > 400) {
+      alert('Error creating Project');
+      return;
+    } else {
+      navigate(`/posts/${project.id}`);
+      onClose();
     }
-    
-    
-    fetch(`${serverURL}/create`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(project),
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log('succes');
-        } else if (res.status === 401) {
-          alert('error');
-        }
-      })
-      .then(() => navigate(`/posts/${project.id}`))
-      .then(onClose) // or onClose() - Test
-      .catch((err) => console.log(err));
   }
 
   return (
