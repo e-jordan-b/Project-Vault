@@ -1,5 +1,5 @@
 import http from '../http-common';
-import User from '../types/user.type';
+import { User } from '../types/user.type';
 import Project from '../types/project.type';
 import { AxiosError } from 'axios';
 

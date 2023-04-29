@@ -7,13 +7,11 @@ export default interface Project {
   image: string;
   updates?: string[];
   author: string;
-  createdBy?: string;
-  createdById?: string;
+  createdBy?: User | null;
   date: string;
   chat: string[];
   tags: string[];
   followers: User[] | string[] | [];
   quillValue?: string,
-  user: User | null
 }
 

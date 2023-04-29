@@ -1,32 +1,29 @@
 import React, { useState, useContext, Requireable } from 'react';
-import '../styles/createpost.css';
+import '../styles/createProject.css';
 import UserContext from '../context/UserContext';
 import { UserContextType } from '../types/user.type';
 import Axios from 'axios';
-import { v4 as uuidv4 } from 'uuid';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Project from '../types/project.type';
+import http from '../services/api.service';
 
 const initialState: Project = {
-  id: '',
+  // id: '',
   title: '',
   description: '',
   image: '',
   updates: [],
   author: '',
-  createdBy: '',
-  createdById: '',
   date: '',
   chat: [],
+  createdBy: null,
   tags: [],
   followers: [],
   quillValue: '',
-  user: null
 };
 
-const serverURL: string = process.env.REACT_APP_SERVER!;
 
 interface CreateProjectProps {
   open: boolean | Requireable<boolean>,
@@ -73,13 +70,19 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
 
     const project: Project = initialState;
     project.date = new Date().toLocaleDateString();
-    project.id =  uuidv4();
     project.author = `${user?.firstName} ${user?.lastName}`;
     project.title = projectInfo.title;
     project.tags = projectInfo.tags;
     project.quillValue = quillValue;
     project.image = image;
-    project.user = user;
+    project.createdBy = user;
+
+
+    const fetcher = async () => {
+      const response = await http.createProject(project)
+
+    }
+    
     
     fetch(`${serverURL}/create`, {
       method: 'POST',
