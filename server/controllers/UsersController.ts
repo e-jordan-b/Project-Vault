@@ -26,7 +26,7 @@ const login = [
         throw new Error('Invalid email or password');
       }
       res.status(200).json({
-        id: user._id,
+        _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
@@ -64,7 +64,7 @@ const register = [
       });
 
       res.status(201).json({
-        id: newUser._id,
+        _id: newUser._id,
         firstName: newUser.firstName,
         lastName: newUser.lastName,
         email: newUser.email,

@@ -9,22 +9,21 @@ export const createProject = async (
   try {
     // console.log(req.body);
     const newProject = new Project({
-      id: req.body.id,
       title: req.body.title,
-      // description: req.body.quillValue,
-      // image: req.body.image,
-      // updates: req.body.updates,
-      // author: req.body.author,
-      createdBy: req.body.user,
-      // date: req.body.date,
-      // chat: [],
-      // tags: req.body.tags.split(' ');
-      // followers: [],
+      description: req.body.quillValue,
+      image: req.body.image,
+      updates: req.body.updates,
+      author: req.body.author,
+      createdBy: req.body.createdBy,
+      date: req.body.date,
+      chat: [],
+      tags: req.body.tags.split(' '),
+      followers: [],
     });
     const newCreatedProject = await newProject.save();
     // console.log('Project posted!');
 
-    const user = await User.findByIdAndUpdate(req.body.user._id, {
+    const user = await User.findByIdAndUpdate(req.body.createdBy._id, {
       $push: { createdProjects: newCreatedProject },
     });
     // const user = await User.findById(req.body.user._id, { raw: true });

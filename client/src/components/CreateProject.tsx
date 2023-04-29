@@ -10,7 +10,6 @@ import Project from '../types/project.type';
 import http from '../services/api.service';
 
 const initialState: Project = {
-  // id: '',
   title: '',
   description: '',
   image: '',
