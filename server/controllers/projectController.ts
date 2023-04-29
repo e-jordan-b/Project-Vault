@@ -6,21 +6,20 @@ export const createProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
-  console.log(req.body);
-  const tagsArr = req.body.tags.split(' ');
   try {
+    console.log(req.body);
     const newProject = new Project({
-      // id: req.body.id,
+      id: req.body.id,
       title: req.body.title,
-      description: req.body.quillValue,
-      image: req.body.image,
-      updates: req.body.updates,
-      author: req.body.author,
+      // description: req.body.quillValue,
+      // image: req.body.image,
+      // updates: req.body.updates,
+      // author: req.body.author,
       createdBy: req.body.user,
-      date: req.body.date,
-      chat: [],
-      tags: tagsArr,
-      followers: [],
+      // date: req.body.date,
+      // chat: [],
+      // tags: req.body.tags.split(' ');
+      // followers: [],
     });
     const newCreatedProject = await newProject.save();
     console.log('Project posted!');
@@ -57,9 +56,14 @@ export const getProjectById = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    const project = await Project.findOne({ _id: req.params._id });
-    res.status(201).send({ project });
+    const project = await Project.findOne({ id: req.params.id });
+    if (project != null) {
+      res.status(201).send({ project });
+    } else {
+      throw new Error();
+    }
   } catch (error) {
+    // we never get to this error, because the func above can return "null" if ID not found, decided to fix it later
     console.log(error);
     res.status(400).send({ error, message: 'cannot find project' });
   }
