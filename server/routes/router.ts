@@ -18,7 +18,7 @@ const router = express.Router();
 router.post('/login', login);
 router.post('/register', register);
 
-// Post Routes
+// Project Routes
 router.get('/projects', getProjects);
 router.get('/projects/:id', getProjectById);
 router.post('/create', createProject);
