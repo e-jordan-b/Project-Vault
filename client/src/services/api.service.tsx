@@ -6,12 +6,22 @@ import { AxiosError } from 'axios';
 class ApiService {
   // update project
   updateProject(data: Project) {
-    return http.put<Project>(`/projects/${data.id}`, data);
+    try {
+      return http.post<Project>(`/projects/${data.id}`, data);
+    } catch (e) {
+      const error = e as AxiosError;
+      console.log(error.toJSON());
+    }
   }
 
   // create post
   createProject(data: Project) {
-    return http.post<Project>('/create', data);
+    try {
+      return http.post<Project>('/create', data);
+    } catch (e) {
+      const error = e as AxiosError;
+      console.log(error.toJSON());
+    }
   }
 
   // following project
@@ -76,7 +86,7 @@ class ApiService {
   // projewctnav
   addComment(data: { projectId: string; createdBy: string; comment: string }) {
     try {
-      return http.post<Project>('/projects/comment', data);
+      return http.post<Project>('/projects/comments', data);
     } catch (e) {
       const error = e as AxiosError;
       console.log(error.toJSON());
