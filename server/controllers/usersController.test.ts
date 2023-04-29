@@ -4,116 +4,214 @@ import * as bcrypt from 'bcrypt';
 // Setup a Test Database
 setupDB('endpoint-testing');
 
-describe('USER CONTROLLER TESTS', () => {
-  describe('post /login', () => {
-    it('should return 401 if the user is not found', async () => {
-      const res = await request(app).post('/login').send({
-        email: 'incorrectemail@aa.com',
-        password: 'password',
-      });
-      expect(res.status).toBe(401);
-      expect(res.body.data).toBe(null);
-      expect(res.body.error).toStrictEqual({});
-      expect(res.body.message).toBe('Invalid email or password');
+beforeEach(async () => {
+  const user = new User({
+    firstName: 'John',
+    lastName: 'Doe',
+    email: 'john.doe@example.com',
+    password: await bcrypt.hash('password123', 10),
+  });
+  await user.save();
+});
+
+// Test cases for the login function
+describe('POST /login', () => {
+  it('should login successfully when email and password are correct', async () => {
+    const response = await request(app).post('/login').send({
+      email: 'john.doe@example.com',
+      password: 'password123',
     });
 
-    it('should return 401 if the password is incorrect', async () => {
-      const res = await request(app).post('/login').send({
-        email: 'aa@aa.com',
-        password: 'incorrectpassword',
-      });
-      expect(res.status).toBe(401);
-      expect(res.body.data).toBe(null);
-      expect(res.body.error).toStrictEqual({});
-      expect(res.body.message).toBe('Invalid email or password');
-    });
-
-    it('should return 400 if email is not provided', async () => {
-      const res = await request(app).post('/login').send({
-        password: 'password',
-      });
-      expect(res.status).toBe(400);
-      expect(res.body.data).toBe(null);
-      expect(res.body.error).toStrictEqual({});
-      expect(res.body.message).toBe('email and password are required');
-    });
-
-    it('should return 400 if password is not provided', async () => {
-      const res = await request(app).post('/login').send({
-        email: 'aa@aa.com',
-      });
-      expect(res.status).toBe(400);
-      expect(res.body.data).toBe(null);
-      expect(res.body.error).toStrictEqual({});
-      expect(res.body.message).toBe('email and password are required');
-    });
-
-    test.only('should return 200 if user is logged in', async () => {
-      const hashedPassword = await bcrypt.hash('password', 10);
-      User.create({
-        email: 'aa@aa.com',
-        password: hashedPassword,
-        firstName: 'aa',
-        secondName: 'aa',
-      });
-
-      const res = await request(app).post('/login').send({
-        email: 'aa@aa.com',
-        password: 'password',
-      });
-      expect(res.status).toBe(200);
-      expect(res.body).toHaveProperty('_id');
-    });
+    expect(response.status).toBe(200);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('firstName', 'John');
+    expect(response.body).toHaveProperty('lastName', 'Doe');
+    expect(response.body).toHaveProperty('email', 'john.doe@example.com');
   });
 
-  describe('post /register', () => {
-    it('should return 409 if email is already used', async () => {
-      await request(app).post('/register').send({
-        email: 'newUser@aa.com',
-        password: 'password',
-      });
-
-      const res = await request(app).post('/register').send({
-        email: 'newUser@aa.com',
-        password: 'password',
-      });
-      expect(res.status).toBe(409);
-      expect(res.body.data).toBe(null);
-      expect(res.body.error).toStrictEqual({});
-      expect(res.body.message).toBe('Username already taken');
+  it('should return a 400 error when email is missing', async () => {
+    const response = await request(app).post('/login').send({
+      password: 'password123',
     });
 
-    it('should return 201 if user is created', async () => {
-      const res = await request(app).post('/register').send({
-        email: 'newUser@aa.com',
-        password: 'password',
-      });
-      expect(res.status).toBe(201);
-      expect(res.body.error).toBe(false);
-      expect(res.body.message).toBe('User created successfully');
+    expect(response.status).toBe(400);
+    expect(response.body.errors[0]).toHaveProperty(
+      'msg',
+      'Invalid email format'
+    );
+  });
+
+  it('should return a 400 error when password is missing', async () => {
+    const response = await request(app).post('/login').send({
+      email: 'john.doe@example.com',
     });
 
-    it('should return 400 if email is in the wrong format', async () => {
-      const res = await request(app).post('/register').send({
-        email: 'newUser@aa',
-        password: 'password',
-      });
-      expect(res.status).toBe(400);
-      expect(res.body.data).toBe(null);
-      expect(res.body.error).toStrictEqual({});
-      expect(res.body.message).toBe({
-        validationError: 'email must be in the correct format',
-      });
+    expect(response.status).toBe(400);
+    expect(response.body.errors[0]).toHaveProperty(
+      'msg',
+      'Password is required'
+    );
+  });
+
+  it('should return a 401 error when the email is incorrect', async () => {
+    const response = await request(app).post('/login').send({
+      email: 'wrong.email@example.com',
+      password: 'password123',
     });
 
-    it('should have user info without password in the response', async () => {
-      const res = await request(app).post('/register').send({
-        email: 'newUser@aa.com',
-        password: 'password',
-      });
-      expect(res.body.data.password).toBe(undefined);
-      expect(res.body.data.email).toBe('newUser@aa.com');
-      expect(res.body.data.id).toBeDefined();
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty(
+      'message',
+      'Invalid email or password'
+    );
+  });
+
+  it('should return a 401 error when the password is incorrect', async () => {
+    const response = await request(app).post('/login').send({
+      email: 'john.doe@example.com',
+      password: 'wrongPassword',
     });
+
+    expect(response.status).toBe(401);
+    expect(response.body).toHaveProperty(
+      'message',
+      'Invalid email or password'
+    );
+  });
+
+  test('should have user info without password in the response', async () => {
+    const response = await request(app).post('/login').send({
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'john.doe@example.com',
+      password: 'password123',
+    });
+
+    expect(response.status).toBe(200);
+    expect(response.body.password).toBe(undefined);
+    expect(response.body).toHaveProperty('email', 'john.doe@example.com');
+    expect(response.body.id).toBeDefined();
+  });
+});
+
+// Test cases for the register function
+describe('POST /register', () => {
+  it('should register a new user with valid input', async () => {
+    const response = await request(app).post('/register').send({
+      email: 'jane.doe@example.com',
+      password: 'password123',
+      firstName: 'Jane',
+      lastName: 'Doe',
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('firstName', 'Jane');
+    expect(response.body).toHaveProperty('lastName', 'Doe');
+    expect(response.body).toHaveProperty('email', 'jane.doe@example.com');
+  });
+
+  it('should return a 400 error when email is missing', async () => {
+    const response = await request(app).post('/register').send({
+      password: 'password123',
+      firstName: 'Jane',
+      lastName: 'Doe',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors[0]).toHaveProperty(
+      'msg',
+      'Invalid email format'
+    );
+  });
+
+  it('should return a 400 error when password is missing', async () => {
+    const response = await request(app).post('/register').send({
+      email: 'jane.doe@example.com',
+      firstName: 'Jane',
+      lastName: 'Doe',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors[0]).toHaveProperty(
+      'msg',
+      'Password is required'
+    );
+  });
+
+  it('should return a 400 error when first name is missing', async () => {
+    const response = await request(app).post('/register').send({
+      email: 'jane.doe@example.com',
+      password: 'password123',
+      lastName: 'Doe',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors[0]).toHaveProperty(
+      'msg',
+      'First name is required'
+    );
+  });
+
+  it('should return a 400 error when last name is missing', async () => {
+    const response = await request(app).post('/register').send({
+      email: 'jane.doe@example.com',
+      password: 'password123',
+      firstName: 'Jane',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors[0]).toHaveProperty(
+      'msg',
+      'Last name is required'
+    );
+  });
+
+  it('should return a 400 error when email format is invalid', async () => {
+    const response = await request(app).post('/register').send({
+      email: 'invalid_email',
+      password: 'password123',
+      firstName: 'Jane',
+      lastName: 'Doe',
+    });
+
+    expect(response.status).toBe(400);
+    expect(response.body.errors[0]).toHaveProperty(
+      'msg',
+      'Invalid email format'
+    );
+  });
+
+  it('should return a 409 error when email is already in use', async () => {
+    await request(app).post('/register').send({
+      email: 'jane.doe@example.com',
+      password: 'password123',
+      firstName: 'Jane',
+      lastName: 'Doe',
+    });
+
+    const response = await request(app).post('/register').send({
+      email: 'jane.doe@example.com',
+      password: 'password123',
+      firstName: 'Jane',
+      lastName: 'Doe',
+    });
+
+    expect(response.status).toBe(409);
+    expect(response.body).toHaveProperty('message', 'Email already in use');
+  });
+
+  test('should have user info without password in the response', async () => {
+    const response = await request(app).post('/register').send({
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'john.does@example.com',
+      password: 'password123',
+    });
+
+    expect(response.status).toBe(201);
+    expect(response.body.password).toBe(undefined);
+    expect(response.body).toHaveProperty('email', 'john.does@example.com');
+    expect(response.body.id).toBeDefined();
   });
 });
