@@ -1,4 +1,4 @@
-export default interface User {
+export interface User {
   firstName: string;
   lastName: string;
   email: string;
@@ -6,4 +6,9 @@ export default interface User {
   picturepath: string;
   following: string[];
   createdProjects: string[];
+}
+
+export interface UserContextType {
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }

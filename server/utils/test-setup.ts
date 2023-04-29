@@ -52,7 +52,7 @@ export default function setupDB(databaseName: string) {
 
   // Disconnect Mongoose
   afterAll(async () => {
-    // await dropAllCollections();
+    await dropAllCollections();
     await mongoose.connection.close();
   });
 }

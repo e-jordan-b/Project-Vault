@@ -6,10 +6,10 @@ export const createProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
-  console.log(req.body);
-  const tagsArr = req.body.tags.split(' ');
   try {
-    const newProject = new Project({
+    console.log(req.body);
+    const tagsArr = req.body.tags.split(' ');
+    const newCreatedProject = Project.create({
       // id: req.body.id,
       title: req.body.title,
       description: req.body.quillValue,
@@ -22,7 +22,7 @@ export const createProject = async (
       tags: tagsArr,
       followers: [],
     });
-    const newCreatedProject = await newProject.save();
+    // const newCreatedProject = await newProject.save();
     console.log('Project posted!');
 
     const user = await User.findByIdAndUpdate(req.body.user._id, {
