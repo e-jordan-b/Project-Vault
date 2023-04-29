@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
-import '../styles/menu.css';
-import UserContext from '../context/UserContext';
-import CreatePost from './createPost';
-import { Link } from 'react-router-dom';
-import { BiHomeAlt2, BiBookHeart, BiBookOpen, BiUser } from 'react-icons/bi';
+import React, { useContext, useState } from 'react'
+import '../styles/menu.css'
+import UserContext from '../context/UserContext'
+import CreateProject from './CreateProject'
+import { Link } from 'react-router-dom'
+import { BiHomeAlt2, BiBookHeart, BiBookOpen, BiUser } from 'react-icons/bi'
 
 function Menu() {
   const { user } = useContext(UserContext);

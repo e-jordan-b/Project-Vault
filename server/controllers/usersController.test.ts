@@ -23,7 +23,7 @@ describe('POST /login', () => {
     });
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('_id');
     expect(response.body).toHaveProperty('firstName', 'John');
     expect(response.body).toHaveProperty('lastName', 'Doe');
     expect(response.body).toHaveProperty('email', 'john.doe@example.com');
@@ -90,7 +90,7 @@ describe('POST /login', () => {
     expect(response.status).toBe(200);
     expect(response.body.password).toBe(undefined);
     expect(response.body).toHaveProperty('email', 'john.doe@example.com');
-    expect(response.body.id).toBeDefined();
+    expect(response.body._id).toBeDefined();
   });
 });
 
@@ -105,7 +105,7 @@ describe('POST /register', () => {
     });
 
     expect(response.status).toBe(201);
-    expect(response.body).toHaveProperty('id');
+    expect(response.body).toHaveProperty('_id');
     expect(response.body).toHaveProperty('firstName', 'Jane');
     expect(response.body).toHaveProperty('lastName', 'Doe');
     expect(response.body).toHaveProperty('email', 'jane.doe@example.com');
@@ -212,6 +212,6 @@ describe('POST /register', () => {
     expect(response.status).toBe(201);
     expect(response.body.password).toBe(undefined);
     expect(response.body).toHaveProperty('email', 'john.does@example.com');
-    expect(response.body.id).toBeDefined();
+    expect(response.body._id).toBeDefined();
   });
 });
