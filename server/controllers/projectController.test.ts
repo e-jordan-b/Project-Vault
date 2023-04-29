@@ -11,7 +11,7 @@ describe('Project', () => {
       expect(response.body.message).toBe('Could not create project');
     });
   });
-  describe('If Mongoose schema is not respected (e.g. int is passed instead of string)', () => {
+  describe('If Mongoose schema is not respected', () => {
     it('should return a 400 error', async () => {
       const project = {
         id: 111,
@@ -78,5 +78,30 @@ describe('Get the projects', () => {
     const response = await request(app).get('/projects/667');
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('message', 'cannot find project');
+  });
+});
+
+describe('Follow projects', () => {
+  it('should throw error if cannot follow', async () => {
+    const response = await request(app).post('/projects/follow');
+    expect(response.status).toBe(400);
+    expect(response.body).toHaveProperty('message', 'cannot follow');
+  });
+  it('should allow any user to follow projects', async () => {
+    const user = await request(app).post('/register').send({
+      _id: '544b9b68716fa4fc043f54db',
+      email: 'jane.doe@example.com',
+      password: 'password123',
+      firstName: 'Jane',
+      lastName: 'Doe',
+    });
+    const project = {
+      id: '888',
+      title: 'Test project 8',
+      user: { _id: '544b9b68716fa4fc043f54db' },
+    };
+    await request(app).post('/create').send(project);
+    const response = await request(app).post('/projects/follow').send(project);
+    expect(response.status).toBe(201);
   });
 });

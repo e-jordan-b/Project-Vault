@@ -7,7 +7,7 @@ export const createProject = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const newProject = new Project({
       id: req.body.id,
       title: req.body.title,
@@ -22,7 +22,7 @@ export const createProject = async (
       // followers: [],
     });
     const newCreatedProject = await newProject.save();
-    console.log('Project posted!');
+    // console.log('Project posted!');
 
     const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { createdProjects: newCreatedProject },
@@ -33,7 +33,7 @@ export const createProject = async (
 
     res.status(201).send({ newCreatedProject });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'Could not create project' });
   }
 };
@@ -46,7 +46,7 @@ export const getProjects = async (
     const project = await Project.find({});
     res.status(201).send({ project });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot find projects' });
   }
 };
@@ -63,8 +63,6 @@ export const getProjectById = async (
       throw new Error();
     }
   } catch (error) {
-    // we never get to this error, because the func above can return "null" if ID not found, decided to fix it later
-    console.log(error);
     res.status(400).send({ error, message: 'cannot find project' });
   }
 };
@@ -73,10 +71,11 @@ export const followProject = async (
   req: Request,
   res: Response
 ): Promise<Response | void> => {
-  const projectId = req.body.project._id;
   try {
+    console.log('🔪', req.body);
+    const projectId = req.body.id;
     // const user = await User.findOne({ _id: req.body.user._id });
-    // user.following.push(project);
+    // user?.following.push(project);
     const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { following: projectId },
     });
@@ -85,13 +84,16 @@ export const followProject = async (
     // post.followers.push(user._id);
     // await user.save();
 
-    const post = await Project.findByIdAndUpdate(projectId, {
-      $push: { followers: user?._id },
-    });
+    const post = await Project.findOneAndUpdate(
+      { id: projectId },
+      {
+        $push: { followers: user?._id },
+      }
+    );
 
     res.status(201).send({ user });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot follow' });
   }
 };
@@ -121,7 +123,7 @@ export const updateProject = async (
 
     res.status(201).send({ newUpdate });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot update' });
   }
 };
@@ -137,7 +139,7 @@ export const followingProjects = async (
 
     res.status(201).send({ projects });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot get following' });
   }
 };
@@ -153,7 +155,7 @@ export const personalProjects = async (
 
     res.status(201).send({ projects });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot get your projects' });
   }
 };
@@ -179,7 +181,7 @@ export const postComment = async (
 
     res.status(201).send({ comment });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     res.status(400).send({ error, message: 'cannot post comment' });
   }
 };
