@@ -5,7 +5,7 @@ export default interface Project {
   title: string;
   description: string;
   image: string;
-  updates: string[];
+  updates?: string[];
   author: string;
   createdBy?: string;
   createdById?: string;
@@ -13,4 +13,7 @@ export default interface Project {
   chat: string[];
   tags: string[];
   followers: User[] | string[] | [];
+  quillValue?: string,
+  user: User | null
 }
+

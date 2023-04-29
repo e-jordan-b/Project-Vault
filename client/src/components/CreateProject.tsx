@@ -1,5 +1,4 @@
-import React, { useState, useContext } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useContext, Requireable } from 'react';
 import '../styles/createpost.css';
 import UserContext from '../context/UserContext';
 import { UserContextType } from '../types/user.type';
@@ -11,38 +10,40 @@ import 'react-quill/dist/quill.snow.css';
 import Project from '../types/project.type';
 
 const initialState: Project = {
-  id?: string | number;
-  title: string;
-  description: string;
-  image: string;
-  updates: string[];
-  author: string;
-  createdBy?: string;
-  createdById?: string;
-  date: string;
-  chat: string[];
-  tags: string[];
-  followers: User[] | string[] | [];
+  id: '',
+  title: '',
+  description: '',
+  image: '',
+  updates: [],
+  author: '',
+  createdBy: '',
+  createdById: '',
+  date: '',
+  chat: [],
+  tags: [],
+  followers: [],
+  quillValue: '',
+  user: null
 };
 
 const serverURL: string = process.env.REACT_APP_SERVER!;
 
 interface CreateProjectProps {
-  open: boolean,
+  open: boolean | Requireable<boolean>,
   onClose?: () => void
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   if (!open) return null;
   const navigate = useNavigate();
-  const [selectedFile, setSelectedFile] = useState(initialState);
+  const [selectedFile, setSelectedFile] = useState<File>(); // I don't see why we should add initial state here
   const { user } = useContext<UserContextType>(UserContext);
-  const [postInfo, setPostInfo] = useState(initialState);
-  const [quillValue, setQuillValue] = useState('');
+  const [projectInfo, setProjectInfo] = useState<Project>(initialState);
+  const [quillValue, setQuillValue] = useState<string>('');
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
-    setPostInfo(prev=> ({
+    setProjectInfo(prev => ({
       ...prev,
       [name]: value,
     }));
@@ -52,13 +53,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     if (e.target.files) setSelectedFile(e.target.files[0]);
   }
 
-  async function handleSubmit(e: React.ChangeEvent<HTMLInputElement>) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    let image = '';
+    let image: string = '';
     const formData = new FormData();
-    formData.append('file', selectedFile);
-    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD); // 'jhbdwgkt')
-
+    if (selectedFile) {
+      formData.append('file', selectedFile);
+      formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD!); // 'jhbdwgkt')
+    }
     try {
       const response = await Axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`,
@@ -69,17 +71,20 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
       console.log(error);
     }
 
-    const today = new Date();
-    const date = today.toLocaleDateString();
-    const id = uuidv4();
-    const author = `${user.firstName} ${user.lastName}`;
-    const { title, tags } = postInfo;
-    const post = { id, title, quillValue, image, user, author, tags, date };
-
+    const project: Project = initialState;
+    project.date = new Date().toLocaleDateString();
+    project.id =  uuidv4();
+    project.author = `${user?.firstName} ${user?.lastName}`;
+    project.title = projectInfo.title;
+    project.tags = projectInfo.tags;
+    project.quillValue = quillValue;
+    project.image = image;
+    project.user = user;
+    
     fetch(`${serverURL}/create`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(post),
+      body: JSON.stringify(project),
     })
       .then((res) => {
         if (res.ok) {
@@ -88,8 +93,8 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
           alert('error');
         }
       })
-      .then(navigate(`/posts/${id}`))
-      .then(onClose())
+      .then(() => navigate(`/posts/${project.id}`))
+      .then(onClose) // or onClose() - Test
       .catch((err) => console.log(err));
   }
 
@@ -114,7 +119,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
               id='title'
               name='title'
               required
-              value={postInfo.title}
+              value={projectInfo.title}
               onChange={handleChange}
             ></input>
 
@@ -147,7 +152,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
               id='tags'
               name='tags'
               required
-              value={postInfo.tags}
+              value={projectInfo.tags}
               onChange={handleChange}
             ></input>
 
@@ -163,10 +168,5 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     </>
   );
 }
-
-CreateProject.propTypes = {
-  open: PropTypes.bool,
-  onClose: PropTypes.func,
-};
 
 export default CreateProject;
