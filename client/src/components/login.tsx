@@ -47,17 +47,35 @@ function Login() {
       <div className='anotherContainer'>
         <h1>Login</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
+          <label htmlFor='email'>email</label>
           <input
+            id='email'
             {...register('email', {
-              required: true,
-              pattern:
-                /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+              required: 'required',
+              pattern: {
+                value: /\S+@\S+\.\S+/,
+                message: 'Entered value does not match email format',
+              },
             })}
+            type='email'
           />
-          {errors.email && <span>This field is required</span>}
-          <input {...register('password', { required: true })} />
-          {errors.password && <span>This field is required</span>}
-          <input type='submit' />
+          {errors.email && <span role='alert'>{errors.email.message}</span>}
+          <label htmlFor='password'>password</label>
+          <input
+            id='password'
+            {...register('password', {
+              required: 'required',
+              minLength: {
+                value: 5,
+                message: 'min length is 5',
+              },
+            })}
+            type='password'
+          />
+          {errors.password && (
+            <span role='alert'>{errors.password.message}</span>
+          )}
+          <button type='submit'>SUBMIT</button>
         </form>
         <span>Dont have an account?</span>
         <Link to={'/register'}> Sign Up</Link>
