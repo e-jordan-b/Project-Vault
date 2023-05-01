@@ -12,6 +12,5 @@ export default interface Project {
   chat: string[];
   tags: string[] | string;
   followers: User[] | string[] | [];
-  quillValue?: string,
 }
 

@@ -20,7 +20,6 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
-  quillValue: '',
 };
 
 interface CreateProjectProps {
@@ -79,7 +78,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     project.author = `${user?.firstName} ${user?.lastName}`;
     project.title = projectInfo.title;
     project.tags = projectInfo.tags;
-    project.quillValue = quillValue;
+    project.description = quillValue;
     project.image = image;
     project.createdBy = user;
 
