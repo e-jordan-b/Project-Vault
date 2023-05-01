@@ -10,8 +10,7 @@ export default interface Project {
   createdBy?: User | null;
   date: string;
   chat: string[];
-  tags: string[];
+  tags: string[] | string;
   followers: User[] | string[] | [];
-  quillValue?: string,
 }
 
