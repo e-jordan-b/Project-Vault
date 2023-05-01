@@ -3,7 +3,6 @@ import '../styles/createProject.css';
 import UserContext from '../context/UserContext';
 import { UserContextType } from '../types/user.type';
 import Axios from 'axios';
-import { AxiosResponse } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -36,6 +35,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   const { user } = useContext<UserContextType>(UserContext);
   const [projectInfo, setProjectInfo] = useState<Project>(initialState);
   const [quillValue, setQuillValue] = useState<string>('');
+  const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -43,10 +43,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
       ...prev,
       [name]: value,
     }));
+    projectInfo.image ? setSubmitDisabled(false) : setSubmitDisabled(true);
+
   }
 
   function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files) setSelectedFile(e.target.files[0]);
+    projectInfo.title ? setSubmitDisabled(false) : setSubmitDisabled(true);
+
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -86,6 +90,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     } else {
       navigate(`/posts/${project.id}`);
       onClose();
+      setSubmitDisabled(true);
     }
   }
 
@@ -104,6 +109,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
           <form
             onSubmit={handleSubmit}
             className='postForm'
+            role='project-form'
           >
             <label htmlFor='title'>Title:</label>
             <input
@@ -150,6 +156,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
 
             <button
               type='submit'
+              disabled={submitDisabled}
               className='createNewProjectButton'
               role='submit-button'
             >

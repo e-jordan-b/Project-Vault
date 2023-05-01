@@ -3,17 +3,15 @@ import { render, fireEvent, screen, getByLabelText } from '../utils/test-utils';
 import CreateProject from './CreateProject';
 import { BrowserRouter } from 'react-router-dom';
 
-describe('CreateProject', () => {
+describe('CreateProject rendering tests', () => {
   const onClose = jest.fn();
-  beforeEach(() => {
+
+  it('renders the submit form', () => {
     render(
       <BrowserRouter>
         <CreateProject open={true} onClose={onClose} />
       </BrowserRouter>
     );
-  });
-
-  it('renders submit form', () => {
     const titleInput = screen.getByLabelText('Title:');
     const descriptionInput = screen.getByText('Description:');
     const imgInput = screen.getByLabelText('Image:');
@@ -28,113 +26,49 @@ describe('CreateProject', () => {
     expect(closeBtn).toBeInTheDocument();
   })
 
-  it('sumbits the form successfully', async () => {
-    const mockNavigate = jest.fn();
-    const mockCreateProject = jest.fn().mockResolvedValueOnce({ status: 200 });
-    const mockProject = {
-      id: '2',
-      title: '',
-      description: '',
-      tags: [],
-      quillValue: '',
-      image: '',
-      createdBy: null,
-      updates: [],
-      chat: [],
-      author: '',
-      date: '',
-    }
-
-    const titleInput = screen.getByLabelText('Title:');
-    fireEvent.change(titleInput, { target: { value: 'Test Project' } });
-
-    // const imageInput = screen.getByLabelText('Image:');
-    // Object.defineProperty(imageInput, 'files', {
-    //   value: [
-    //     new File(['test'], 'test.png', { type: 'image/png' }),
-    //   ],
-    // });
-    // fireEvent.change(imageInput);
-
-    // const tagsInput = screen.getByLabelText('Tags:');
-    // fireEvent.change(tagsInput, { target: { value: 'test, project' } });
-
-    const submitButton = screen.getByText('Create new project');
-    fireEvent.click(submitButton);
-
-    await screen.findByText('Your new project');
-
-    expect(mockCreateProject).toHaveBeenCalledWith({
-      id: '2',
-      title: 'Test Project',
-      description: '',
-      tags: [],
-      quillValue: '',
-      image: '',
-      createdBy: null,
-      updates: [],
-      chat: [],
-      author: '',
-      date: '',
-    });
-
-    expect(mockNavigate).toHaveBeenCalledWith('/posts/2');
+  it('executes onClose() when closeBtn is clicked', () => {
+    render(
+      <BrowserRouter>
+        <CreateProject open={true} onClose={onClose} />
+      </BrowserRouter>
+    );
+    const closeBtn = screen.getByRole('close-button');
+    fireEvent.click(closeBtn)
     expect(onClose).toHaveBeenCalled();
+  })
+
+  it('Does not render the component if open is false', () => {
+    render(
+      <BrowserRouter>
+        <CreateProject open={false} onClose={onClose} />
+      </BrowserRouter>
+    );
+    expect(document.querySelector('.overlay')).not.toBeInTheDocument();
+  })
+
+
+  it('Requires title and img inputs to be filled in order to submit the form', () => {
+    render(
+      <BrowserRouter>
+        <CreateProject open={true} onClose={onClose} />
+      </BrowserRouter>
+    );
+    const titleInput = screen.getByLabelText('Title:');
+    const imgInput = screen.getByLabelText('Image:');
+    const submitButton = screen.getByRole('submit-button');
+    expect(submitButton).toBeDisabled();
+
+    fireEvent.change(titleInput, { target: { value: 'Not empty' } });
+    expect(submitButton).toBeDisabled();
+
+    render(
+      <BrowserRouter>
+        <CreateProject open={true} onClose={onClose} />
+      </BrowserRouter>
+    );
+    fireEvent.change(imgInput, { target: { files: ['file'] } });
+    fireEvent.change(titleInput, { target: { value: 'Not empty' } });
+    expect(submitButton).not.toBeDisabled();
   })
 })
 
-// describe('CreateProject', () => {
-//   it('submits the form', async () => {
-//     const mockNavigate = jest.fn();
-//     const mockCreateProject = jest.fn().mockResolvedValueOnce({ status: 200 });
-//     const onClose = jest.fn();
-
-//     const { getByLabelText, getByText } = render(
-//       <CreateProject open={true} onClose={onClose} />,
-//       {
-//         // Mocking the useNavigate hook
-//         wrapper: ({ children }) => (
-//           <div>{children}</div>
-//         ),
-//       }
-//     );
-
-//     const titleInput = getByLabelText('Title:');
-//     fireEvent.change(titleInput, { target: { value: 'Test Project' } });
-
-//     const descriptionInput = screen.getByRole('textbox', { name: 'Rich Text Editor, snow' });
-//     fireEvent.change(descriptionInput, { target: { value: 'Test description' } });
-
-//     const imageInput = getByLabelText('Image:');
-//     Object.defineProperty(imageInput, 'files', {
-//       value: [
-//         new File(['test'], 'test.png', { type: 'image/png' }),
-//       ],
-//     });
-//     fireEvent.change(imageInput);
-
-//     const tagsInput = getByLabelText('Tags:');
-//     fireEvent.change(tagsInput, { target: { value: 'test, project' } });
-
-//     const submitButton = getByText('Create new project');
-//     fireEvent.click(submitButton);
-
-//     await screen.findByText('Your new project');
-
-//     expect(mockCreateProject).toHaveBeenCalledWith({
-//       title: 'Test Project',
-//       description: 'Test description',
-//       tags: 'test, project',
-//       quillValue: '',
-//       image: '',
-//       createdBy: null,
-//       updates: [],
-//       chat: [],
-//       author: '',
-//       date: '',
-//     });
-
-//     expect(mockNavigate).toHaveBeenCalledWith('/posts/null');
-//     expect(onClose).toHaveBeenCalled();
-//   });
-// });
