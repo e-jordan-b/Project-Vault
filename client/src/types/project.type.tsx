@@ -1,7 +1,7 @@
-import {User} from './user.type';
+import { User } from './user.type';
 
 export default interface Project {
-  id?: string;
+  _id?: string;
   title: string;
   description: string;
   image: string;
@@ -10,8 +10,12 @@ export default interface Project {
   createdBy?: User | null;
   date: string;
   chat: string[];
-  tags: string[];
+  tags: string[] | string;
   followers: User[] | string[] | [];
-  quillValue?: string,
+  quillValue?: string;
+
 }
 
+export interface ProjectResponse {
+  project: Project[];
+}

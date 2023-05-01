@@ -1,14 +1,13 @@
-import React, { useState, useContext, Requireable } from 'react'
-import '../styles/createProject.css'
-import UserContext from '../context/UserContext'
-import { UserContextType } from '../types/user.type'
-import Axios from 'axios'
-import { AxiosResponse } from 'axios'
-import { useNavigate } from 'react-router-dom'
-import ReactQuill from 'react-quill'
-import 'react-quill/dist/quill.snow.css'
-import Project from '../types/project.type'
-import http from '../services/api.service'
+import React, { useState, useContext, Requireable } from 'react';
+import '../styles/createProject.css';
+import UserContext from '../context/UserContext';
+import { UserContextType } from '../types/user.type';
+import Axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import Project from '../types/project.type';
+import http from '../services/api.service';
 
 const initialState: Project = {
   title: '',
@@ -21,8 +20,7 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
-  quillValue: ''
-}
+};
 
 interface CreateProjectProps {
   open: boolean | Requireable<boolean>
@@ -30,23 +28,27 @@ interface CreateProjectProps {
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
-  if (!open) return null
-  const navigate = useNavigate()
-  const [selectedFile, setSelectedFile] = useState<File>() // We might not need an initial state here
-  const { user } = useContext<UserContextType>(UserContext)
-  const [projectInfo, setProjectInfo] = useState<Project>(initialState)
-  const [quillValue, setQuillValue] = useState<string>('')
+  if (!open) return null;
+  const navigate = useNavigate();
+  const [selectedFile, setSelectedFile] = useState<File>(); // We might not need an initial state here
+  const { user } = useContext<UserContextType>(UserContext);
+  const [projectInfo, setProjectInfo] = useState<Project>(initialState);
+  const [quillValue, setQuillValue] = useState<string>('');
+  const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target
     setProjectInfo((prev) => ({
       ...prev,
-      [name]: value
-    }))
+      [name]: value,
+    }));
+    projectInfo.image ? setSubmitDisabled(false) : setSubmitDisabled(true);
+
   }
 
   function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
-    if (e.target.files) setSelectedFile(e.target.files[0])
+    if (e.target.files) setSelectedFile(e.target.files[0]);
+    projectInfo.title ? setSubmitDisabled(false) : setSubmitDisabled(true);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -67,22 +69,25 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
       console.log(error)
     }
 
-    const project: Project = initialState
-    project.date = new Date().toLocaleDateString()
-    project.author = `${user?.firstName} ${user?.lastName}`
-    project.title = projectInfo.title
-    project.tags = projectInfo.tags
-    project.quillValue = quillValue
-    project.image = image
-    project.createdBy = user
+    const project: Project = initialState;
+    project.date = new Date().toLocaleDateString();
+    project.author = `${user?.firstName} ${user?.lastName}`;
+    project.title = projectInfo.title;
+    project.tags = projectInfo.tags;
+    project.description = quillValue;
+    project.image = image;
+    project.createdBy = user;
+
 
     const response = await http.createProject(project) //project should be stringified, review api.service
     if (response!.status > 400) {
       alert('Error creating Project')
       return
     } else {
-      navigate(`/posts/${project.id}`)
-      onClose()
+      navigate(`/posts/${project.id}`);
+      onClose();
+      setSubmitDisabled(true);
+
     }
   }
 
@@ -93,6 +98,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
           <button
             onClick={onClose}
             className='closeButton'
+            role='close-button'
           >
             X
           </button>
@@ -100,6 +106,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
           <form
             onSubmit={handleSubmit}
             className='postForm'
+            role='project-form'
           >
             <label htmlFor='title'>Title:</label>
             <input
@@ -146,7 +153,9 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
 
             <button
               type='submit'
+              disabled={submitDisabled}
               className='createNewProjectButton'
+              role='submit-button'
             >
               Create new project
             </button>
