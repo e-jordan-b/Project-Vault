@@ -1,36 +1,66 @@
-import React, { useState } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
-import Register from './components/register';
-import Login from './components/Login';
-import Home from './components/home';
-import UserContext from './context/UserContext';
-import './App.css';
-import Layout from './components/layout';
-import Project from './components/projectInfo';
-import Following from './components/followingProjects';
-import PersonalProjects from './components/personalProjects';
-import Form2 from './components/form2';
-import { User, UserContextType } from './types/user.type';
+import React, { useState } from 'react'
+import { Route, Routes, Navigate, useNavigate } from 'react-router-dom'
+import Login from './components/Login'
+import Registration from './components/Registration'
+import Home from './components/home'
+import UserContext from './context/UserContext'
+import './App.css'
+import Layout from './components/layout'
+import Project from './components/projectInfo'
+import Following from './components/followingProjects'
+import PersonalProjects from './components/personalProjects'
+import Form2 from './components/form2'
+import { User, UserContextType } from './types/user.type'
+import http from './services/api.service'
 
 interface IFormInput {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
 const App: React.FC = (): JSX.Element => {
-  const [user, setUser] = useState<User | null>(null);
-
+  const [user, setUser] = useState<User | null>(null)
   const userContextValue: UserContextType = {
     user,
-    setUser,
-  };
+    setUser
+  }
+  const navigate = useNavigate()
 
-  const handleLogin = (email: string, password: string) => {
-    // this function needs to call the login endpoint
-    // and set the user in the context
+  const handleLogin = async (email: string, password: string) => {
+    const response = await http.login({ email, password })
+    if (response!.status === 401) {
+      alert('Wrong email or password')
+      return
+    } else if (response!.status === 200) {
+      setUser(response!.data)
+      navigate('/home')
+    } else {
+      alert('Something went wrong')
+    }
+  }
 
-    console.log('processing the login');
-  };
+  const handleRegistration = async (
+    email: string,
+    password: string,
+    firstName: string,
+    lastName: string
+  ) => {
+    const response = await http.register({
+      email,
+      password,
+      firstName,
+      lastName
+    })
+    if (response!.status === 409) {
+      alert('Email already exists')
+      return
+    } else if (response!.status === 201) {
+      setUser(response!.data)
+      navigate('/home')
+    } else {
+      alert('Something went wrong')
+    }
+  }
 
   return (
     <UserContext.Provider value={userContextValue}>
@@ -41,7 +71,7 @@ const App: React.FC = (): JSX.Element => {
         />
         <Route
           path='/register'
-          element={<Register />}
+          element={<Registration registration={handleRegistration} />}
         />
         <Route
           path='/login'
@@ -53,15 +83,15 @@ const App: React.FC = (): JSX.Element => {
             element={<Home />}
           />
           <Route
-            path='/posts/:id'
+            path='/projects/:id'
             element={<Project />}
           />
           <Route
-            path='/posts/following'
+            path='/projects/following'
             element={<Following />}
           />
           <Route
-            path='/posts/personal'
+            path='/projects/personal'
             element={<PersonalProjects />}
           />
           <Route
@@ -75,7 +105,7 @@ const App: React.FC = (): JSX.Element => {
         />
       </Routes>
     </UserContext.Provider>
-  );
-};
+  )
+}
 
-export default App;
+export default App
