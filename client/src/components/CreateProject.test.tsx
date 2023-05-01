@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import CreateProject from './CreateProject';
+import ReactQuill from 'react-quill';
 
 describe('CreateProject', () => {
   it('submits the form', async () => {
