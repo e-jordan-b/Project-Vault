@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { MouseEventHandler, useState } from 'react'
 import PropTypes from 'prop-types'
 import '../styles/update.css'
 import Axios from 'axios'
-import { v4 as uuidv4 } from 'uuid'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
+import Project from '../types/project.type'
+
 
 const initialState = {
   title: '',
@@ -12,16 +13,23 @@ const initialState = {
   video: ''
 }
 
+type UpdateProps = {
+  open: Boolean,
+  onClose: () => void,
+  currentProject: Project,
+  getProject: Function,
+}
+
 const serverURL = process.env.REACT_APP_SERVER
 
-function Update ({ open, onClose, currentProject, getProject }) {
+function Update ({ open, onClose, currentProject, getProject }: UpdateProps) {
   if (!open) return null
 
-  const [selectedFile, setSelectedFile] = useState(initialState)
+  const [selectedFile, setSelectedFile] = useState<File | undefined>()
   const [state, setState] = useState(initialState)
   const [quillValue, setQuillValue] = useState('')
 
-  function handleChange (e) {
+  function handleChange (e: any) {
     const { name, value } = e.target
     setState((prev) => ({
       ...prev,
@@ -29,17 +37,18 @@ function Update ({ open, onClose, currentProject, getProject }) {
     }))
   }
 
-  function handleFileInputChange (e) {
+  function handleFileInputChange (e: any) {
     setSelectedFile(e.target.files[0])
   }
 
-  async function handleSubmit (e) {
+  async function handleSubmit (e: any) {
     e.preventDefault()
     let image = ''
     const formData = new FormData()
+    if (selectedFile instanceof Blob) {
     formData.append('file', selectedFile)
-    formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD)
-
+    formData.append('upload_preset', (process.env.REACT_APP_CLOUDINARY_UPLOAD as string))
+}
     try {
       const response = await Axios.post(`https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`, formData)
       image = response.data.public_id
@@ -49,9 +58,8 @@ function Update ({ open, onClose, currentProject, getProject }) {
 
     const today = new Date()
     const date = today.toLocaleDateString()
-    const id = uuidv4()
     const { title, video } = state
-    const update = { id, title, quillValue, image, video, date }
+    const update = { title, quillValue, image, video, date }
 
     fetch(`${serverURL}/update/${currentProject.id}`, {
       method: 'POST',
@@ -66,14 +74,14 @@ function Update ({ open, onClose, currentProject, getProject }) {
         }
       })
       .then(() => getProject())
-      .then(onClose())
+      .then(()=> onClose())
       .catch((err) => console.log(err))
   }
 
   return (
     <div className='updateOverlay'>
       <div className='updateProjectContainter'>
-        <button onClick={ onClose } className='closeButton'>X</button>
+        <button onClick={ ()=> onClose() } className='closeButton'>X</button>
         <h1 className='updateYourProject'>Update your project</h1>
           <form onSubmit={handleSubmit} className='updateForm'>
             <label htmlFor='title'>Update Title:</label>

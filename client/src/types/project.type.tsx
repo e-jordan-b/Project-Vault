@@ -1,7 +1,7 @@
 import {User} from './user.type';
 
 export default interface Project {
-  id?: string | number;
+  id?: string;
   title: string;
   description: string;
   image: string;
