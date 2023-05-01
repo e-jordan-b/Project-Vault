@@ -1,11 +1,7 @@
 import React from 'react';
-import { useContext, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import UserContext from '../context/UserContext';
+import { Link } from 'react-router-dom';
 import '../styles/login.css';
-import http from '../services/api.service';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { type } from '@testing-library/user-event/dist/type';
 
 interface ICredentials {
   email: string;
