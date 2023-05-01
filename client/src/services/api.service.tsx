@@ -1,6 +1,6 @@
 import http from '../http-common';
 import { User } from '../types/user.type';
-import Project from '../types/project.type';
+import Project, { ProjectResponse } from '../types/project.type';
 import { AxiosError, AxiosResponse } from 'axios';
 
 class ApiService {
@@ -9,7 +9,7 @@ class ApiService {
     data: Project
   ): Promise<AxiosResponse<Project> | undefined> | undefined | null {
     try {
-      return http.post<Project>(`/projects/${data.id}`, JSON.stringify(data));
+      return http.post<Project>(`/projects/${data._id}`, JSON.stringify(data));
     } catch (e) {
       const error = e as AxiosError;
       console.log(error.toJSON());
@@ -41,9 +41,11 @@ class ApiService {
   }
 
   // home
-  getAllProjects(): Promise<AxiosResponse<Project[]> | undefined> | undefined {
+  getAllProjects():
+    | Promise<AxiosResponse<ProjectResponse> | undefined>
+    | undefined {
     try {
-      return http.get<Project[]>('/projects');
+      return http.get<ProjectResponse>('/projects');
     } catch (e) {
       const error = e as AxiosError;
       console.log(error.toJSON());
