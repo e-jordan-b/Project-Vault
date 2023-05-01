@@ -94,6 +94,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
           <button
             onClick={onClose}
             className='closeButton'
+            role='close-button'
           >
             X
           </button>
@@ -148,6 +149,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
             <button
               type='submit'
               className='createNewProjectButton'
+              role='submit-button'
             >
               Create new project
             </button>
