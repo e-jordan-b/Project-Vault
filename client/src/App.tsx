@@ -12,12 +12,24 @@ import PersonalProjects from './components/personalProjects';
 import Form2 from './components/form2';
 import { User, UserContextType } from './types/user.type';
 
+interface IFormInput {
+  email: string;
+  password: string;
+}
+
 const App: React.FC = (): JSX.Element => {
   const [user, setUser] = useState<User | null>(null);
 
   const userContextValue: UserContextType = {
     user,
     setUser,
+  };
+
+  const handleLogin = (email: string, password: string) => {
+    // this function needs to call the login endpoint
+    // and set the user in the context
+
+    console.log('processing the login');
   };
 
   return (
@@ -33,7 +45,7 @@ const App: React.FC = (): JSX.Element => {
         />
         <Route
           path='/login'
-          element={<Login />}
+          element={<Login login={handleLogin} />}
         />
         <Route element={<Layout />}>
           <Route
