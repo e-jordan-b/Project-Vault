@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from 'react'
 import UserContext from '../context/UserContext'
 import ProjectDesign from './designProjects'
 import Project from '../types/project.type'
-import {User} from '../types/user.type'
 import http from '../services/api.service'
 
 function PersonalProjects () {
