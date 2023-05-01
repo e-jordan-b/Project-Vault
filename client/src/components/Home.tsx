@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/home.css';
 import HomeProject from './homeProject';
-import SearchBar from './searchBar';
+import SearchBar from './SearchBar';
 import Project from '../types/project.type';
 import http from '../services/api.service';
 
