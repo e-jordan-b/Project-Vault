@@ -32,6 +32,8 @@ export interface ProjectUpdate {
 export interface ProjectChat {
   _id?: string;
   createdBy: string;
+  title?: string;
   comment?: string;
-  date: string;
+  projectId: string;
+  date?: string;
 }

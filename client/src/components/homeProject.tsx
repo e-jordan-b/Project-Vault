@@ -40,7 +40,7 @@ function HomeProject({ project }: HomeProjectProps) {
           className='homeProjectTruncatedText'
         ></p>
         <div className='extraInfo'>
-          <p>{project.tags.forEach((tag) => tag.join('# ') + '#')}</p>
+          <p>{project.tags.join('# ') + '#'}</p>
           <button
             className='readMoreButton'
             onClick={() => navigate(`/posts/${project._id}`)}

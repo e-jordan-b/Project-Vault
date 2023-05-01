@@ -23,18 +23,19 @@ function ProjectNav({ update, project, handleCommentSubmit }: Props) {
     setComment(e.target.value);
   }
 
+  // this is for chats
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     const today = new Date();
     const date = today.toLocaleDateString();
-    const ProjectId = project._id;
+    const projectId = project._id;
     const createdBy = user?.firstName + ' ' + user?.lastName;
-    const postComment = { createdBy, comment, date, ProjectId };
+    const postComment = { createdBy, comment, date, projectId };
 
     setComment('');
 
-    const comments = await http.updateProject(postComment);
+    const comments = await http.addComment(postComment);
 
     fetch(`${serverURL}/posts/comments`, {
       method: 'POST',

@@ -6,7 +6,7 @@ import Home from './components/Home';
 import UserContext from './context/UserContext';
 import './App.css';
 import Layout from './components/layout';
-import Project from './components/projectInfo';
+import ProjectInfo from './components/ProjectInfo';
 import Following from './components/followingProjects';
 import PersonalProjects from './components/personalProjects';
 import Form2 from './components/form2';
@@ -84,7 +84,7 @@ const App: React.FC = (): JSX.Element => {
           />
           <Route
             path='/projects/:id'
-            element={<Project />}
+            element={<ProjectInfo />}
           />
           <Route
             path='/projects/following'

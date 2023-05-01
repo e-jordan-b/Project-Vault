@@ -1,18 +1,18 @@
-import Menu from './menu'
-import React from 'react'
-import { Outlet } from 'react-router-dom'
-import '../styles/layout.css'
+import Menu from './menu';
+import React from 'react';
+import { Outlet } from 'react-router-dom';
+import '../styles/layout.css';
 
-function Layout () {
+function Layout() {
   return (
     <div className='layoutDiv'>
-      <Menu/>
+      <Menu />
       <div className='outletDiv'>
-      <Outlet/>
+        <Outlet />
       </div>
       <div className='infoDiv'></div>
     </div>
-  )
+  );
 }
 
-export default Layout
+export default Layout;
