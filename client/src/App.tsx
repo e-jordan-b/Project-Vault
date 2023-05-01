@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
 import Login from './components/Login';
 import Registration from './components/Registration';
-import Home from './components/home';
+import Home from './components/Home';
 import UserContext from './context/UserContext';
 import './App.css';
 import Layout from './components/layout';

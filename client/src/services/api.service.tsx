@@ -1,12 +1,12 @@
 import http from '../http-common';
 import { User } from '../types/user.type';
-import Project, { ProjectResponse } from '../types/project.type';
+import Project, { ProjectResponse, ProjectUpdate } from '../types/project.type';
 import { AxiosError, AxiosResponse } from 'axios';
 
 class ApiService {
   // update project
   updateProject(
-    data: Project
+    data: ProjectUpdate
   ): Promise<AxiosResponse<Project> | undefined> | undefined | null {
     try {
       return http.post<Project>(`/projects/${data._id}`, JSON.stringify(data));
