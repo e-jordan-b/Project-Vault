@@ -7,7 +7,7 @@ class ApiService {
   // update project
   updateProject(
     data: Project
-  ): Promise<AxiosResponse<Project> | undefined> | undefined {
+  ): Promise<AxiosResponse<Project> | undefined> | undefined | null {
     try {
       return http.post<Project>(`/projects/${data.id}`, JSON.stringify(data));
     } catch (e) {
@@ -19,7 +19,7 @@ class ApiService {
   // create post
   createProject(
     data: Project
-  ): Promise<AxiosResponse<Project> | undefined> | undefined {
+  ): Promise<AxiosResponse<Project> | undefined> | undefined | null {
     try {
       return http.post<Project>('/create', JSON.stringify(data));
     } catch (e) {
