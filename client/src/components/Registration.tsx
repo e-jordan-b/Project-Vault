@@ -1,12 +1,12 @@
-import React from 'react'
-import '../styles/register.css'
-import { useForm, SubmitHandler } from 'react-hook-form'
+import React from 'react';
+import '../styles/register.css';
+import { useForm, SubmitHandler } from 'react-hook-form';
 
 interface IFormInput {
-  email: string
-  password: string
-  firstName: string
-  lastName: string
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
 }
 
 interface RegistrationProps {
@@ -15,7 +15,7 @@ interface RegistrationProps {
     password: string,
     firstName: string,
     lastName: string
-  ) => void
+  ) => void;
 }
 
 const Registration: React.FC<RegistrationProps> = ({ registration }) => {
@@ -23,15 +23,20 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
   } = useForm({
-    defaultValues: { email: '', password: '', firstName: '', lastName: '' }
-  })
+    defaultValues: { email: '', password: '', firstName: '', lastName: '' },
+  });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    await registration(data.email, data.password, data.firstName, data.lastName)
-    reset()
-  }
+    await registration(
+      data.email,
+      data.password,
+      data.firstName,
+      data.lastName
+    );
+    reset();
+  };
 
   return (
     <div className='loginContainer'>
@@ -64,8 +69,8 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
             required: 'Email is required',
             pattern: {
               value: /\S+@\S+\.\S+/,
-              message: 'Entered value does not match email format'
-            }
+              message: 'Entered value does not match email format',
+            },
           })}
           type='text'
         />
@@ -85,7 +90,7 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
         </button>
       </form>
     </div>
-  )
-}
+  );
+};
 
-export default Registration
+export default Registration;

@@ -19,6 +19,6 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 function handlReportedMetrics(metric: any) {
-  console.log(metric.name, metric.value)
+  console.log(metric.name, metric.value);
 }
 reportWebVitals(handlReportedMetrics);

@@ -5,7 +5,7 @@ import Project from '../types/project.type';
 
 interface Props {
   projects: Project[];
-  setSearchResult: React.Dispatch<React.SetStateAction<Project[]>>;
+  setSearchResult: React.Dispatch<React.SetStateAction<Project[] | null>>;
 }
 
 function SearchBar({ projects, setSearchResult }: Props) {
