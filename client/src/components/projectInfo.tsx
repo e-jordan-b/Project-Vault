@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
-import '../styles/projectInformation.css'
-import UserContext from '../context/UserContext'
-import Update from './updateProject'
-import ProjectNav from './projectNav'
-import Project from '../types/project.type'
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import '../styles/projectInformation.css';
+import UserContext from '../context/UserContext';
+import Update from './updateProject';
+import ProjectNav from './ProjectNav';
+import Project from '../types/project.type';
+import http from '../services/api.service';
 
-const serverURL = process.env.REACT_APP_SERVER
+const serverURL = process.env.REACT_APP_SERVER;
 
 const initialState: Project = {
   title: '',
@@ -19,45 +20,44 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
-  quillValue: ''
-}
+  quillValue: '',
+};
 
 function ProjectInfo() {
-  const { id } = useParams()
-  const [project, setProject] = useState<Project>(initialState)
-  const { user, setUser } = useContext(UserContext)
-  const [isOpen, setIsOpen] = useState(false)
-  const navigate = useNavigate()
+  const { id } = useParams();
+  const [project, setProject] = useState<Project>(initialState);
+  const { user, setUser } = useContext(UserContext);
+  const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
-  function getProject() {
-    fetch(`${serverURL}/posts/${id}`)
-      .then((response) => response.json())
-      .then((data) => setProject(data.post))
-      .catch((error) => console.log(error))
+  async function getProject() {
+    if (!id) return;
+    const response = await http.getProject(id);
+    if (response!.status === 200) setProject(response!.data);
   }
 
   useEffect(() => {
-    getProject()
-  }, [])
+    getProject();
+  }, []);
 
   function handleCommentSubmit() {
-    getProject()
+    getProject();
   }
 
   async function handleFollowClick() {
-  if (user && project.id) {
-    if (user.following.includes(project.id)) return
-}
+    if (user && project._id) {
+      if (user.following.includes(project._id)) return;
+    }
     const response = await fetch(`${serverURL}/posts/follow`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         user,
-        project
-      })
-    })
-    const data = await response.json()
-    setUser(data.user)
+        project,
+      }),
+    });
+    const data = await response.json();
+    setUser(data.user);
   }
 
   return (
@@ -73,7 +73,7 @@ function ProjectInfo() {
           <div
             className='imgDiv'
             style={{
-              backgroundImage: `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg)`
+              backgroundImage: `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg)`,
             }}
           ></div>
           <div className='UserInfo'>
@@ -92,7 +92,7 @@ function ProjectInfo() {
         <nav className='navigation'>
           <div className='projectNavContainer'>
             <ProjectNav
-              update={project.updates}
+              updates={project.updates}
               project={project}
               handleCommentSubmit={handleCommentSubmit}
             />
@@ -111,7 +111,9 @@ function ProjectInfo() {
                   className='followAndDonateButtons'
                   onClick={handleFollowClick}
                 >
-  {user && project.id && user.following.includes(project.id) ? 'Following' : 'Follow'}
+                  {user && project._id && user.following.includes(project._id)
+                    ? 'Following'
+                    : 'Follow'}
                 </button>
                 <button
                   className='followAndDonateButtons'
@@ -125,7 +127,7 @@ function ProjectInfo() {
         </nav>
       </div>
     </>
-  )
+  );
 }
 
-export default Project
+export default ProjectInfo;

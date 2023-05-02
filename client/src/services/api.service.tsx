@@ -1,12 +1,16 @@
 import http from '../http-common';
 import { User } from '../types/user.type';
-import Project, { ProjectResponse } from '../types/project.type';
+import Project, {
+  ProjectChat,
+  ProjectResponse,
+  ProjectUpdate,
+} from '../types/project.type';
 import { AxiosError, AxiosResponse } from 'axios';
 
 class ApiService {
   // update project
   updateProject(
-    data: Project
+    data: ProjectUpdate
   ): Promise<AxiosResponse<Project> | undefined> | undefined | null {
     try {
       return http.post<Project>(`/projects/${data._id}`, JSON.stringify(data));
@@ -102,11 +106,9 @@ class ApiService {
     }
   }
   // projewctnav
-  addComment(data: {
-    projectId: string;
-    createdBy: string;
-    comment: string;
-  }): Promise<AxiosResponse<Project> | undefined> | undefined {
+  addComment(
+    data: ProjectChat
+  ): Promise<AxiosResponse<Project> | undefined> | undefined {
     try {
       return http.post<Project>('/projects/comments', JSON.stringify(data));
     } catch (e) {

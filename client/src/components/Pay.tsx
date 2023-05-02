@@ -25,13 +25,13 @@ function Pay() {
 
     if (!stripe || !cardElement) {
       setIsProcessing(false);
-      return
+      return;
     }
 
     const paymentMethodResult = await stripe?.createPaymentMethod({
       type: 'card',
-      card: cardElement
-    })
+      card: cardElement,
+    });
 
     const { error, paymentMethod } = paymentMethodResult || {};
 
@@ -44,17 +44,16 @@ function Pay() {
     try {
       const { id } = paymentMethod;
       const amountInCents = amount * 100;
-      const response = await axios.post(`${serverURL}/create-payment-intent`,
-        {
-          amount: amountInCents,
-          id,
-        });
+      const response = await axios.post(`${serverURL}/create-payment-intent`, {
+        amount: amountInCents,
+        id,
+      });
       if (response.data.success) {
         console.log('Succesfull payment');
         navigate('/home');
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
     setIsProcessing(false);
   }

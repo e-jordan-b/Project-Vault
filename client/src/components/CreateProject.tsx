@@ -23,8 +23,8 @@ const initialState: Project = {
 };
 
 interface CreateProjectProps {
-  open: boolean | Requireable<boolean>
-  onClose: () => void
+  open: boolean | Requireable<boolean>;
+  onClose: () => void;
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
@@ -37,13 +37,12 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setProjectInfo((prev) => ({
       ...prev,
       [name]: value,
     }));
     projectInfo.image ? setSubmitDisabled(false) : setSubmitDisabled(true);
-
   }
 
   function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -52,21 +51,24 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    let image: string = ''
-    const formData = new FormData()
+    e.preventDefault();
+    let image: string = '';
+    const formData = new FormData();
     if (selectedFile) {
-      formData.append('file', selectedFile)
-      formData.append('upload_preset', process.env.REACT_APP_CLOUDINARY_UPLOAD!) // 'jhbdwgkt')
+      formData.append('file', selectedFile);
+      formData.append(
+        'upload_preset',
+        process.env.REACT_APP_CLOUDINARY_UPLOAD!
+      ); // 'jhbdwgkt')
     }
     try {
       const response = await Axios.post(
         `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_KEY}/image/upload`,
         formData
-      )
-      image = response.data.public_id
+      );
+      image = response.data.public_id;
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
 
     const project: Project = initialState;
@@ -78,16 +80,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     project.image = image;
     project.createdBy = user;
 
-
-    const response = await http.createProject(project) //project should be stringified, review api.service
+    const response = await http.createProject(project); //project should be stringified, review api.service
     if (response!.status > 400) {
-      alert('Error creating Project')
-      return
+      alert('Error creating Project');
+      return;
     } else {
-      navigate(`/posts/${project.id}`);
+      navigate(`/posts/${project._id}`);
       onClose();
       setSubmitDisabled(true);
-
     }
   }
 
@@ -163,7 +163,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default CreateProject
+export default CreateProject;

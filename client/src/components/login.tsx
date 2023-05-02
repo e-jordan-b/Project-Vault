@@ -1,17 +1,9 @@
 import React from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/login.css';
+import http from '../services/api.service';
 import { useForm, SubmitHandler } from 'react-hook-form';
-
-interface ICredentials {
-  email: string;
-  password: string;
-}
-
-const initialCredentials: ICredentials = {
-  email: '',
-  password: '',
-};
 
 interface IFormInput {
   email: string;
@@ -22,32 +14,18 @@ interface LoginProps {
   login: (email: string, password: string) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ login }) => {
-  // const { user, setUser } = useContext(UserContext);
-  // const [credentials, setCredentials] = useState(initialCredentials);
-  // const navigate = useNavigate();
+function Login({ login }: LoginProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<IFormInput>();
+  } = useForm<IFormInput>({ defaultValues: { email: '', password: '' } });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     await login(data.email, data.password);
     reset();
   };
-
-  // const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-  //   const response = await http.login(credentials);
-  //   if (response!.status === 401) {
-  //     alert('Wrong email or password');
-  //     return;
-  //   } else {
-  //     setUser(response!.data);
-  //     navigate('/home');
-  //   }
-  // };
 
   return (
     <div className='loginContainer'>
@@ -89,6 +67,6 @@ const Login: React.FC<LoginProps> = ({ login }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Login;
