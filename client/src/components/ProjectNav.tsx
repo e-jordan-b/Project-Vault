@@ -7,19 +7,23 @@ import { BiUser } from 'react-icons/bi';
 import http from '../services/api.service';
 import Project, { ProjectChat, ProjectUpdate } from '../types/project.type';
 
-interface Props {
-  update: ProjectUpdate[];
+interface ProjectNavProps {
+  updates: ProjectUpdate[] | undefined;
   project: Project;
   handleCommentSubmit: () => void;
 }
 
-function ProjectNav({ update, project, handleCommentSubmit }: Props) {
+function ProjectNav({
+  updates,
+  project,
+  handleCommentSubmit,
+}: ProjectNavProps) {
   const [selectedOption, setSelectedOption] = useState('updates');
   const [comment, setComment] = useState('');
   const { user } = useContext(UserContext);
   const sortedArr = project.chat ? [...project.chat].reverse() : [];
 
-  function handleChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setComment(e.target.value);
   }
 
@@ -35,22 +39,10 @@ function ProjectNav({ update, project, handleCommentSubmit }: Props) {
 
     setComment('');
 
-    const comments = await http.addComment(postComment);
-
-    fetch(`${serverURL}/posts/comments`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(postComment),
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log('succes');
-        } else if (res.status === 401) {
-          alert('error');
-        }
-      })
-      .then(() => handleCommentSubmit())
-      .catch((err) => console.log(err));
+    const result = await http.addComment(postComment);
+    if (result!.status === 200) {
+      handleCommentSubmit();
+    }
   }
 
   return (
@@ -72,39 +64,39 @@ function ProjectNav({ update, project, handleCommentSubmit }: Props) {
         <hr></hr>
         {selectedOption === 'updates' ? (
           <div className='updateContainer'>
-            {update &&
-              update.map((el: ProjectUpdate) => (
+            {updates &&
+              updates.map((update: ProjectUpdate) => (
                 <div
-                  key={el._id}
+                  key={update._id}
                   className='updateInfo'
                 >
                   <div className='imageOrvideoDiv'>
-                    {el.video ? (
+                    {update.video ? (
                       <ReactPlayer
-                        url={el.video}
+                        url={update.video}
                         className='video'
                       />
                     ) : (
                       <div
                         className='imageDivUpdate'
                         style={{
-                          backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${el.image}.jpg)`,
+                          backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${update.image}.jpg)`,
                         }}
                       ></div>
                     )}
                   </div>
                   <div className='updateTitleDescription'>
                     <h1>
-                      Update {update.indexOf(el) + 1}: {el.title}
+                      Update {updates.indexOf(update) + 1}: {update.title}
                     </h1>
                   </div>
                   <div className='updateTitleDescription'>
-                    {el.description && (
+                    {update.description && (
                       <p
-                        dangerouslySetInnerHTML={{ __html: el.description }}
+                        dangerouslySetInnerHTML={{ __html: update.description }}
                       ></p>
                     )}
-                    <h3>{el.date}</h3>
+                    <h3>{update.date}</h3>
                   </div>
                 </div>
               ))}

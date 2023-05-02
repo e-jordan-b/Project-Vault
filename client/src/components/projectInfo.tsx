@@ -5,6 +5,7 @@ import UserContext from '../context/UserContext';
 import Update from './updateProject';
 import ProjectNav from './ProjectNav';
 import Project from '../types/project.type';
+import http from '../services/api.service';
 
 const serverURL = process.env.REACT_APP_SERVER;
 
@@ -29,11 +30,10 @@ function ProjectInfo() {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
-  function getProject() {
-    fetch(`${serverURL}/posts/${id}`)
-      .then((response) => response.json())
-      .then((data) => setProject(data.post))
-      .catch((error) => console.log(error));
+  async function getProject() {
+    if (!id) return;
+    const response = await http.getProject(id);
+    if (response!.status === 200) setProject(response!.data);
   }
 
   useEffect(() => {
@@ -92,7 +92,7 @@ function ProjectInfo() {
         <nav className='navigation'>
           <div className='projectNavContainer'>
             <ProjectNav
-              update={project.updates}
+              updates={project.updates}
               project={project}
               handleCommentSubmit={handleCommentSubmit}
             />

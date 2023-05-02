@@ -5,7 +5,7 @@ export default interface Project {
   title: string;
   description: string;
   image: string;
-  updates?: ProjectUpdate[];
+  updates?: ProjectUpdate[] | undefined;
   author: string;
   createdBy?: User | null;
   date: string;
@@ -32,8 +32,8 @@ export interface ProjectUpdate {
 export interface ProjectChat {
   _id?: string;
   createdBy: string;
-  title?: string;
+  // title?: string;
   comment?: string;
-  projectId: string;
+  projectId?: string;
   date?: string;
 }

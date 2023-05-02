@@ -62,6 +62,15 @@ const App: React.FC = (): JSX.Element => {
     }
   };
 
+  const handleGetProjects = async () => {
+    const response = await http.getAllProjects();
+    if (response!.status === 200) {
+      return response!.data;
+    } else {
+      alert('Something went wrong');
+    }
+  };
+
   return (
     <UserContext.Provider value={userContextValue}>
       <Routes>
@@ -80,7 +89,7 @@ const App: React.FC = (): JSX.Element => {
         <Route element={<Layout />}>
           <Route
             path='/home'
-            element={<Home getProjects={handleGetProjects} />}
+            element={<Home />}
           />
           <Route
             path='/projects/:id'
