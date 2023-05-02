@@ -4,9 +4,9 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import '../styles/donationForm.css';
 
-const serverURL = process.env.REACT_APP_SERVER;
+const serverURL = 'http://localhost:3001';
 
-function Pay2() {
+function Pay() {
   const [amount, setAmount] = useState<number>(0);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const stripe = useStripe();
@@ -73,10 +73,14 @@ function Pay2() {
           className='donationAmount'
           onChange={handleChange}
         ></input>
-        <div>
+        <div role='card-element-container'>
           <CardElement />
         </div>
-        <button className='donateButton'>
+        <button
+          type='submit'
+          className='donateButton'
+          role='donate-button'
+          disabled={isProcessing ? true: false}>
           {isProcessing ? 'Processing...' : 'Donate'}
         </button>
       </form>
@@ -84,4 +88,4 @@ function Pay2() {
   );
 }
 
-export default Pay2;
+export default Pay;

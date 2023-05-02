@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent, screen, getByLabelText } from '../utils/test-utils';
+import { render, fireEvent, screen } from '../utils/test-utils';
 import CreateProject from './CreateProject';
 import { BrowserRouter } from 'react-router-dom';
 
