@@ -1,9 +1,11 @@
 import app from './app';
-import { connectToDB } from './db';
+import connectToDB from './db';
 
-(async () => {
-  await connectToDB();
-  app.listen(3001, () => {
-    console.log('listening on http://localhost:3001');
+
+const PORT = 3001;
+(() => {
+  connectToDB();
+  app.listen(PORT, () => {
+    console.log(`listening on http://localhost:${PORT}`);
   });
 })();

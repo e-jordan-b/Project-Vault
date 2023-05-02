@@ -42,10 +42,6 @@ const ChatMessageSchema = new mongoose.Schema({
 });
 
 export const projectSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-  },
   title: {
     type: String,
     // required: true,
@@ -68,7 +64,7 @@ export const projectSchema = new mongoose.Schema({
     ref: 'userSchema',
     // required: true,
   },
-  date: [String],
+  date: String,
   chat: [ChatMessageSchema],
   tags: [String],
   followers: [String],

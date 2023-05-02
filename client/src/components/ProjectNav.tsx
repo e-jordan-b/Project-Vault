@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import ReactPlayer from 'react-player';
 import PropTypes from 'prop-types';
 import UserContext from '../context/UserContext';
@@ -30,13 +30,14 @@ function ProjectNav({
   // this is for chats
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
+    console.log('inside the function ', project._id)
+    console.log('project!!!', project)
     const today = new Date();
     const date = today.toLocaleDateString();
     const projectId = project._id;
     const createdBy = user?.firstName + ' ' + user?.lastName;
     const postComment = { createdBy, comment, date, projectId };
-
+    console.log('post comment ', postComment)
     setComment('');
 
     const result = await http.addComment(postComment);
@@ -44,7 +45,7 @@ function ProjectNav({
       handleCommentSubmit();
     }
   }
-
+  console.log('This is the proj', project)
   return (
     <div>
       <hr></hr>

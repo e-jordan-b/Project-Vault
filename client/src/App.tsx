@@ -35,7 +35,7 @@ const App: React.FC = (): JSX.Element => {
       setUser(response!.data);
       navigate('/home');
     } else {
-      alert('Something went wrong');
+      alert('Something went wrong in app, in handle login');
     }
   };
 
@@ -58,7 +58,7 @@ const App: React.FC = (): JSX.Element => {
       setUser(response!.data);
       navigate('/home');
     } else {
-      alert('Something went wrong');
+      alert('Something went wrong, app handleRegistration');
     }
   };
 
@@ -67,7 +67,7 @@ const App: React.FC = (): JSX.Element => {
     if (response!.status === 200) {
       return response!.data;
     } else {
-      alert('Something went wrong');
+      alert('Something went wrong, app handleGetProjects');
     }
   };
 

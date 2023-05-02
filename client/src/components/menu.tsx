@@ -14,11 +14,12 @@ function Menu() {
       <div className='menuComponent'>
         <nav className='sidebar'>
           <header>
+            <div>{ user?.email}</div>
             <div className='image-text'>
               <div
                 className='logoImag'
                 style={{
-                  backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/project-vault-low-resolution-color-logo_jtpd37.png`,
+                  backgroundImage: "url('./project-vault-low-resolution-color-logo_jtpd37.png')",
                 }}
               ></div>
             </div>

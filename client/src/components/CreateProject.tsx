@@ -28,13 +28,12 @@ interface CreateProjectProps {
 }
 
 const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
-  if (!open) return null;
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState<File>(); // We might not need an initial state here
   const { user } = useContext<UserContextType>(UserContext);
   const [projectInfo, setProjectInfo] = useState<Project>(initialState);
   const [quillValue, setQuillValue] = useState<string>('');
-  const [submitDisabled, setSubmitDisabled] = useState<boolean>(true);
+  if (!open) return null;
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
@@ -42,12 +41,10 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
       ...prev,
       [name]: value,
     }));
-    projectInfo.image ? setSubmitDisabled(false) : setSubmitDisabled(true);
   }
 
   function handleFileInputChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.files) setSelectedFile(e.target.files[0]);
-    projectInfo.title ? setSubmitDisabled(false) : setSubmitDisabled(true);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -87,7 +84,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     } else {
       navigate(`/posts/${project._id}`);
       onClose();
-      setSubmitDisabled(true);
     }
   }
 
@@ -153,7 +149,6 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
 
             <button
               type='submit'
-              disabled={submitDisabled}
               className='createNewProjectButton'
               role='submit-button'
             >

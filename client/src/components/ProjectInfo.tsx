@@ -20,7 +20,6 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
-  quillValue: '',
 };
 
 function ProjectInfo() {
@@ -46,7 +45,7 @@ function ProjectInfo() {
 
   async function handleFollowClick() {
     if (user && project._id) {
-      if (user.following.includes(project._id)) return;
+      if (user.following?.includes(project._id)) return;
     }
     const response = await fetch(`${serverURL}/posts/follow`, {
       method: 'POST',
@@ -73,7 +72,7 @@ function ProjectInfo() {
           <div
             className='imgDiv'
             style={{
-              backgroundImage: `url(https://res.cloudinary.com/dn1tvs94e/image/upload/v1681997706/${project.image}.jpg)`,
+              backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${project.image}.jpg`,
             }}
           ></div>
           <div className='UserInfo'>
