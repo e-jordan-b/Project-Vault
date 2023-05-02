@@ -31,7 +31,10 @@ function Login({ login }: LoginProps) {
     <div className='loginContainer'>
       <div className='anotherContainer'>
         <h1>Login</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='loginForm'
+        >
           <label htmlFor='email'>email</label>
           <input
             id='email'
@@ -60,7 +63,12 @@ function Login({ login }: LoginProps) {
           {errors.password && (
             <span role='alert'>{errors.password.message}</span>
           )}
-          <button type='submit'>SUBMIT</button>
+          <button
+            type='submit'
+            className='loginButton'
+          >
+            Log In
+          </button>
         </form>
         <span>Dont have an account?</span>
         <Link to={'/register'}> Sign Up</Link>
