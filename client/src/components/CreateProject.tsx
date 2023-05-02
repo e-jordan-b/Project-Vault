@@ -90,7 +90,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   return (
     <>
       <div className='overlay'>
-        <div className='CreateProjectDiv'>
+        <div className='createProjectDiv'>
           <button
             onClick={onClose}
             className='closeButton'
