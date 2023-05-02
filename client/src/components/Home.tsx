@@ -10,29 +10,31 @@ interface ProjectResponse {
 }
 
 function Home() {
-  const [projects, setProjects] = useState<ProjectResponse | null>(null);
+  const [projects, setProjects] = useState<Project[] | null>(null);
   const [searchResults, setSearchResult] = useState<Project[] | null>(null);
 
   useEffect(() => {
     (async () => {
       const response = await http.getAllProjects();
+      // console.log('response form Home: ', response)
       if (response!.status === 200) {
-        setProjects(response!.data);
+        // console.log('Project: ', response)
+        setProjects(response!.data.projects);
       } else {
-        alert('Something went wrong');
+        alert('Something went wrong, home getAllProjects');
       }
     })();
   }, []);
 
   useEffect(() => {
-    setSearchResult(projects ? [...projects.project].reverse() : []);
+    setSearchResult(projects ? [...projects].reverse() : []);
   }, [projects]);
 
   return (
     <>
       <div>
         <SearchBar
-          projects={projects ? projects.project : []}
+          projects={projects ? projects : []}
           setSearchResult={setSearchResult}
         />
       </div>

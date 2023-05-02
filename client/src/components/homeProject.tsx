@@ -43,7 +43,7 @@ function HomeProject({ project }: HomeProjectProps) {
           <p>{project.tags.join('# ') + '#'}</p>
           <button
             className='readMoreButton'
-            onClick={() => navigate(`/posts/${project._id}`)}
+            onClick={() => navigate(`/projects/${project._id}`)}
           >
             Read More
           </button>

@@ -16,7 +16,7 @@ export default interface Project {
 }
 
 export interface ProjectResponse {
-  project: Project[];
+  projects: Project[];
 }
 
 export interface ProjectUpdate {
