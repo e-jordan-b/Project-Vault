@@ -39,6 +39,7 @@ function ProjectInfo() {
 
   function handleCommentSubmit() {
     getProject();
+
   }
 
   async function handleFollowClick() {
@@ -87,6 +88,7 @@ function ProjectInfo() {
             handleCommentSubmit={handleCommentSubmit}
           />
         </div>
+
         <div className='buttonContainer'>
           {user?._id === project.createdBy ? (
             <button

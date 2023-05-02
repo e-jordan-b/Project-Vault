@@ -9,13 +9,15 @@ import Comments from './Comments';
 interface ProjectNavProps {
   updates: ProjectUpdate[] | undefined;
   project: Project;
-  handleCommentSubmit: () => void;
+  setProject: Function;
+  // handleCommentSubmit: () => void;
 }
 
 function ProjectNav({
   updates,
   project,
-  handleCommentSubmit,
+  setProject,
+  // handleCommentSubmit,
 }: ProjectNavProps) {
   const [selectedOption, setSelectedOption] = useState('updates');
   const [comment, setComment] = useState('');
@@ -30,7 +32,10 @@ function ProjectNav({
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.log("getting there")
+    
     e.preventDefault();
+
 
     const today = new Date();
     const date = today.toLocaleDateString();
@@ -38,11 +43,17 @@ function ProjectNav({
     const createdBy = user?.firstName + ' ' + user?.lastName;
     const postComment = { createdBy, comment, date, projectId };
 
-    setComment('');
 
+    setComment('');
     const result = await http.addComment(postComment);
-    if (result!.status === 200) {
-      handleCommentSubmit();
+    console.log('result', result)
+    if (result!.status === 201) {
+      setProject((prevProject: Project) => {
+        console.log("prevProject", prevProject)
+  return {...prevProject,
+        chat: [...prevProject.chat, postComment]
+      }})
+      // handleCommentSubmit();
     }
   }
 
