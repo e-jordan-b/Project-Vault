@@ -7,8 +7,6 @@ import ProjectNav from './ProjectNav';
 import Project from '../types/project.type';
 import http from '../services/api.service';
 
-const serverURL = process.env.REACT_APP_SERVER;
-
 const initialState: Project = {
   title: '',
   description: '',
@@ -45,95 +43,81 @@ function ProjectInfo() {
   }
 
   async function handleFollowClick() {
-    if (user && project._id && user.following?.includes(project._id)) return
+    if (user && project._id && user.following?.includes(project._id)) return;
     if (user && project._id) {
-    const res = await http.followProject({projectId: project._id, user})
-    if (res!.status === 200) {
-      setUser(res!.data)
+      const res = await http.followProject({ projectId: project._id, user });
+      if (res!.status === 200) {
+        setUser(res!.data);
+      }
     }
-    }
-
-    // const response = await fetch(`${serverURL}/posts/follow`, {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   body: JSON.stringify({
-    //     user,
-    //     project,
-    //   }),
-    // });
-    // const data = await response.json();
-    // setUser(data.user);
-    
   }
 
   return (
-    <>
-      <div>
-        <Update
-          open={isOpen}
-          onClose={() => setIsOpen(false)}
-          currentProject={project}
-          getProject={getProject}
-        ></Update>
-        <div className='containerFullInfo'>
-          <div
-            className='imgDiv'
-            style={{
-              backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${project.image}.jpg`,
-            }}
-          ></div>
-          <div className='UserInfo'>
-            <div className='UserDivStyle'>
-              <h1 className='ProjectInfoH1'>{project.title}</h1>
-              <div className='smallInfo'>
-                <h3>{project.author}</h3>
-                <h3>{project.date}</h3>
-              </div>
+    <div>
+      <Update
+        open={isOpen}
+        onClose={() => setIsOpen(false)}
+        currentProject={project}
+        getProject={getProject}
+      ></Update>
+      <div className='containerFullInfo'>
+        <div
+          className='imgDiv'
+          style={{
+            backgroundImage: `url(https://res.cloudinary.com/${process.env.REACT_APP_KEY}/image/upload/v1681997706/${project.image}.jpg`,
+          }}
+        ></div>
+        <div className='UserInfo'>
+          <div className='UserDivStyle'>
+            <h1 className='ProjectInfoH1'>{project.title}</h1>
+            <div className='smallInfo'>
+              <h3>{project.author}</h3>
+              <h3>{project.date}</h3>
             </div>
           </div>
         </div>
-        <div className='descriptionContainer'>
-          <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
-        </div>
-        <nav className='navigation'>
-          <div className='projectNavContainer'>
-            <ProjectNav
-              updates={project.updates}
-              project={project}
-              setProject={setProject}
-              handleCommentSubmit={handleCommentSubmit}
-            />
-          </div>
-          <div className='buttonContainer'>
-            {user?._id === project.createdBy ? (
-              <button
-                onClick={() => setIsOpen(true)}
-                className='updateButton'
-              >
-                UPDATE
-              </button>
-            ) : (
-              <>
-                <button
-                  className='followAndDonateButtons'
-                  onClick={handleFollowClick}
-                >
-                  {user && project._id && user.following?.includes(project._id)
-                    ? 'Following'
-                    : 'Follow'}
-                </button>
-                <button
-                  className='followAndDonateButtons'
-                  onClick={() => navigate('/donation')}
-                >
-                  Donate
-                </button>
-              </>
-            )}
-          </div>
-        </nav>
       </div>
-    </>
+      <div className='descriptionContainer'>
+        <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
+      </div>
+      <nav className='navigation'>
+        <div className='projectNavContainer'>
+          <ProjectNav
+            updates={project.updates}
+            project={project}
+            handleCommentSubmit={handleCommentSubmit}
+          />
+        </div>
+
+        <div className='buttonContainer'>
+          {user?._id === project.createdBy ? (
+            <button
+              onClick={() => setIsOpen(true)}
+              className='updateButton'
+            >
+              UPDATE
+            </button>
+          ) : (
+            <>
+              <button
+                className='followAndDonateButtons'
+                onClick={handleFollowClick}
+              >
+                {user && project._id && user.following?.includes(project._id)
+                  ? 'Following'
+                  : 'Follow'}
+              </button>
+              <button
+                className='followAndDonateButtons'
+                onClick={() => navigate('/donation')}
+              >
+                Donate
+              </button>
+            </>
+          )}
+        </div>
+      </nav>
+    </div>
   );
 }
 
