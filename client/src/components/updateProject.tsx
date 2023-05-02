@@ -22,12 +22,13 @@ type UpdateProps = {
 const serverURL = process.env.REACT_APP_SERVER;
 
 function Update({ open, onClose, currentProject, getProject }: UpdateProps) {
-  if (!open) return null;
-
+  
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
   const [state, setState] = useState(initialState);
   const [quillValue, setQuillValue] = useState('');
-
+  
+  if (!open) return null;
+  
   function handleChange(e: any) {
     const { name, value } = e.target;
     setState((prev) => ({
