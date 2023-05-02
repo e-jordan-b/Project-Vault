@@ -40,7 +40,7 @@ function Menu() {
                 <li className='nav-link'>
                   <BiBookOpen className='icon' />
                   <Link
-                    to='posts/personal'
+                    to='projects/personal'
                     className='react-link'
                   >
                     <span className='text'>My Projects</span>

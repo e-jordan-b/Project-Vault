@@ -18,7 +18,7 @@ function SearchBar({ projects, setSearchResult }: Props) {
 
     const resultsArray = projects.filter(
       (project) =>
-        project.tags.includes(e.target.value) ||
+        project.tags?.includes(e.target.value) ||
         project.title.toLowerCase().includes(e.target.value)
     );
 

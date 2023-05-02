@@ -37,26 +37,32 @@ function ProjectInfo() {
 
   useEffect(() => {
     getProject();
-  }, []);
+  }, [user]);
 
   function handleCommentSubmit() {
     getProject();
   }
 
   async function handleFollowClick() {
+    if (user && project._id && user.following?.includes(project._id)) return
     if (user && project._id) {
-      if (user.following?.includes(project._id)) return;
+    const res = await http.followProject({projectId: project._id, user})
+    if (res!.status === 200) {
+      setUser(res!.data)
     }
-    const response = await fetch(`${serverURL}/posts/follow`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        user,
-        project,
-      }),
-    });
-    const data = await response.json();
-    setUser(data.user);
+    }
+
+    // const response = await fetch(`${serverURL}/posts/follow`, {
+    //   method: 'POST',
+    //   headers: { 'Content-Type': 'application/json' },
+    //   body: JSON.stringify({
+    //     user,
+    //     project,
+    //   }),
+    // });
+    // const data = await response.json();
+    // setUser(data.user);
+    
   }
 
   return (
@@ -110,7 +116,7 @@ function ProjectInfo() {
                   className='followAndDonateButtons'
                   onClick={handleFollowClick}
                 >
-                  {user && project._id && user.following.includes(project._id)
+                  {user && project._id && user.following?.includes(project._id)
                     ? 'Following'
                     : 'Follow'}
                 </button>

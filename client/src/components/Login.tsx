@@ -50,10 +50,10 @@ function Login({ login }: LoginProps) {
             id='password'
             {...register('password', {
               required: 'required',
-              minLength: {
-                value: 5,
-                message: 'min length is 5',
-              },
+              // minLength: {
+              //   value: 5,
+              //   message: 'min length is 5',
+              // },
             })}
             type='password'
           />

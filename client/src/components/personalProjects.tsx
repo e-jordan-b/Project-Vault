@@ -9,9 +9,14 @@ function PersonalProjects() {
   const [personalProjects, setPersonalProjects] = useState<Project[]>([]);
 
   useEffect(() => {
-    if (user && user._id) {
-      const response = http.ownProjects(user._id);
+    (async () => {
+      console.log('🐷 user', user)
+      if (user && user._id) {
+      const response = await http.ownProjects(user!._id);
+      console.log('👉', response)
+      setPersonalProjects(response!.data)
     }
+      })()
   }, []);
 
   return (

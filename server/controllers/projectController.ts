@@ -53,9 +53,9 @@ export const getProjectById = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    console.log(req.params.id)
+    console.log(req.params.id);
     const project = await Project.findOne({ _id: req.params.id });
-    console.log('project form getProjetbyId', project)
+    console.log('project form getProjetbyId', project);
     if (project != null) {
       res.status(200).send(project);
     } else {
@@ -72,16 +72,13 @@ export const followProject = async (
 ): Promise<Response | void> => {
   try {
     console.log('🔪', req.body);
-    const projectId = req.body.id;
+    const projectId = req.body.projectId;
     // const user = await User.findOne({ _id: req.body.user._id });
     // user?.following.push(project);
     const user = await User.findByIdAndUpdate(req.body.user._id, {
       $push: { following: projectId },
     });
-    console.log(
-      'TESTING HERE 🙋🏻🙋🏻',
-      await User.findOne({ email: 'jane.doe@example.com' })
-    );
+    console.log('user 🙋🏻🙋🏻', user);
 
     // const post = await Post.findOne({ id: project });
     // post.followers.push(user._id);
@@ -164,11 +161,13 @@ export const personalProjects = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    const user = await User.findById(req.params._id);
-    const created = user?.createdProjects;
-    const projects = await Project.find({ _id: { $in: created } });
-
-    res.status(200).send({ projects });
+    // const user = await User.findById(req.params._id);
+    // const created = user?.createdProjects;
+    // const projects = await Project.find({ _id: { $in: createdProjects } });
+    console.log('🍻_id of the user', req.params.id);
+    const projects = await Project.find({ createdBy: req.params.id });
+    console.log('🍻', projects);
+    res.status(200).send(projects);
   } catch (error) {
     // console.log(error);
     res.status(400).send({ error, message: 'cannot get your projects' });
@@ -181,7 +180,7 @@ export const postComment = async (
 ): Promise<Response | void> => {
   try {
     // const project = await Project.findOne(req.body._id);
-    console.log('body of the request',req.body)
+    console.log('body of the request', req.body);
     const newComment = {
       createdBy: req.body.createdBy,
       comment: req.body.comment,
