@@ -22,7 +22,7 @@ const checkout = async (req: Request, res: Response): Promise<Response | void> =
       payment_method: id,
       confirm: true
     })
-
+    console.log('payment intent', paymentIntent)
    const updatedProject = await Project.findOneAndUpdate(
       { id: projectId },
       {
