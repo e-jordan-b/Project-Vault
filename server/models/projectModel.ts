@@ -24,6 +24,7 @@ const UpdateSchema = new mongoose.Schema({
     type: String,
   },
   chat: [String],
+  donationsCents: Number
 });
 
 const ChatMessageSchema = new mongoose.Schema({
@@ -68,6 +69,11 @@ export const projectSchema = new mongoose.Schema({
   chat: [ChatMessageSchema],
   tags: [String],
   followers: [String],
+  donationsCents: {
+    type: Number,
+    default: 0
+  }
+
 });
 
 export default mongoose.model('Projects', projectSchema);

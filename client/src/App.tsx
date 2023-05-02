@@ -109,7 +109,7 @@ const App: React.FC = (): JSX.Element => {
           />
         </Route>
         <Route
-          path='/donation'
+          path='/donation/:projectId'
           element={<Form2 />}
         />
       </Routes>
