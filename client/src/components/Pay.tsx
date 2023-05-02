@@ -63,7 +63,8 @@ function Pay() {
       <form
         onSubmit={handleSubmit}
         className='donationForm'
-      >
+        >
+        <h1 className='donationFormTitle'>Support this Project:</h1>
         <label htmlFor='amount'>Amount:</label>
         <input
           type='number'

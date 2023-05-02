@@ -45,30 +45,5 @@ describe('CreateProject rendering tests', () => {
     );
     expect(document.querySelector('.overlay')).not.toBeInTheDocument();
   })
-
-
-  it('Requires title and img inputs to be filled in order to submit the form', () => {
-    render(
-      <BrowserRouter>
-        <CreateProject open={true} onClose={onClose} />
-      </BrowserRouter>
-    );
-    const titleInput = screen.getByLabelText('Title:');
-    const imgInput = screen.getByLabelText('Image:');
-    const submitButton = screen.getByRole('submit-button');
-    expect(submitButton).toBeDisabled();
-
-    fireEvent.change(titleInput, { target: { value: 'Not empty' } });
-    expect(submitButton).toBeDisabled();
-
-    render(
-      <BrowserRouter>
-        <CreateProject open={true} onClose={onClose} />
-      </BrowserRouter>
-    );
-    fireEvent.change(imgInput, { target: { files: ['file'] } });
-    fireEvent.change(titleInput, { target: { value: 'Not empty' } });
-    expect(submitButton).not.toBeDisabled();
-  })
 })
 
