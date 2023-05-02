@@ -10,13 +10,15 @@ import Project, { ProjectChat, ProjectUpdate } from '../types/project.type';
 interface ProjectNavProps {
   updates: ProjectUpdate[] | undefined;
   project: Project;
-  handleCommentSubmit: () => void;
+  setProject: Function;
+  // handleCommentSubmit: () => void;
 }
 
 function ProjectNav({
   updates,
   project,
-  handleCommentSubmit,
+  setProject,
+  // handleCommentSubmit,
 }: ProjectNavProps) {
   const [selectedOption, setSelectedOption] = useState('updates');
   const [comment, setComment] = useState('');
@@ -29,23 +31,27 @@ function ProjectNav({
 
   // this is for chats
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    console.log("getting there")
+    
     e.preventDefault();
-    console.log('inside the function ', project._id)
-    console.log('project!!!', project)
     const today = new Date();
     const date = today.toLocaleDateString();
     const projectId = project._id;
     const createdBy = user?.firstName + ' ' + user?.lastName;
     const postComment = { createdBy, comment, date, projectId };
-    console.log('post comment ', postComment)
     setComment('');
-
     const result = await http.addComment(postComment);
-    if (result!.status === 200) {
-      handleCommentSubmit();
+    console.log('result', result)
+    if (result!.status === 201) {
+      setProject((prevProject: Project) => {
+        console.log("prevProject", prevProject)
+  return {...prevProject,
+        chat: [...prevProject.chat, postComment]
+      }})
+      // handleCommentSubmit();
     }
   }
-  console.log('This is the proj', project)
+  
   return (
     <div>
       <hr></hr>
