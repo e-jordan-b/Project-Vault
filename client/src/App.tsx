@@ -9,7 +9,7 @@ import Layout from './components/layout';
 import ProjectInfo from './components/ProjectInfo';
 import Following from './components/followingProjects';
 import PersonalProjects from './components/personalProjects';
-import Form2 from './components/form2';
+import Form2 from './components/DonationForm';
 import { User, UserContextType } from './types/user.type';
 import http from './services/api.service';
 

@@ -12,7 +12,7 @@ const stripe: Stripe = new Stripe(
 
 const checkout = async (req: Request, res: Response): Promise<Response | void> => {
   const { amount, id } = req.body;
-  
+  console.log('stripe from controller: ', stripe)
   try {
     const payment = await stripe.paymentIntents.create({
       amount,
