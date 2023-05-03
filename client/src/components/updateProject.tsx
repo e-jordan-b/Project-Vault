@@ -81,7 +81,10 @@ function Update({ open, onClose, currentProject, getProject }: UpdateProps) {
       })
       .catch((error) => {
         alert('error updating, try again');
-      });
+      })
+      .then(() => getProject())
+      .then(() => onClose())
+      .catch((err) => console.log(err));
   }
 
   return (

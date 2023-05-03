@@ -4,6 +4,7 @@ import UserContext from '../context/UserContext';
 import CreateProject from './CreateProject';
 import { Link } from 'react-router-dom';
 import { BiHomeAlt2, BiBookHeart, BiBookOpen, BiUser } from 'react-icons/bi';
+import logo from '../img/project-vault-low-resolution-logo-black-on-white-background.png';
 
 function Menu() {
   const { user } = useContext(UserContext);
@@ -14,13 +15,12 @@ function Menu() {
       <div className='menuComponent'>
         <nav className='sidebar'>
           <header>
-            <div>{user?.email}</div>
+            {/* <div>{user?.email}</div> */}
             <div className='image-text'>
               <div
                 className='logoImag'
                 style={{
-                  backgroundImage:
-                    "url('./project-vault-low-resolution-color-logo_jtpd37.png')",
+                  backgroundImage: `url(${logo})`,
                 }}
               ></div>
             </div>
