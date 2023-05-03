@@ -5,26 +5,30 @@ import '../styles/projectDesign.css';
 import Project from '../types/project.type';
 import http from '../services/api.service';
 
-const serverURL = process.env.REACT_APP_SERVER;
-
 function Following() {
   const { user } = useContext(UserContext);
-  const [followingProjects, setFollowingProjects] = useState<Project[]>([]);
+  const [followedProjects, setFollowedProjects] = useState<Project[]>([]);
+
+  async function resetFollowedProjects() {
+    if (user && user._id) {
+      const res = await http.followedProjects(user._id);
+      // console.log('what did we receive from the back end?', res!.data);
+      if (res!.status === 200) {
+        setFollowedProjects(res!.data);
+        // console.log('have we set it correctly?', followedProjects);
+      }
+    }
+  }
 
   useEffect(() => {
-    if (user && user._id) {
-      const response = http.followedProjects(user._id);
-    }
+    resetFollowedProjects();
   }, []);
 
   return (
     <div className='followingProjectsContainer'>
-      {followingProjects &&
-        followingProjects.map((project: Project) => (
-          <ProjectDesign
-            key={project._id}
-            project={project}
-          />
+      {followedProjects &&
+        followedProjects.map((project: Project) => (
+          <ProjectDesign key={project._id} project={project} />
         ))}
     </div>
   );

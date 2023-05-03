@@ -14,12 +14,13 @@ function Menu() {
       <div className='menuComponent'>
         <nav className='sidebar'>
           <header>
-            <div>{ user?.email}</div>
+            <div>{user?.email}</div>
             <div className='image-text'>
               <div
                 className='logoImag'
                 style={{
-                  backgroundImage: "url('./project-vault-low-resolution-color-logo_jtpd37.png')",
+                  backgroundImage:
+                    "url('./project-vault-low-resolution-color-logo_jtpd37.png')",
                 }}
               ></div>
             </div>
@@ -30,28 +31,19 @@ function Menu() {
               <ul className='menu-links'>
                 <li className='nav-link'>
                   <BiHomeAlt2 className='icon' />
-                  <Link
-                    to='home'
-                    className='react-link'
-                  >
+                  <Link to='home' className='react-link'>
                     <span className='text'>Home</span>
                   </Link>
                 </li>
                 <li className='nav-link'>
                   <BiBookOpen className='icon' />
-                  <Link
-                    to='projects/personal'
-                    className='react-link'
-                  >
+                  <Link to='projects/personal' className='react-link'>
                     <span className='text'>My Projects</span>
                   </Link>
                 </li>
                 <li className='nav-link'>
                   <BiBookHeart className='icon' />
-                  <Link
-                    to='posts/following'
-                    className='react-link'
-                  >
+                  <Link to='projects/following' className='react-link'>
                     <span className='text'>Following</span>
                   </Link>
                 </li>

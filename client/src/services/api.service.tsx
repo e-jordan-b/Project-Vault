@@ -63,6 +63,7 @@ class ApiService {
     password: string;
   }): Promise<AxiosResponse<User> | undefined> | undefined {
     try {
+      console.log('data we send to SERVER in API service 💁🏻‍♀️', data);
       return http.post<User>('/login', JSON.stringify(data));
     } catch (e) {
       const error = e as AxiosError;

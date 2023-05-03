@@ -145,11 +145,12 @@ export const followingProjects = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    const user = await User.findById(req.params._id);
+    const user = await User.findById(req.params.id);
     const following = user?.following;
+    console.log('user following array', following);
     const projects = await Project.find({ _id: { $in: following } });
-    console.log('🙋🏻🙋🏻', projects);
-    res.status(200).send({ projects });
+    console.log('SERVER following array 🙋🏻🙋🏻', projects);
+    res.status(200).send(projects);
   } catch (error) {
     // console.log(error);
     res.status(400).send({ error, message: 'cannot get following' });
