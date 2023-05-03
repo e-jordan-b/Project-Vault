@@ -5,7 +5,7 @@ import Pay from './Pay'
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLIC_KEY!);
 
-function Form() {
+function DonationForm() {
   return (
     <Elements stripe={stripePromise}>
       <Pay/>
@@ -13,4 +13,4 @@ function Form() {
   );
 }
 
-export default Form;
+export default DonationForm;

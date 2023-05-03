@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { useNavigate, useParams} from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import '../styles/donationForm.css';
 
-const serverURL = 'http://localhost:3001';
+const serverURL = process.env.REACT_APP_SERVER;
 
 function Pay() {
   const [amount, setAmount] = useState<number | string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate();
   const { projectId } = useParams();
+  const [showMessage, setShowMessage] = useState('');
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setAmount(Number(e.target.value));
+    setAmount(e.target.value);
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -48,46 +48,66 @@ function Pay() {
         id,
         projectId
       });
-      console.log('response from FRONTEND: ', response)
-      navigate('/home');
-      if (response.data.success) {
-        console.log('Succesfull payment');
-        navigate('/home');
-      }
+      console.log('RESPONSE! -> ', response)
+      setShowMessage('success')
+      setTimeout(() => window.history.back(), 2000);
     } catch (error) {
+      setShowMessage('error');
       console.log('error from the pay component: ', error);
     }
     setIsProcessing(false);
   }
 
   function onClose() {
+    setShowMessage('');
     window.history.back();
   }
 
   return (
     <div className='donationDiv'>
-       
+      {showMessage.length > 0 &&
+        <div className='backgroundDiv'>
+          <div className='showMessage' style={{ zIndex: 2 }}>
+            <button
+              onClick={onClose}
+              className='closeButton'
+              role='close-button'
+            >
+              X
+            </button>
+            {showMessage === 'error'
+              ? <h1>There's been a problem with your donation, <br></br> please try an alternative card.</h1>
+              : <h1>Your donation has been made, <br></br> Thank you for your support! ✨</h1>
+            }
+          </div>
+        </div>
+      }
       <form
         onSubmit={handleSubmit}
         className='donationForm'
       >
-          <button
-            onClick={onClose}
-            className='closeButton'
-            role='close-button'
-          >
+        <button
+          onClick={onClose}
+          className='closeButton'
+          role='close-button'
+        >
           X
-          </button>
-          <h1 className='donationFormTitle'>Support this Project:</h1>
+        </button>
+        <h1 className='donationFormTitle'>Support this Project:</h1>
         <label htmlFor='amount'>Amount:</label>
-        <input
-          type='number'
-          id='amount'
-          name='amount'
-          value={amount}
-          className='donationAmount'
-          onChange={handleChange}
-        ></input>
+        <div>
+          <span>€</span>
+          <input
+            type='number'
+            id='amount'
+            name='amount'
+            value={amount}
+            className='donationAmount'
+            onChange={handleChange}
+            placeholder='0'
+            style={{ display: 'inline' }}
+          ></input>
+        </div>
         <div className='cardElementContainer' role='card-element-container'>
           <CardElement />
         </div>
@@ -95,7 +115,7 @@ function Pay() {
           type='submit'
           className='donateButton'
           role='donate-button'
-           >
+        >
           {isProcessing ? 'Processing...' : 'Donate'}
         </button>
       </form>
