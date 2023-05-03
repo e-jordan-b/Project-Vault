@@ -1,9 +1,16 @@
-
 .projectContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-bottom: 100px;
+}
+
+.nameDonationsContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: top;
+  width: 100%;
+  margin: 10px 0px;
 }
 
 .imageDiv {
@@ -12,14 +19,23 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  border-radius: 20px 20px 0 0 ;
+  border-radius: 20px 20px 0 0;
+}
+
+.donationsContainerHome {
+  border-radius: 15px;
+  border: 1px rgba(50, 50, 93, 0.25) solid;
+  padding: 10px 20px;
+  flex-grow: 0;
+  min-width: 175px;
+  height: fit-content;
 }
 
 .projectInformation {
   width: 900px;
   height: 240px;
   background-color: white;
-  border-radius: 0px 0px 20px 20px ;
+  border-radius: 0px 0px 20px 20px;
   padding: 15px 15px;
   display: flex;
   flex-direction: column;
@@ -53,7 +69,7 @@
   padding: 20px 20px;
   border-style: none;
   color: black;
-  font-size: 14px ;
+  font-size: 14px;
   border-radius: 10px;
   transition: all 0.5s;
   cursor: pointer;

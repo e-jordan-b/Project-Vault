@@ -15,7 +15,7 @@ function HomeProject({ project }: HomeProjectProps) {
     project.description.length > 400
       ? project.description.substring(0, 400) + ' ...'
       : project.description;
-console.log('project nowwwww: ', project)
+  console.log('project nowwwww: ', project);
   return (
     <div className='projectContainer'>
       <div
@@ -25,7 +25,14 @@ console.log('project nowwwww: ', project)
         }}
       ></div>
       <div className='projectInformation'>
-        <h1>{project.title}</h1>
+        <div className='nameDonationsContainer'>
+          <h1>{project.title}</h1>
+          <div className='donationsContainerHome'>
+            <p>
+              Donations received: <b>{project.donationsCents / 100} €</b>
+            </p>
+          </div>
+        </div>
         <div className='userInfo'>
           <div className='userSomething'>
             <BiUser className='userIcon' />
