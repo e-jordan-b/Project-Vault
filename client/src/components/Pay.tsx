@@ -65,7 +65,7 @@ function Pay() {
 
   return (
     <div className='donationDiv'>
-      {showMessage.length > 0 && (
+      {showMessage.length > 0 && 
         <div className='backgroundDiv'>
           <div className='showMessage' style={{ zIndex: 2 }}>
             <button
