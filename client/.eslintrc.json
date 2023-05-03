@@ -3,11 +3,7 @@
     "browser": true,
     "es2021": true
   },
-  "extends": [
-    "plugin:react/recommended",
-    "standard",
-    "plugin:jest-dom/recommended"
-  ],
+  "extends": ["plugin:react/recommended", "plugin:jest-dom/recommended"],
   "overrides": [],
   "parserOptions": {
     "ecmaVersion": "latest",
