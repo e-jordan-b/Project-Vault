@@ -18,6 +18,7 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
+  donationsCents: 0,
 };
 
 function ProjectInfo() {
@@ -36,10 +37,6 @@ function ProjectInfo() {
   useEffect(() => {
     getProject();
   }, [user]);
-
-  function handleCommentSubmit() {
-    getProject();
-  }
 
   async function handleFollowClick() {
     if (user && project._id && user.following?.includes(project._id)) return;
@@ -79,6 +76,11 @@ function ProjectInfo() {
               <h3>{project.date}</h3>
             </div>
           </div>
+          <div className='donationsContainer'>
+            <p>
+              Donations received: <b>{project.donationsCents / 100} €</b>
+            </p>
+          </div>
         </div>
       </div>
       <div className='descriptionContainer'>
@@ -90,7 +92,6 @@ function ProjectInfo() {
             updates={project.updates}
             project={project}
             setProject={setProject}
-            // handleCommentSubmit={handleCommentSubmit}
           />
         </div>
 
@@ -111,7 +112,7 @@ function ProjectInfo() {
               </button>
               <button
                 className='followAndDonateButtons'
-                onClick={() => navigate('/donation')}
+                onClick={() => navigate(`/donation/${project._id}`)}
               >
                 Donate
               </button>

@@ -45,8 +45,8 @@ function Menu() {
                   <BiBookHeart className='icon' />
                   <Link to='projects/following' className='react-link'>
                     <span className='text'>Following</span>
-                  </Link>
-                </li>
+                  </li>
+                </Link>
               </ul>
 
               <div className='userContainer'>
