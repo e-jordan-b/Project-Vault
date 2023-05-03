@@ -11,7 +11,7 @@
   position: relative;
   width: 30%;
   min-width: max-content;
-  height: 20%;
+  height: 25%;
   background-color: white;
   padding: 35px 30px;
   display: flex;
@@ -21,9 +21,7 @@
   box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;;
 }
 
-.donationFormTitle {
-  margin-bottom: 15px;
-}
+
 
 .donationAmount {
   text-decoration: none;
@@ -33,6 +31,12 @@
   border-width: 1px;
   margin-left: 10px;
   padding: 5px 5px;
+}
+
+
+.donationFormTitle {
+  margin-bottom: 25px;
+  text-align: center;
 }
 
 .donateButton {
@@ -52,4 +56,19 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.closeButton {
+  align-self: flex-start;
+  padding: 10px 10px;
+  background-color: #FFF;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline;
+}
+
+.cardElementContainer {
+  display: block;
 }

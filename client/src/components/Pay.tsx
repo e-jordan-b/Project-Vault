@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams} from 'react-router-dom';
 import '../styles/donationForm.css';
 
 const serverURL = 'http://localhost:3001';
@@ -12,9 +12,7 @@ function Pay() {
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate();
-
-  // console.log('stripe elements when rendering: ', elements)
-  // console.log('stripe when rendering: ', stripe)
+  const { projectId } = useParams();
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     setAmount(Number(e.target.value));
@@ -25,12 +23,10 @@ function Pay() {
     setIsProcessing(true);
 
     const cardElement = elements?.getElement(CardElement);
-    console.log('card element: ', cardElement)
     if (!cardElement) {
       setIsProcessing(false);
       return;
     }
-    console.log('Submitting with stripe and card element')
     const paymentMethodResult = await stripe?.createPaymentMethod({
       type: 'card',
       card: cardElement,
@@ -50,8 +46,10 @@ function Pay() {
       const response = await axios.post(`${serverURL}/create-payment-intent`, {
         amount: amountInCents,
         id,
+        projectId
       });
       console.log('response from FRONTEND: ', response)
+      navigate('/home');
       if (response.data.success) {
         console.log('Succesfull payment');
         navigate('/home');
@@ -62,13 +60,25 @@ function Pay() {
     setIsProcessing(false);
   }
 
+  function onClose() {
+    window.history.back();
+  }
+
   return (
     <div className='donationDiv'>
+       
       <form
         onSubmit={handleSubmit}
         className='donationForm'
-        >
-        <h1 className='donationFormTitle'>Support this Project:</h1>
+      >
+          <button
+            onClick={onClose}
+            className='closeButton'
+            role='close-button'
+          >
+          X
+          </button>
+          <h1 className='donationFormTitle'>Support this Project:</h1>
         <label htmlFor='amount'>Amount:</label>
         <input
           type='number'
@@ -78,7 +88,7 @@ function Pay() {
           className='donationAmount'
           onChange={handleChange}
         ></input>
-        <div role='card-element-container'>
+        <div className='cardElementContainer' role='card-element-container'>
           <CardElement />
         </div>
         <button
@@ -95,7 +105,6 @@ function Pay() {
 
 export default Pay;
 
-// import React, { useState } from 'react'
 // import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 // import axios from 'axios'
 // import { useNavigate } from 'react-router-dom'
