@@ -76,17 +76,21 @@ function Pay() {
               X
             </button>
 
-            {showMessage === 'error'
-              ? <h1>There&apos;s been a problem with your donation, <br></br> please try an alternative card.</h1>
-              : <h1>Your donation has been made, <br></br> Thank you for your support! ✨</h1>
-            }
+            {showMessage === 'error' ? (
+              <h1>
+                There&apos;s been a problem with your donation, <br></br> please
+                try an alternative card.
+              </h1>
+            ) : (
+              <h1>
+                Your donation has been made, <br></br> Thank you for your
+                support! ✨
+              </h1>
+            )}
           </div>
         </div>
-      }
-      <form
-        onSubmit={handleSubmit}
-        className='donationForm'
-      >
+      )}
+      <form onSubmit={handleSubmit} className='donationForm'>
         <button
           onClick={onClose}
           className='closePayButton'

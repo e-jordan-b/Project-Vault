@@ -16,10 +16,7 @@ function ProjectDesign({ project }: ProjectDesignProps) {
       : project.description;
 
   return (
-    <Link
-      to={`/posts/${project._id}`}
-      className='link'
-    >
+    <Link to={`/projects/${project._id}`} className='link'>
       <div className='projectDesignContainer'>
         <div
           className='imageProjectDesign'
