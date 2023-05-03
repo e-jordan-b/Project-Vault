@@ -18,6 +18,7 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
+  donationsCents: 0,
 };
 
 function ProjectInfo() {
@@ -37,8 +38,7 @@ function ProjectInfo() {
     getProject();
   }, [user]);
 
-
-  console.log('current project ', project)
+  console.log('current project ', project);
   async function handleFollowClick() {
     if (user && project._id && user.following?.includes(project._id)) return;
     if (user && project._id) {
@@ -71,6 +71,11 @@ function ProjectInfo() {
               <h3>{project.author}</h3>
               <h3>{project.date}</h3>
             </div>
+          </div>
+          <div className='donationsContainer'>
+            <p>
+              Donations received: <b>{project.donationsCents / 100} €</b>
+            </p>
           </div>
         </div>
       </div>

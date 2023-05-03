@@ -12,7 +12,7 @@ export default interface Project {
   chat: ProjectChat[];
   tags: string[];
   followers: User[] | string[] | [];
-  quillValue?: string;
+  donationsCents: number;
 }
 
 export interface ProjectResponse {
@@ -27,6 +27,8 @@ export interface ProjectUpdate {
   image?: string;
   video?: string;
   chat?: string[];
+  projectId?: string;
+  donationsCents?: number;
 }
 
 export interface ProjectChat {
