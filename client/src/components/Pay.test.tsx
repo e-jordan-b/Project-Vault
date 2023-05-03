@@ -11,15 +11,9 @@ import axios, { AxiosResponse, AxiosHeaders, InternalAxiosRequestConfig } from '
 const serverURL = 'http://localhost:3001';
 const stripePromise: Promise<Stripe | null>= loadStripe(process.env.REACT_APP_STRIPE_KEY as string)
 
-jest.mock('axios', () => ({
-  post: jest.fn(),
-}));
+
 
 describe('Pay component', () => {
-  beforeEach(async () => {
-      jest.clearAllMocks();
-  })
-
   it('Should render the form input ', () => {
     render(
       <BrowserRouter>
@@ -74,41 +68,6 @@ describe('Pay component', () => {
     expect(amountInput).toHaveValue(500);
   })
 
-  // it('handles form submission with successful payment', async () => {
-  //   const response: AxiosResponse = {
-  //     data: {
-  //       success: true,
-  //     },
-  //     status: 200,
-  //     statusText: 'OK',
-  //     headers: {} as AxiosHeaders,
-  //     config: {} as InternalAxiosRequestConfig,
-  //   };
 
-  //   (axios.post as jest.Mock).mockResolvedValue(response);
-
-  //   const { getByLabelText, getByRole } = render(
-  //     <BrowserRouter>
-  //       <Elements stripe={stripePromise}>
-  //         <Pay />
-  //       </Elements>
-  //     </BrowserRouter>
-  //   );
-
-  //   const amountInput = getByLabelText('Amount:');
-  //   fireEvent.change(amountInput, { target: { value: '10' } });
-
-  //   const cardElement = getByRole('card-element-container').querySelector(':scope > *');
-  //   fireEvent.load(cardElement as Element);
-
-  //   fireEvent.click(getByRole('donate-button'));
-
-  //   await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
-  //   expect(axios.post).toHaveBeenCalledWith(`${serverURL}/create-payment-intent`, {
-  //     amount: 1000,
-  //     id: 'card',
-  //   });
-  //   expect(screen.getByText('Succesfull payment')).toBeInTheDocument();
-  // });
 
 })

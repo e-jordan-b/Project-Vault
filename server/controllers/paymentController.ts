@@ -24,9 +24,9 @@ const checkout = async (req: Request, res: Response): Promise<Response | void> =
     })
     console.log('payment intent', paymentIntent)
    const updatedProject = await Project.findOneAndUpdate(
-      { id: projectId },
+      { _id: projectId },
       {
-        $inc: { donations: paymentIntent.amount },
+        $inc: { donationsCents: paymentIntent.amount },
       }
     );
 

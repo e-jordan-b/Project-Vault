@@ -37,10 +37,10 @@ function ProjectInfo() {
     getProject();
   }, [user]);
   
-  function handleCommentSubmit() {
-    getProject();
+  // function handleCommentSubmit() {
+  //   getProject();
 
-  }
+  // }
   
   console.log('current project ', project)
   async function handleFollowClick() {
@@ -86,7 +86,8 @@ function ProjectInfo() {
           <ProjectNav
             updates={project.updates}
             project={project}
-            handleCommentSubmit={handleCommentSubmit}
+            setProject={setProject}
+            // handleCommentSubmit={handleCommentSubmit}
           />
         </div>
 
