@@ -68,20 +68,4 @@ describe('Pay component', () => {
     expect(amountInput).toHaveValue(500);
   })
 
-  it('Should work', () => {
-    render(
-      <BrowserRouter>
-        <Elements stripe={stripePromise}>
-          <Pay />
-        </Elements>
-      </BrowserRouter>
-    )
-    const amountInput = screen.getByLabelText('Amount:');
-    const donatebutton = screen.getByRole('donate-button');
-    fireEvent.change(amountInput, { target: { value: 500 } });
-    fireEvent.submit(donatebutton);
-
-    
-  })
-
 })

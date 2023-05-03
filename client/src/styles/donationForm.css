@@ -84,7 +84,7 @@ input::-webkit-inner-spin-button {
   align-items: center;
 }
 
-.errorMessage {
+.showMessage {
   width: 30%;
   min-width: max-content;
   max-width:50%;

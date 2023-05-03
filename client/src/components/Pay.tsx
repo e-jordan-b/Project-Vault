@@ -67,7 +67,7 @@ function Pay() {
     <div className='donationDiv'>
       {showMessage.length > 0 &&
         <div className='backgroundDiv'>
-          <div className='errorMessage' style={{ zIndex: 2 }}>
+          <div className='showMessage' style={{ zIndex: 2 }}>
             <button
               onClick={onClose}
               className='closeButton'
