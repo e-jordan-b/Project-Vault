@@ -26,22 +26,18 @@ function ProjectInfo() {
   const { user, setUser } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   async function getProject() {
     if (!id) return;
     const response = await http.getProject(id);
     if (response!.status === 200) setProject(response!.data);
   }
-  
+
   useEffect(() => {
     getProject();
   }, [user]);
-  
-  function handleCommentSubmit() {
-    getProject();
 
-  }
-  
+
   console.log('current project ', project)
   async function handleFollowClick() {
     if (user && project._id && user.following?.includes(project._id)) return;
@@ -86,7 +82,7 @@ function ProjectInfo() {
           <ProjectNav
             updates={project.updates}
             project={project}
-            handleCommentSubmit={handleCommentSubmit}
+            setProject={setProject}
           />
         </div>
 
