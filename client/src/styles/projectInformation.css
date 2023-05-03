@@ -88,6 +88,7 @@
 .buttonContainer {
   display: flex;
   justify-content: flex-end;
+  height: min-content;
 }
 
 .navigation {
@@ -95,8 +96,6 @@
 }
 
 .projectNavContainer {
-  margin-top: 7%;
-  position: absolute;
   width: 100%;
 }
 
@@ -116,3 +115,4 @@
 .followAndDonateButtons:hover {
   background-color: #6f83bf;
 }
+
