@@ -18,6 +18,7 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
+  donationsCents: 0,
 };
 
 function ProjectInfo() {
@@ -26,23 +27,18 @@ function ProjectInfo() {
   const { user, setUser } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   async function getProject() {
     if (!id) return;
     const response = await http.getProject(id);
     if (response!.status === 200) setProject(response!.data);
   }
-  
+
   useEffect(() => {
     getProject();
   }, [user]);
-  
-  function handleCommentSubmit() {
-    getProject();
 
-  }
-  
-  console.log('current project ', project)
+  console.log('current project ', project);
   async function handleFollowClick() {
     if (user && project._id && user.following?.includes(project._id)) return;
     if (user && project._id) {
@@ -76,6 +72,11 @@ function ProjectInfo() {
               <h3>{project.date}</h3>
             </div>
           </div>
+          <div className='donationsContainer'>
+            <p>
+              Donations received: <b>{project.donationsCents / 100} €</b>
+            </p>
+          </div>
         </div>
       </div>
       <div className='descriptionContainer'>
@@ -86,7 +87,7 @@ function ProjectInfo() {
           <ProjectNav
             updates={project.updates}
             project={project}
-            handleCommentSubmit={handleCommentSubmit}
+            setProject={setProject}
           />
         </div>
 

@@ -20,6 +20,7 @@ const initialState: Project = {
   createdBy: null,
   tags: [],
   followers: [],
+  donationsCents: 0,
 };
 
 interface CreateProjectProps {
