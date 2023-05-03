@@ -28,6 +28,7 @@ const App: React.FC = (): JSX.Element => {
 
   const handleLogin = async (email: string, password: string) => {
     const response = await http.login({ email, password });
+    console.log('🎷 response from the SERVER', { response });
     if (response!.status === 401) {
       alert('Wrong email or password');
       return;

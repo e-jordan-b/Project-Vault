@@ -29,30 +29,21 @@ function Menu() {
           <div className='menu-bar'>
             <div className='menu'>
               <ul className='menu-links'>
-                <Link
-                  to='home'
-                  className='react-link'
-                >
-                  <li className='nav-link'>
-                    <BiHomeAlt2 className='icon' />
+                <li className='nav-link'>
+                  <BiHomeAlt2 className='icon' />
+                  <Link to='home' className='react-link'>
                     <span className='text'>Home</span>
-                  </li>
-                </Link>
-                <Link
-                  to='projects/personal'
-                  className='react-link'
-                >
-                  <li className='nav-link'>
-                    <BiBookOpen className='icon' />
+                  </Link>
+                </li>
+                <li className='nav-link'>
+                  <BiBookOpen className='icon' />
+                  <Link to='projects/personal' className='react-link'>
                     <span className='text'>My Projects</span>
-                  </li>
-                </Link>
-                <Link
-                  to='posts/following'
-                  className='react-link'
-                >
-                  <li className='nav-link'>
-                    <BiBookHeart className='icon' />
+                  </Link>
+                </li>
+                <li className='nav-link'>
+                  <BiBookHeart className='icon' />
+                  <Link to='projects/following' className='react-link'>
                     <span className='text'>Following</span>
                   </li>
                 </Link>

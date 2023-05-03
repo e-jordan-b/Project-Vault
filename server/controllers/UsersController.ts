@@ -2,6 +2,7 @@ import User from '../models/userModel';
 import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { body, validationResult } from 'express-validator';
+import { isConstructorDeclaration } from 'typescript';
 
 const login = [
   body('email').trim().isEmail().withMessage('Invalid email format'),
@@ -14,6 +15,7 @@ const login = [
       }
 
       const user = await User.findOne({ email: req.body.email });
+
       if (!user) {
         throw new Error('Invalid email or password');
       }
@@ -25,11 +27,13 @@ const login = [
       if (!isPasswordValid) {
         throw new Error('Invalid email or password');
       }
-      res.status(200).json({
+      res.status(200).send({
         _id: user._id,
         firstName: user.firstName,
         lastName: user.lastName,
         email: user.email,
+        following: user.following,
+        createdProjects: user.createdProjects,
       });
     } catch (e) {
       const error = e as Error;

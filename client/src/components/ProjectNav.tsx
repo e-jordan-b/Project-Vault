@@ -10,7 +10,6 @@ interface ProjectNavProps {
   updates: ProjectUpdate[] | undefined;
   project: Project;
   setProject: Function;
-  // handleCommentSubmit: () => void;
 }
 
 function ProjectNav({ updates, project, setProject }: ProjectNavProps) {
@@ -45,7 +44,6 @@ function ProjectNav({ updates, project, setProject }: ProjectNavProps) {
         console.log('prevProject', prevProject);
         return { ...prevProject, chat: [...prevProject.chat, postComment] };
       });
-      // handleCommentSubmit();
     }
   }
 
