@@ -97,7 +97,11 @@ function ProjectInfo() {
 
         <div className='buttonContainer'>
           {user?._id === project.createdBy ? (
-            <button onClick={() => setIsOpen(true)} className='updateButton'>
+            <button
+              id='updateButton'
+              onClick={() => setIsOpen(true)}
+              className='updateButton'
+            >
               UPDATE
             </button>
           ) : (

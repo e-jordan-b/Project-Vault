@@ -15,7 +15,7 @@ function HomeProject({ project }: HomeProjectProps) {
     project.description.length > 400
       ? project.description.substring(0, 400) + ' ...'
       : project.description;
-  console.log('project nowwwww: ', project);
+  // console.log('project nowwwww: ', project);
   return (
     <div className='projectContainer'>
       <div
@@ -49,6 +49,7 @@ function HomeProject({ project }: HomeProjectProps) {
         <div className='extraInfo'>
           <p>{project.tags.join('# ') + '#'}</p>
           <button
+            id={project.title}
             className='readMoreButton'
             onClick={() => navigate(`/projects/${project._id}`)}
           >

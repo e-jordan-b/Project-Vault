@@ -65,7 +65,7 @@ function Pay() {
 
   return (
     <div className='donationDiv'>
-      {showMessage.length > 0 &&
+      {showMessage.length > 0 && (
         <div className='backgroundDiv'>
           <div className='showMessage' style={{ zIndex: 2 }}>
             <button
@@ -75,22 +75,22 @@ function Pay() {
             >
               X
             </button>
-            {showMessage === 'error'
-              ? <h1>There's been a problem with your donation, <br></br> please try an alternative card.</h1>
-              : <h1>Your donation has been made, <br></br> Thank you for your support! ✨</h1>
-            }
+            {showMessage === 'error' ? (
+              <h1>
+                There has been a problem with your donation, <br></br> please
+                try an alternative card.
+              </h1>
+            ) : (
+              <h1>
+                Your donation has been made, <br></br> Thank you for your
+                support! ✨
+              </h1>
+            )}
           </div>
         </div>
-      }
-      <form
-        onSubmit={handleSubmit}
-        className='donationForm'
-      >
-        <button
-          onClick={onClose}
-          className='closeButton'
-          role='close-button'
-        >
+      )}
+      <form onSubmit={handleSubmit} className='donationForm'>
+        <button onClick={onClose} className='closeButton' role='close-button'>
           X
         </button>
         <h1 className='donationFormTitle'>Support this Project:</h1>
@@ -111,11 +111,7 @@ function Pay() {
         <div className='cardElementContainer' role='card-element-container'>
           <CardElement />
         </div>
-        <button
-          type='submit'
-          className='donateButton'
-          role='donate-button'
-        >
+        <button type='submit' className='donateButton' role='donate-button'>
           {isProcessing ? 'Processing...' : 'Donate'}
         </button>
       </form>

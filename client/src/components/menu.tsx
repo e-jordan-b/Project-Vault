@@ -60,6 +60,7 @@ function Menu() {
               </div>
               <div className='createButtonContainer'>
                 <button
+                  id='createButton'
                   className='createButton'
                   onClick={() => setIsOpen(true)}
                 >
