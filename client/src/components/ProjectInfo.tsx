@@ -37,17 +37,24 @@ function ProjectInfo() {
     getProject();
   }, [user]);
 
-  function handleCommentSubmit() {
-    getProject();
-
-  }
+  // function handleCommentSubmit() {
+  //   getProject();
+  // }
 
   async function handleFollowClick() {
     if (user && project._id && user.following?.includes(project._id)) return;
     if (user && project._id) {
       const res = await http.followProject({ projectId: project._id, user });
       if (res!.status === 200) {
-        setUser(res!.data);
+        console.log('are we getting here?');
+        console.log('⏳', user);
+        console.log('⏳', user.following);
+        // setUser((currentUser: any) => {
+        //   return {
+        //     ...currentUser,
+        //     following: [...currentUser.following, project._id],
+        //   };
+        // });
       }
     }
   }
@@ -85,16 +92,14 @@ function ProjectInfo() {
           <ProjectNav
             updates={project.updates}
             project={project}
-            handleCommentSubmit={handleCommentSubmit}
+            setProject={setProject}
+            // handleCommentSubmit={handleCommentSubmit}
           />
         </div>
 
         <div className='buttonContainer'>
           {user?._id === project.createdBy ? (
-            <button
-              onClick={() => setIsOpen(true)}
-              className='updateButton'
-            >
+            <button onClick={() => setIsOpen(true)} className='updateButton'>
               UPDATE
             </button>
           ) : (
