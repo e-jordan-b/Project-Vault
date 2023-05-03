@@ -4,8 +4,9 @@
     "es2021": true
   },
   "extends": [
+    "plugin:cypress/recommended",
     "plugin:react/recommended",
-    "standard",
+    // "standard",
     "plugin:jest-dom/recommended"
   ],
   "overrides": [],

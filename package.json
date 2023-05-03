@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "cypress": "^12.11.0",
     "eslint": "^8.38.0",
     "eslint-plugin-jest-dom": "^4.0.3",
     "eslint-plugin-react": "^7.32.2",
@@ -8,6 +9,7 @@
   "dependencies": {
     "@stripe/stripe-js": "^1.52.1",
     "@types/react-router-dom": "^5.3.3",
-    "@types/uuid": "^9.0.1"
+    "@types/uuid": "^9.0.1",
+    "gh": "^2.8.9"
   }
 }
