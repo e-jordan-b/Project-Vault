@@ -13,7 +13,7 @@ class ApiService {
     data: ProjectUpdate
   ): Promise<AxiosResponse<Project> | undefined> | undefined | null {
     try {
-      return http.post<Project>(`/projects/${data._id}`, JSON.stringify(data));
+      return http.post<Project>(`/update/${data._id}`, JSON.stringify(data));
     } catch (e) {
       const error = e as AxiosError;
       // console.log(error.toJSON());

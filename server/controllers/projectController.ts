@@ -103,7 +103,9 @@ export const updateProject = async (
   res: Response
 ): Promise<Response | void> => {
   try {
-    const projectId = req.body.id;
+    console.log(req.body);
+    console.log(req.params);
+    const projectId = req.params.id;
 
     const newUpdate = {
       // id: req.body.id,
@@ -118,20 +120,20 @@ export const updateProject = async (
     // console.log('💸 💸 ', newUpdate);
 
     const updatedProject = await Project.findOneAndUpdate(
-      { id: projectId },
+      { _id: projectId },
       {
         $push: { updates: newUpdate },
       }
     );
 
-    const afterUpdate = await Project.findOne({ id: projectId });
+    // const afterUpdate = await Project.findOne({ id: projectId });
 
     // const project = await Project.findOne(req.params.id, ;
     // project.updates.push(newUpdate);
     // await project.save();
 
-    if (afterUpdate != null) {
-      res.status(201).send({ newUpdate });
+    if (updatedProject != null) {
+      res.status(201).send(updatedProject);
     } else {
       throw new Error();
     }

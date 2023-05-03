@@ -5,6 +5,7 @@ import Axios from 'axios';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Project from '../types/project.type';
+import http from '../services/api.service';
 
 const initialState = {
   title: '',
@@ -22,13 +23,12 @@ type UpdateProps = {
 const serverURL = process.env.REACT_APP_SERVER;
 
 function Update({ open, onClose, currentProject, getProject }: UpdateProps) {
-  
   const [selectedFile, setSelectedFile] = useState<File | undefined>();
   const [state, setState] = useState(initialState);
   const [quillValue, setQuillValue] = useState('');
-  
+
   if (!open) return null;
-  
+
   function handleChange(e: any) {
     const { name, value } = e.target;
     setState((prev) => ({
@@ -65,39 +65,33 @@ function Update({ open, onClose, currentProject, getProject }: UpdateProps) {
     const today = new Date();
     const date = today.toLocaleDateString();
     const { title, video } = state;
-    const update = { title, quillValue, image, video, date };
+    const update = {
+      _id: currentProject._id,
+      title,
+      quillValue,
+      image,
+      video,
+      date,
+    };
 
-    fetch(`${serverURL}/update/${currentProject._id}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(update),
-    })
-      .then((res) => {
-        if (res.ok) {
-          console.log('UPDATES!');
-        } else if (res.status === 401) {
-          alert('error');
-        }
+    http
+      .updateProject(update)
+      ?.then((response) => {
+        if (response!.status === 200) console.log('updated successfully');
       })
-      .then(() => getProject())
-      .then(() => onClose())
-      .catch((err) => console.log(err));
+      .catch((error) => {
+        alert('error updating, try again');
+      });
   }
 
   return (
     <div className='updateOverlay'>
       <div className='updateProjectContainter'>
-        <button
-          onClick={() => onClose()}
-          className='closeButton'
-        >
+        <button onClick={() => onClose()} className='closeButton'>
           X
         </button>
         <h1 className='updateYourProject'>Update your project</h1>
-        <form
-          onSubmit={handleSubmit}
-          className='updateForm'
-        >
+        <form onSubmit={handleSubmit} className='updateForm'>
           <label htmlFor='title'>Update Title:</label>
           <input
             type='text'
@@ -109,6 +103,7 @@ function Update({ open, onClose, currentProject, getProject }: UpdateProps) {
 
           <label htmlFor='description'>Update information:</label>
           <ReactQuill
+            id='update-quill'
             theme='snow'
             value={quillValue}
             onChange={setQuillValue}
@@ -132,6 +127,7 @@ function Update({ open, onClose, currentProject, getProject }: UpdateProps) {
           ></input>
 
           <button
+            id='update-project'
             type='submit'
             className='createNewProjectButton'
           >
