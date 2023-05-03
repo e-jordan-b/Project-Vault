@@ -87,13 +87,7 @@ function ProjectInfo() {
         <div dangerouslySetInnerHTML={{ __html: project.description }}></div>
       </div>
       <nav className='navigation'>
-        <div className='projectNavContainer'>
-          <ProjectNav
-            updates={project.updates}
-            project={project}
-            setProject={setProject}
-          />
-        </div>
+       
 
         <div className='buttonContainer'>
           {user?._id === project.createdBy ? (
@@ -122,6 +116,13 @@ function ProjectInfo() {
               </button>
             </>
           )}
+        </div>
+        <div className='projectNavContainer'>
+          <ProjectNav
+            updates={project.updates}
+            project={project}
+            setProject={setProject}
+          />
         </div>
       </nav>
     </div>

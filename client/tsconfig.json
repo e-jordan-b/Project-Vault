@@ -116,5 +116,7 @@
     "__mocks__",
     "/email-server",
     "cypress.config.ts"
+    "./cypress.config.ts",
+    "**/*.cy.tsx"
   ]
 }
