@@ -71,7 +71,7 @@ const App: React.FC = (): JSX.Element => {
       .register({ email, password, firstName, lastName })
       ?.then((response) => {
         if (response!.status === 409) {
-          alert('Email already in use');
+          setAlerts('Email already in use');
           return;
         } else if (response!.status === 201) {
           setUser(response!.data);
@@ -103,7 +103,13 @@ const App: React.FC = (): JSX.Element => {
         />
         <Route
           path='/register'
-          element={<Registration registration={handleRegistration} />}
+          element={
+            <Registration
+              registration={handleRegistration}
+              alerts={alerts}
+              setAlerts={setAlerts}
+            />
+          }
         />
         <Route
           path='/login'

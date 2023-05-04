@@ -36,7 +36,13 @@ function Pay() {
 
     if (!paymentMethod) {
       setIsProcessing(false);
+<<<<<<< HEAD
       alert(error);
+=======
+      setShowMessage('error');
+      setTimeout(() => window.history.back(), 2000);
+      console.log('error on payment Method ', error?.message);
+>>>>>>> 7bdeadaff835fe74c248c6eb0a1aad7953a357e3
       return;
     }
 
@@ -79,7 +85,7 @@ function Pay() {
             {showMessage === 'error' ? (
               <h1>
                 There&apos;s been a problem with your donation, <br></br> please
-                try an alternative card.
+                try again.
               </h1>
             ) : (
               <h1>
