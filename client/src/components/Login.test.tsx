@@ -8,11 +8,19 @@ const mockLogin = jest.fn((email, password) => {
   return Promise.resolve({ email, password });
 });
 
+const alert = '';
+
+const setAlerts = jest.fn();
+
 describe('Login component', () => {
   beforeEach(() => {
     render(
       <Router>
-        <Login login={mockLogin} />
+        <Login
+          login={mockLogin}
+          alerts={alert}
+          setAlerts={setAlerts}
+        />
       </Router>
     );
   });

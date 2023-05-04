@@ -12,9 +12,11 @@ interface IFormInput {
 
 interface LoginProps {
   login: (email: string, password: string) => void;
+  alerts: string;
+  setAlerts: (alerts: string) => void;
 }
 
-function Login({ login }: LoginProps) {
+function Login({ login, alerts, setAlerts }: LoginProps) {
   const {
     register,
     handleSubmit,
@@ -26,6 +28,12 @@ function Login({ login }: LoginProps) {
     await login(data.email, data.password);
     reset();
   };
+
+  if (alerts) {
+    setTimeout(() => {
+      setAlerts('');
+    }, 2000);
+  }
 
   return (
     <div className='loginContainer'>
@@ -47,21 +55,37 @@ function Login({ login }: LoginProps) {
             })}
             type='email'
           />
-          {errors.email && <span role='alert'>{errors.email.message}</span>}
+          {errors.email && (
+            <span
+              className='fieldError'
+              role='alert'
+            >
+              {errors.email.message}
+            </span>
+          )}
           <label htmlFor='password'>password</label>
           <input
             id='password'
             {...register('password', {
               required: 'required',
-              // minLength: {
-              //   value: 5,
-              //   message: 'min length is 5',
-              // },
             })}
             type='password'
           />
           {errors.password && (
-            <span role='alert'>{errors.password.message}</span>
+            <span
+              className='fieldError'
+              role='alert'
+            >
+              {errors.password.message}
+            </span>
+          )}
+          {alerts && (
+            <span
+              className='wrongCredentials'
+              role='alert'
+            >
+              {alerts}
+            </span>
           )}
           <button
             type='submit'
@@ -70,8 +94,10 @@ function Login({ login }: LoginProps) {
             Log In
           </button>
         </form>
-        <span>Dont have an account?</span>
-        <Link to={'/register'}> Sign Up</Link>
+        <small>Dont have an account?</small>
+        <Link to={'/register'}>
+          <small> Sign Up</small>
+        </Link>
       </div>
     </div>
   );

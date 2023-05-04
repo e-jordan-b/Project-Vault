@@ -9,15 +9,16 @@
 
 .anotherContainer {
   background-color: white;
-  height: 42%;
   width: 15%;
   padding: 40px 40px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  position: relative;
 }
 
 .anotherContainer h1 {
@@ -27,7 +28,7 @@
 .loginForm {
   display: flex;
   flex-direction: column;
-  height: 80%;
+  margin-bottom: 24px;
 }
 
 .loginForm input {
@@ -37,6 +38,7 @@
   border-bottom: 1px solid rgb(144, 144, 144);
   font-size: 17px;
   margin-top: 10px;
+  margin-bottom: unset !important;
 }
 
 .loginButton {
@@ -47,8 +49,10 @@
   background-color: rgb(49, 84, 190);
   color: white;
   font-size: 15px;
-  margin-bottom: 10px;
+  margin-top: 24px;
+  margin-bottom: unset !important;
 }
 
-
-
+label {
+  margin-top: 20px;
+}

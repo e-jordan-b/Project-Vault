@@ -67,7 +67,7 @@ class ApiService {
       return http.post<User>('/login', JSON.stringify(data));
     } catch (e) {
       const error = e as AxiosError;
-      // console.log(error.toJSON());
+      console.log(error.toJSON());
     }
   }
 

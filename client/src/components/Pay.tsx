@@ -46,10 +46,10 @@ function Pay() {
       const response = await axios.post(`${serverURL}/create-payment-intent`, {
         amount: amountInCents,
         id,
-        projectId
+        projectId,
       });
-      console.log('RESPONSE! -> ', response)
-      setShowMessage('success')
+      console.log('RESPONSE! -> ', response);
+      setShowMessage('success');
       setTimeout(() => window.history.back(), 2000);
     } catch (error) {
       setShowMessage('error');
@@ -65,9 +65,12 @@ function Pay() {
 
   return (
     <div className='donationDiv'>
-      {showMessage.length > 0 && 
+      {showMessage.length > 0 && (
         <div className='backgroundDiv'>
-          <div className='showMessage' style={{ zIndex: 2 }}>
+          <div
+            className='showMessage'
+            style={{ zIndex: 2 }}
+          >
             <button
               onClick={onClose}
               className='closePayButton'
@@ -75,7 +78,6 @@ function Pay() {
             >
               X
             </button>
-
             {showMessage === 'error' ? (
               <h1>
                 There&apos;s been a problem with your donation, <br></br> please
@@ -90,7 +92,10 @@ function Pay() {
           </div>
         </div>
       )}
-      <form onSubmit={handleSubmit} className='donationForm'>
+      <form
+        onSubmit={handleSubmit}
+        className='donationForm'
+      >
         <button
           onClick={onClose}
           className='closePayButton'
@@ -113,10 +118,17 @@ function Pay() {
             style={{ display: 'inline' }}
           ></input>
         </div>
-        <div className='cardElementContainer' role='card-element-container'>
+        <div
+          className='cardElementContainer'
+          role='card-element-container'
+        >
           <CardElement />
         </div>
-        <button type='submit' className='donateButton' role='donate-button'>
+        <button
+          type='submit'
+          className='donateButton'
+          role='donate-button'
+        >
           {isProcessing ? 'Processing...' : 'Donate'}
         </button>
       </form>

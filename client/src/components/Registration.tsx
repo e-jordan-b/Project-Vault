@@ -40,7 +40,7 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
 
   return (
     <div className='loginContainer'>
-      <div className='anotherContainerRegister'>
+      <div className='anotherContainerRegister2'>
         <h1>Register</h1>
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -53,7 +53,12 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
             type='text'
           />
           {errors.firstName && (
-            <span role='alert'>{errors.firstName.message}</span>
+            <span
+              className='fieldError'
+              role='alert'
+            >
+              {errors.firstName.message}
+            </span>
           )}
           <label htmlFor='lastName'>Last Name</label>
           <input
@@ -62,7 +67,12 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
             type='text'
           />
           {errors.lastName && (
-            <span role='alert'>{errors.lastName.message}</span>
+            <span
+              className='fieldError'
+              role='alert'
+            >
+              {errors.lastName.message}
+            </span>
           )}
           <label htmlFor='email'>Email</label>
           <input
@@ -76,7 +86,14 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
             })}
             type='text'
           />
-          {errors.email && <span role='alert'>{errors.email.message}</span>}
+          {errors.email && (
+            <span
+              className='fieldError'
+              role='alert'
+            >
+              {errors.email.message}
+            </span>
+          )}
           <label htmlFor='password'>Password</label>
           <input
             id='password'
@@ -84,11 +101,16 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
             type='password'
           />
           {errors.password && (
-            <span role='alert'>{errors.password.message}</span>
+            <span
+              className='fieldError'
+              role='alert'
+            >
+              {errors.password.message}
+            </span>
           )}
           <button
             type='submit'
-            className='loginButton'
+            className='registerButton'
           >
             Register
           </button>
