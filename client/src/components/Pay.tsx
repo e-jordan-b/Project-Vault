@@ -46,10 +46,10 @@ function Pay() {
       const response = await axios.post(`${serverURL}/create-payment-intent`, {
         amount: amountInCents,
         id,
-        projectId
+        projectId,
       });
-      console.log('RESPONSE! -> ', response)
-      setShowMessage('success')
+      console.log('RESPONSE! -> ', response);
+      setShowMessage('success');
       setTimeout(() => window.history.back(), 2000);
     } catch (error) {
       setShowMessage('error');
@@ -65,9 +65,12 @@ function Pay() {
 
   return (
     <div className='donationDiv'>
-      {showMessage.length > 0 &&
+      {showMessage.length > 0 && (
         <div className='backgroundDiv'>
-          <div className='showMessage' style={{ zIndex: 2 }}>
+          <div
+            className='showMessage'
+            style={{ zIndex: 2 }}
+          >
             <button
               onClick={onClose}
               className='closeButton'
@@ -75,13 +78,20 @@ function Pay() {
             >
               X
             </button>
-            {showMessage === 'error'
-              ? <h1>There's been a problem with your donation, <br></br> please try an alternative card.</h1>
-              : <h1>Your donation has been made, <br></br> Thank you for your support! ✨</h1>
-            }
+            {showMessage === 'error' ? (
+              <h1>
+                There&apos;s been a problem with your donation, <br></br> please
+                try an alternative card.
+              </h1>
+            ) : (
+              <h1>
+                Your donation has been made, <br></br> Thank you for your
+                support! ✨
+              </h1>
+            )}
           </div>
         </div>
-      }
+      )}
       <form
         onSubmit={handleSubmit}
         className='donationForm'
@@ -108,7 +118,10 @@ function Pay() {
             style={{ display: 'inline' }}
           ></input>
         </div>
-        <div className='cardElementContainer' role='card-element-container'>
+        <div
+          className='cardElementContainer'
+          role='card-element-container'
+        >
           <CardElement />
         </div>
         <button

@@ -43,6 +43,7 @@
     "dev": "tsc-watch --onSuccess \"node ./dist/index.js\"",
     "build": "tsc",
     "postinstall": "npm run build",
-    "test": "jest --detectOpenHandles"
+    "test": "jest --detectOpenHandles",
+    "cypress": "NODE_ENV=CYPRESS node dist/index.js"
   }
 }

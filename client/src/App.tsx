@@ -24,20 +24,27 @@ const App: React.FC = (): JSX.Element => {
     user,
     setUser,
   };
+  const [alerts, setAlerts] = useState<string>('');
   const navigate = useNavigate();
 
-  const handleLogin = async (email: string, password: string) => {
-    const response = await http.login({ email, password });
-    console.log('🎷 response from the SERVER', { response });
-    if (response!.status === 401) {
-      alert('Wrong email or password');
-      return;
-    } else if (response!.status === 200) {
-      setUser(response!.data);
-      navigate('/home');
-    } else {
-      alert('Something went wrong in app, in handle login');
-    }
+  const handleLogin = (email: string, password: string) => {
+    http
+      .login({ email, password })
+      ?.then((response) => {
+        if (response!.status === 401) {
+          setAlerts('Wrong email or password');
+          return;
+        } else if (response!.status === 200) {
+          setUser(response!.data);
+          navigate('/home');
+        } else {
+          alert('Something went wrong in app, in handle login');
+        }
+      })
+      .catch((error) => {
+        console.log('error from app.tsx', error);
+        setAlerts(error.response.data.message);
+      });
   };
 
   const handleRegistration = async (
@@ -46,21 +53,38 @@ const App: React.FC = (): JSX.Element => {
     firstName: string,
     lastName: string
   ) => {
-    const response = await http.register({
-      email,
-      password,
-      firstName,
-      lastName,
-    });
-    if (response!.status === 409) {
-      alert('Email already exists');
-      return;
-    } else if (response!.status === 201) {
-      setUser(response!.data);
-      navigate('/home');
-    } else {
-      alert('Something went wrong, app handleRegistration');
-    }
+    // const response = await http.register({
+    //   email,
+    //   password,
+    //   firstName,
+    //   lastName,
+    // });
+    // if (response!.status === 409) {
+    //   alert('Email already exists');
+    //   return;
+    // } else if (response!.status === 201) {
+    //   setUser(response!.data);
+    //   navigate('/home');
+    // } else {
+    //   alert('Something went wrong, app handleRegistration');
+    // }
+    http
+      .register({ email, password, firstName, lastName })
+      ?.then((response) => {
+        if (response!.status === 409) {
+          alert('Email already in use');
+          return;
+        } else if (response!.status === 201) {
+          setUser(response!.data);
+          navigate('/home');
+        } else {
+          alert('Something went wrong, app handleRegistration');
+        }
+      })
+      .catch((error) => {
+        console.log('error from app.tsx', error);
+        setAlerts(error.response.data.message);
+      });
   };
 
   const handleGetProjects = async () => {
@@ -85,7 +109,13 @@ const App: React.FC = (): JSX.Element => {
         />
         <Route
           path='/login'
-          element={<Login login={handleLogin} />}
+          element={
+            <Login
+              login={handleLogin}
+              alerts={alerts}
+              setAlerts={setAlerts}
+            />
+          }
         />
         <Route element={<Layout />}>
           <Route

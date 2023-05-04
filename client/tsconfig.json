@@ -108,11 +108,13 @@
 
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
-    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-
-    "types": [
-      "cypress",
-      "node"
-    ] /* Type declaration files to be included in compilation. */
-  }
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */
+  },
+  "exclude": [
+    "./cypress.config.ts",
+    //other exclusions that may help https://github.com/cypress-io/cypress/issues/22059#issuecomment-1428298264
+    "node_modules",
+    "cypress",
+    "**/*.cy.tsx"
+  ]
 }
