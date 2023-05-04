@@ -26,8 +26,6 @@ function ProjectNav({ updates, project, setProject }: ProjectNavProps) {
   }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    console.log('getting there');
-
     e.preventDefault();
 
     const today = new Date();
@@ -38,10 +36,8 @@ function ProjectNav({ updates, project, setProject }: ProjectNavProps) {
 
     setComment('');
     const result = await http.addComment(postComment);
-    console.log('result', result);
     if (result!.status === 201) {
       setProject((prevProject: Project) => {
-        console.log('prevProject', prevProject);
         return { ...prevProject, chat: [...prevProject.chat, postComment] };
       });
     }

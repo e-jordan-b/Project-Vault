@@ -47,17 +47,17 @@ describe('REGISTER tests', () => {
     cy.get('input[name="email"]').type('tea@tea.com');
     cy.get('input[name="password"]').type('newuser123');
     cy.get('button').click();
-    cy.contains('already registered');
+    cy.contains('Email already in use');
   });
 
-  // it('opens the app and registers', () => {
-  //   cy.visit('http://localhost:3000');
-  //   cy.contains('Sign Up').click();
-  //   cy.get('input[name="firstName"]').type('newuserName');
-  //   cy.get('input[name="lastName"]').type('newuserLast');
-  //   cy.get('input[name="email"]').type('newuser@new.com');
-  //   cy.get('input[name="password"]').type('newuser123');
-  //   cy.contains('Log In').click();
-  //   cy.contains('Home');
-  // });
+  it('opens the app and registers', () => {
+    cy.visit('http://localhost:3000');
+    cy.contains('Sign Up').click();
+    cy.get('input[name="firstName"]').type('newuserName');
+    cy.get('input[name="lastName"]').type('newuserLast');
+    cy.get('input[name="email"]').type('newuser@new.com');
+    cy.get('input[name="password"]').type('newuser123');
+    cy.contains('Log In').click();
+    cy.contains('Home');
+  });
 });

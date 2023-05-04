@@ -12,10 +12,8 @@ function Following() {
   async function resetFollowedProjects() {
     if (user && user._id) {
       const res = await http.followedProjects(user._id);
-      // console.log('what did we receive from the back end?', res!.data);
       if (res!.status === 200) {
         setFollowedProjects(res!.data);
-        // console.log('have we set it correctly?', followedProjects);
       }
     }
   }

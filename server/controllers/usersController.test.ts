@@ -1,7 +1,6 @@
 import setupDB, { request, app, User, Project } from '../utils/test-setup';
 import * as bcrypt from 'bcrypt';
 
-// Setup a Test Database
 setupDB('endpoint-testing');
 
 beforeEach(async () => {
@@ -14,7 +13,6 @@ beforeEach(async () => {
   await user.save();
 });
 
-// Test cases for the login function
 describe('POST /login', () => {
   it('should login successfully when email and password are correct', async () => {
     const response = await request(app).post('/login').send({
@@ -94,7 +92,6 @@ describe('POST /login', () => {
   });
 });
 
-// Test cases for the register function
 describe('POST /register', () => {
   it('should register a new user with valid input', async () => {
     const response = await request(app).post('/register').send({

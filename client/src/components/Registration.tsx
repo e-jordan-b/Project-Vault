@@ -16,9 +16,15 @@ interface RegistrationProps {
     firstName: string,
     lastName: string
   ) => void;
+  alerts: string;
+  setAlerts: (alerts: string) => void;
 }
 
-const Registration: React.FC<RegistrationProps> = ({ registration }) => {
+const Registration: React.FC<RegistrationProps> = ({
+  registration,
+  alerts,
+  setAlerts,
+}) => {
   const {
     register,
     handleSubmit,
@@ -37,6 +43,12 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
     );
     reset();
   };
+
+  if (alerts) {
+    setTimeout(() => {
+      setAlerts('');
+    }, 2000);
+  }
 
   return (
     <div className='loginContainer'>
@@ -106,6 +118,14 @@ const Registration: React.FC<RegistrationProps> = ({ registration }) => {
               role='alert'
             >
               {errors.password.message}
+            </span>
+          )}
+          {alerts && (
+            <span
+              className='wrongCredentials'
+              role='alert'
+            >
+              {alerts}
             </span>
           )}
           <button

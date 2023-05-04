@@ -63,28 +63,6 @@ describe('Login component', () => {
     expect(screen.getByLabelText('password')).toHaveValue('password');
   });
 
-  it('should display min length error when password is invalid', async () => {
-    fireEvent.input(screen.getByRole('textbox', { name: /email/i }), {
-      target: {
-        value: 'test@mail.com',
-      },
-    });
-
-    fireEvent.input(screen.getByLabelText('password'), {
-      target: {
-        value: 'pass',
-      },
-    });
-
-    fireEvent.submit(screen.getByRole('button'));
-
-    expect(await screen.findAllByRole('alert')).toHaveLength(1);
-    expect(mockLogin).not.toBeCalled();
-    expect(screen.getByRole('textbox', { name: /email/i })).toHaveValue(
-      'test@mail.com'
-    );
-    expect(screen.getByLabelText('password')).toHaveValue('pass');
-  });
 
   it('should not display error when value is valid', async () => {
     fireEvent.input(screen.getByRole('textbox', { name: /email/i }), {

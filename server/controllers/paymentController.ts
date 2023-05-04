@@ -14,7 +14,6 @@ const checkout = async (
   res: Response
 ): Promise<Response | void> => {
   const { amount, id, projectId } = req.body;
-  console.log('stripe from controller: ', stripe);
   try {
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
@@ -23,7 +22,6 @@ const checkout = async (
       payment_method: id,
       confirm: true,
     });
-    console.log('payment intent', paymentIntent);
     const updatedProject = await Project.findOneAndUpdate(
       { _id: projectId },
       {
