@@ -10,13 +10,11 @@ function PersonalProjects() {
 
   useEffect(() => {
     (async () => {
-      console.log('🐷 user', user)
       if (user && user._id) {
-      const response = await http.ownProjects(user!._id);
-      console.log('👉', response)
-      setPersonalProjects(response!.data)
-    }
-      })()
+        const response = await http.ownProjects(user!._id);
+        setPersonalProjects(response!.data);
+      }
+    })();
   }, []);
 
   return (

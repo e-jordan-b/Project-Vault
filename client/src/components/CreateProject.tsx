@@ -30,7 +30,7 @@ interface CreateProjectProps {
 
 const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
   const navigate = useNavigate();
-  const [selectedFile, setSelectedFile] = useState<File>(); // We might not need an initial state here
+  const [selectedFile, setSelectedFile] = useState<File>();
   const { user } = useContext<UserContextType>(UserContext);
   const [projectInfo, setProjectInfo] = useState<Project>(initialState);
   const [quillValue, setQuillValue] = useState<string>('');
@@ -57,7 +57,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
       formData.append(
         'upload_preset',
         process.env.REACT_APP_CLOUDINARY_UPLOAD!
-      ); // 'jhbdwgkt')
+      );
     }
     try {
       const response = await Axios.post(
@@ -66,7 +66,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
       );
       image = response.data.public_id;
     } catch (error) {
-      console.log('cloudinary', error);
+      alert(error);
     }
 
     const project: Project = initialState;
@@ -78,7 +78,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     project.image = image;
     project.createdBy = user;
 
-    const response = await http.createProject(project); //project should be stringified, review api.service
+    const response = await http.createProject(project);
     if (response!.status > 400) {
       alert('Error creating Project');
       return;

@@ -42,7 +42,6 @@ const App: React.FC = (): JSX.Element => {
         }
       })
       .catch((error) => {
-        console.log('error from app.tsx', error);
         setAlerts(error.response.data.message);
       });
   };
@@ -82,7 +81,6 @@ const App: React.FC = (): JSX.Element => {
         }
       })
       .catch((error) => {
-        console.log('error from app.tsx', error);
         setAlerts(error.response.data.message);
       });
   };

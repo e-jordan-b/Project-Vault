@@ -59,7 +59,7 @@ function Update({ open, onClose, currentProject, getProject }: UpdateProps) {
       );
       image = response.data.public_id;
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
 
     const today = new Date();

@@ -36,7 +36,7 @@ function Pay() {
 
     if (!paymentMethod) {
       setIsProcessing(false);
-      console.log('error? ', error?.message);
+      alert(error);
       return;
     }
 
@@ -48,12 +48,10 @@ function Pay() {
         id,
         projectId,
       });
-      console.log('RESPONSE! -> ', response);
       setShowMessage('success');
       setTimeout(() => window.history.back(), 2000);
     } catch (error) {
       setShowMessage('error');
-      console.log('error from the pay component: ', error);
     }
     setIsProcessing(false);
   }
