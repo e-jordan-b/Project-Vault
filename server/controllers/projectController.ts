@@ -26,7 +26,6 @@ export const createProject = async (
 
     res.status(201).send({ newProject });
   } catch (error) {
-    console.log(res!.body);
     res.status(400).send({ error, message: 'Could not create project' });
   }
 };
