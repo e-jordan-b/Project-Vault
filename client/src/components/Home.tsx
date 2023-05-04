@@ -16,9 +16,7 @@ function Home() {
   useEffect(() => {
     (async () => {
       const response = await http.getAllProjects();
-      // console.log('response form Home: ', response)
       if (response!.status === 200) {
-        // console.log('Project: ', response)
         setProjects(response!.data.projects);
       } else {
         alert('Something went wrong, home getAllProjects');

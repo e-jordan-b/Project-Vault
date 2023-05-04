@@ -14,11 +14,9 @@ import {
 
 const router = express.Router();
 
-// Login Routes
 router.post('/login', login);
 router.post('/register', register);
 
-// Project Routes
 router.get('/projects', getProjects);
 router.get('/projects/:id', getProjectById);
 router.post('/create', createProject);
@@ -27,10 +25,8 @@ router.post('/projects/comments', postComment);
 router.get('/projects/following/:id', followingProjects);
 router.get('/projects/personal/:id', personalProjects);
 
-// Payment Route
 router.post('/create-payment-intent', checkout);
 
-// Update Routes
 router.post('/update/:id', updateProject);
 
 export = router;

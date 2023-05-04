@@ -3,19 +3,15 @@ import mongoose from 'mongoose';
 const UpdateSchema = new mongoose.Schema({
   id: {
     type: String,
-    // required: true,
   },
   title: {
     type: String,
-    // required: true,
   },
   description: {
     type: String,
-    // required: true,
   },
   date: {
     type: String,
-    // required: true,
   },
   image: {
     type: String,
@@ -24,46 +20,38 @@ const UpdateSchema = new mongoose.Schema({
     type: String,
   },
   chat: [String],
-  donationsCents: Number
+  donationsCents: Number,
 });
 
 const ChatMessageSchema = new mongoose.Schema({
   createdBy: {
     type: String,
-    // required: true,
   },
   comment: {
     type: String,
-    // required: true,
   },
   date: {
     type: String,
-    // required: true,
   },
 });
 
 export const projectSchema = new mongoose.Schema({
   title: {
     type: String,
-    // required: true,
   },
   description: {
     type: String,
-    // required: true,
   },
   image: {
     type: String,
-    // required: true,
   },
   updates: [UpdateSchema],
   author: {
     type: String,
-    // required: true,
   },
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'userSchema',
-    // required: true,
   },
   date: String,
   chat: [ChatMessageSchema],
@@ -71,9 +59,8 @@ export const projectSchema = new mongoose.Schema({
   followers: [String],
   donationsCents: {
     type: Number,
-    default: 0
-  }
-
+    default: 0,
+  },
 });
 
 export default mongoose.model('Projects', projectSchema);

@@ -1,6 +1,5 @@
 import setupDB, { request, app, User, Project } from '../utils/test-setup';
 
-// Setup a Test Database
 setupDB('endpoint-testing');
 
 describe('Project', () => {
@@ -25,17 +24,9 @@ describe('Project', () => {
   describe('If the project fits the schema and posted successfully', () => {
     it('should return a 201 status', async () => {
       const project = {
-        id: '333',
         title: 'Ivan project 2',
-        // description: '11111',
-        // image: 'string',
-        // updates: [],
-        // author: 'string',
-        user: { _id: '644b9b68716fa4fc043f54db' },
-        // date: 'string',
-        // chat: [],
-        // tags: 'string string',
-        // followers: [],
+        description: 'test',
+        createdBy: { _id: '645118402c10e99219a5e323' },
       };
       const response = await request(app).post('/create').send(project);
       expect(response.status).toBe(201);
@@ -52,7 +43,7 @@ describe('Get the projects', () => {
     };
     await request(app).post('/create').send(project);
     const response = await request(app).get('/projects');
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
     expect(response.body.project[0].id).toBe('666');
   });
 
@@ -102,7 +93,7 @@ describe('Follow projects', () => {
     };
     await request(app).post('/create').send(project);
     const response = await request(app).post('/projects/follow').send(project);
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
   });
 });
 
@@ -123,7 +114,7 @@ describe('Add updates to project', () => {
     expect(response.status).toBe(400);
     expect(response.body).toHaveProperty('message', 'cannot update');
   });
-  it('should allow any user to follow projects', async () => {
+  it('should create updates', async () => {
     const project = {
       id: '444',
       title: 'Test project 444',
@@ -166,8 +157,7 @@ describe('Following projects', () => {
     const response = await request(app)
       .get(`/projects/following/${user._id}`)
       .send(user);
-    console.log('🙋🏻', response.body);
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
   });
 });
 
@@ -191,8 +181,7 @@ describe('Personal projects', () => {
     const response = await request(app)
       .get(`/projects/personal/${user._id}`)
       .send(user);
-    console.log('🙋🏻', response.body);
-    expect(response.status).toBe(201);
+    expect(response.status).toBe(200);
   });
 });
 

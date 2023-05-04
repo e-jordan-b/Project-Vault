@@ -36,9 +36,13 @@ function Pay() {
 
     if (!paymentMethod) {
       setIsProcessing(false);
+<<<<<<< HEAD
+      alert(error);
+=======
       setShowMessage('error');
       setTimeout(() => window.history.back(), 2000);
       console.log('error on payment Method ', error?.message);
+>>>>>>> 7bdeadaff835fe74c248c6eb0a1aad7953a357e3
       return;
     }
 
@@ -50,12 +54,10 @@ function Pay() {
         id,
         projectId,
       });
-      console.log('RESPONSE! -> ', response);
       setShowMessage('success');
       setTimeout(() => window.history.back(), 2000);
     } catch (error) {
       setShowMessage('error');
-      console.log('error from the pay component: ', error);
     }
     setIsProcessing(false);
   }
