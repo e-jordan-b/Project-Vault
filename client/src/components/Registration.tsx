@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/register.css';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 
 interface IFormInput {
   email: string;
@@ -135,6 +136,10 @@ const Registration: React.FC<RegistrationProps> = ({
             Register
           </button>
         </form>
+        <small style={{paddingTop: '20px' }}>Have an account?</small>
+        <Link to={'/login'}>
+          <small> Log In </small>
+        </Link>
       </div>
     </div>
   );
