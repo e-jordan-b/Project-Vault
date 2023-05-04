@@ -111,10 +111,12 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "exclude": [
-    "./cypress.config.ts",
-    //other exclusions that may help https://github.com/cypress-io/cypress/issues/22059#issuecomment-1428298264
     "node_modules",
     "cypress",
+    "__mocks__",
+    "/email-server",
+    "cypress.config.ts",
+    "./cypress.config.ts",
     "**/*.cy.tsx"
   ]
 }

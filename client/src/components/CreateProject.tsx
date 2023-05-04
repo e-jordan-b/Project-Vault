@@ -66,7 +66,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
       );
       image = response.data.public_id;
     } catch (error) {
-      console.log(error);
+      console.log('cloudinary', error);
     }
 
     const project: Project = initialState;
@@ -92,11 +92,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
     <>
       <div className='overlay'>
         <div className='createProjectDiv'>
-          <button
-            onClick={onClose}
-            className='closeButton'
-            role='close-button'
-          >
+          <button onClick={onClose} className='closeButton' role='close-button'>
             X
           </button>
           <h1>Your new project</h1>
@@ -117,16 +113,14 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
 
             <label htmlFor='description'>Description:</label>
             <ReactQuill
+              id='quill'
               theme='snow'
               value={quillValue}
               className='inputQuill'
               onChange={setQuillValue}
             />
 
-            <label
-              htmlFor='image'
-              className='imageInputCreateLabel'
-            >
+            <label htmlFor='image' className='imageInputCreateLabel'>
               Image:
             </label>
             <input
@@ -149,6 +143,7 @@ const CreateProject: React.FC<CreateProjectProps> = ({ open, onClose }) => {
             ></input>
 
             <button
+              id='submit-new-project'
               type='submit'
               className='createNewProjectButton'
               role='submit-button'
