@@ -47,7 +47,7 @@ describe('REGISTER tests', () => {
     cy.get('input[name="email"]').type('tea@tea.com');
     cy.get('input[name="password"]').type('newuser123');
     cy.get('button').click();
-    cy.contains('already registered');
+    cy.contains('Email already in use');
   });
 
   // it('opens the app and registers', () => {
