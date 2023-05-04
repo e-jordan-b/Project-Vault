@@ -36,7 +36,7 @@ function Pay() {
 
     if (!paymentMethod) {
       setIsProcessing(false);
-      console.log('error? ', error?.message);
+      console.log('error on payment Method ', error?.message);
       return;
     }
 
