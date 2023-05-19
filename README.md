@@ -1,3 +1,5 @@
+![Alt text]('https://res.cloudinary.com/dn1tvs94e/image/upload/v1682417391/project-vault-low-resolution-color-logo_jtpd37.png')
+
 **OVERVIEW**
 
 Project Vault is a social network that allows users to create, share, follow and donate to projects. Users can update their projects with different photos or videos, and get feedback from other users. If you really like a project, you can donate and support the creator of that project.
