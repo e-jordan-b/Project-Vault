@@ -19,3 +19,27 @@ body::-webkit-scrollbar-thumb {
   background-color: rgb(171, 171, 171);
   border-radius: 10px;
 }
+
+.fieldError {
+  color: red;
+  font-size: 12px;
+}
+
+.wrongCredentials {
+  color: red;
+  font-size: 12px;
+  border: 2px solid red;
+  position: absolute;
+  z-index: 99;
+  background-color: transparent;
+  margin: auto auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  padding: 10px 20px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+}

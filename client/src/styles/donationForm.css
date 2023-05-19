@@ -8,28 +8,39 @@
 }
 
 .donationForm {
+  position: relative;
   width: 30%;
-  height: 13%;
+  min-width: max-content;
+  min-height: min-content;
   background-color: white;
-  padding: 35px 30px;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;;
+  padding: 20px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: space-between;
+  white-space:nowrap;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
+
+
 
 .donationAmount {
   text-decoration: none;
   height: 20px;
   font-size: 15px;
-  border-radius: 5px;
   border-color: rgb(5, 5, 4);
   border-width: 1px;
   margin-left: 10px;
   padding: 5px 5px;
 }
 
+
+.donationFormTitle {
+  margin-bottom: 25px;
+  text-align: center;
+}
+
 .donateButton {
-  position: absolute;
-  right: 35%;
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 12px 20px;
   border-radius: 25px;
   border: none;
@@ -42,4 +53,44 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.closePayButton {
+  align-self: flex-start;
+  background-color: #FFF;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline;
+  height: min-content;
+}
+
+.cardElementContainer {
+  display: block;
+}
+
+.backgroundDiv {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.showMessage {
+  width: 30%;
+  min-width: max-content;
+  max-width:50%;
+  height: 25%;
+  background-color: white;
+  padding: 35px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }

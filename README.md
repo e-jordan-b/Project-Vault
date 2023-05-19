@@ -10,11 +10,15 @@ If you want to use the app, you need to REGISTER or LOGIN with an already made a
 
 For the FrontEnd i've used:
 
+   -  TypeScript
+
    - React
 
    - Quill, for the text editor
 
 In the BackEnd i've user:
+
+   - TypeScript
 
    - ExpressJS
 

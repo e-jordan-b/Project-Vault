@@ -7,17 +7,19 @@
   justify-content: center;
 }
 
-.anotherContainerRegister {
+.anotherContainerRegister2 {
   background-color: white;
-  height: 60%;
+  height: fit-content;
   width: 20%;
   padding: 40px 40px;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,
+    rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
+  position: relative;
 }
 
 .anotherContainerRegister h1 {
@@ -27,7 +29,6 @@
 .registerForm {
   display: flex;
   flex-direction: column;
-  height: 80%;
 }
 
 .registerForm input {
@@ -35,11 +36,12 @@
   background-color: none;
   outline: none;
   border-bottom: 1px solid rgb(144, 144, 144);
-  font-size: 20px;
+  font-size: 17px;
   margin-top: 10px;
+  margin-bottom: unset !important;
 }
 
-.loginButton {
+.registerButton {
   padding: 10px 10px;
   border-radius: 20px;
   cursor: pointer;
@@ -47,10 +49,11 @@
   background-color: rgb(49, 84, 190);
   color: white;
   font-size: 15px;
-  margin-bottom: 10px;
+  margin-top: 40px;
+  margin-bottom: unset !important;
   transition: all 0.3s;
 }
 
-.loginButton:hover{
+.registerButton:hover {
   background-color: rgb(108, 131, 201);
 }
